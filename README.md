@@ -1,4 +1,3 @@
 # LunchBox Project
 ## Resources
-npm downloadlink: 
-xxamp downloadlink: 
+xxamp downloadlink: https://www.apachefriends.org/download.html

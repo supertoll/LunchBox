@@ -1,0 +1,8 @@
+[Sun Sep 26 08:56:32.721430 2021] [core:warn] [pid 1412:tid 556] AH00098: pid file C:/Program Files/XAMPP/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sun Sep 26 08:56:32.737055 2021] [mpm_winnt:notice] [pid 1412:tid 556] AH00455: Apache/2.4.48 (Win64) OpenSSL/1.1.1l PHP/8.0.10 configured -- resuming normal operations
+[Sun Sep 26 08:56:32.737055 2021] [mpm_winnt:notice] [pid 1412:tid 556] AH00456: Apache Lounge VS16 Server built: Aug 25 2021 12:07:35
+[Sun Sep 26 08:56:32.737055 2021] [core:notice] [pid 1412:tid 556] AH00094: Command line: 'c:\\program files\\xampp\\apache\\bin\\httpd.exe -d C:/Program Files/XAMPP/apache'
+[Sun Sep 26 08:56:32.737055 2021] [mpm_winnt:notice] [pid 1412:tid 556] AH00418: Parent: Created child process 14772
+[Sun Sep 26 08:56:33.100959 2021] [mpm_winnt:notice] [pid 14772:tid 568] AH00354: Child: Starting 150 worker threads.
+[Sun Sep 26 08:56:36.219561 2021] [php:notice] [pid 14772:tid 1820] [client 127.0.0.1:53506] init error log
+127.0.0.1 - - [26/Sep/2021:08:56:36 +0200] "GET / HTTP/1.1" 200 83064 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36"

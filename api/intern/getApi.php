@@ -19,6 +19,4 @@ function getProvider(){
 function getOffer(){    
     return GETAPI("lunchOffer");
 }
-
-
 ?>

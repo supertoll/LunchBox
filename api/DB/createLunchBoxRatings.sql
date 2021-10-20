@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS rating(
     foodId INT NOT NULL, 
     rating INT NOT NULL,
     comment Text NOT NULL DEFAULT "",
+    day DATE NOT NULL,
     CHECK (rating > 0 AND rating < 6),
     PRIMARY KEY (id)
     FOREIGN KEY (foodId)  REFERENCES -- other db 

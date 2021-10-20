@@ -1,4 +1,4 @@
-/logs
+logs/
 httpd.conf
 .vscode/
 api/DB/aria_log_control

@@ -10,5 +10,6 @@ CREATE TABLE IF NOT EXISTS rating(
     day DATE NOT NULL,
     CHECK (rating > 0 AND rating < 6),
     PRIMARY KEY (id)
-    FOREIGN KEY (foodId)  REFERENCES -- other db 
+    FOREIGN KEY (foodId) REFERENCES LunchBoxFoodDB.offer(id) -- reference to other db
+    
 );

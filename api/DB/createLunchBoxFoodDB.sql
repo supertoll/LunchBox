@@ -6,11 +6,17 @@ CREATE TABLE IF NOT EXISTS provider (
     name TEXT NOT NULL,
     location TEXT NOT NULL,
     url TEXT NOT NULL,
-    PRIMARY KEY (id) -- check --> limit range
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS tags (
+    id INT NOT NULL UNIQUE AUTO_INCREMENT,
+    tag TEXT NOT NULL,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS offer (
-    id INT NOT NULL UNIQUE AUTO_INCREMENT, -- check --> limit range
+    id INT NOT NULL UNIQUE AUTO_INCREMENT,
     providerId INT NOT NULL UNIQUE,
     tagsId INT NOT NULL UNIQUE,
     name TEXT NOT NULL,
@@ -21,10 +27,3 @@ CREATE TABLE IF NOT EXISTS offer (
     FOREIGN KEY (providerId) REFERENCES provider(id),
     FOREIGN KEY (tagsId) REFERENCES tags(id)
 );
-
-CREATE TABLE IF NOT EXISTS tags (
-    id INT NOT NULL UNIQUE AUTO_INCREMENT,
-    tag TEXT NOT NULL,
-    PRIMARY KEY (id)
-);
-

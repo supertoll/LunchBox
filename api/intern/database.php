@@ -27,16 +27,66 @@ class Database{
         $this->_conn->close();
     }
 
-    private function executeSQL(string $statment){// check for injection
+    private function executeSQL(string $statment, Array $param = [],string $type = ""){
         //querys SQL --> when executed correctly returns true else dies
-        if($this->_conn->query($statment) === true){
-            return true;
+        
+        if(!empty($param)){
+            $stmt = $this->_conn->prepare($statment); //parameter = ? for value; name of var needs to metch
+            if($stmt === false){
+                die("some thing went wrong".$stmt .$statment);
+            }
+            $stmt->bind_param($type, ...$param);
+            $stmt->execute();
+
+            #https://stackoverflow.com/questions/24363755/mysqli-bind-results-to-an-array
+            #converts output to array
+            
+            #creating "header" of table
+            $meta = $stmt->result_metadata();
+            while ($field = $meta->fetch_field()) 
+            { 
+                $params[] = &$row[$field->name]; 
+            }
+            call_user_func_array(array($stmt, 'bind_result'), $params); 
+
+            #filling iwth content
+            while ($stmt->fetch()) { 
+                foreach($row as $key => $val) 
+                { 
+                    $c[$key] = $val; 
+                } 
+                $result[] = $c; 
+            } 
+
+
+            $stmt->close();
+            #checks if result is set, since when the query dont return anything result would'nt be set
+            if(!isset($result)){
+                $result = [];
+            }
+            return $result;
+
         }else{
-            die("ups somthing went wrong: " . $this->_conn->error);
+            
+            $stmt = $this->_conn->query($statment);
+            if($stmt === false){
+                die("some thing went wrong".$stmt .$statment);
+            }
+            else if($stmt === true){
+                #executed without a return
+                return true;
+            }else{
+                #https://stackoverflow.com/questions/1501274/get-array-of-rows-with-mysqli-result
+                # convert result to array
+                while($row = $stmt->fetch_row()) {
+                    $result[] = $row;
+                }
+                return $result;
+            }
         }
     }
 
-    public function executeSQLFromFile(string $pathToFile){ // check for injection
+    public function executeSQLFromFile(string $pathToFile){
         $statment = ""; //temp var for 
         foreach (file($pathToFile) as $line){
             $statment .= $line;
@@ -47,17 +97,29 @@ class Database{
         }
     }
 
+
+
+
+
     //for testing only --> remove
+
+
     public function dropDB()
     {
        $this->executeSQL("DROP DATABASE lunchboxfooddb;");
+    }
+    public function execute(string $statment, Array $param=[],string $type="")
+    {
+        $result = $this->executeSQL($statment,$param,$type);
+        echo var_dump($result) . "<br>";
+        return $result;
     }
 }
 /*
 $db = new Database("localhost","root","");
 $db->connect();
-$db->dropDB();
 $db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
+$db->execute("SELECT * FROM offer");
 $db->disconnect();
 */
 

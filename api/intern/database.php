@@ -37,12 +37,17 @@ class Database{
             }
             $stmt->bind_param($type, ...$param);
             $stmt->execute();
-
+            
+            
             #https://stackoverflow.com/questions/24363755/mysqli-bind-results-to-an-array
             #converts output to array
             
             #creating "header" of table
             $meta = $stmt->result_metadata();
+            if (gettype($meta) == "boolean") {
+                $stmt->close();
+                return true;
+            }
             while ($field = $meta->fetch_field()) 
             { 
                 $params[] = &$row[$field->name]; 
@@ -59,7 +64,7 @@ class Database{
             } 
 
 
-            $stmt->close();
+            //$stmt->close();
             #checks if result is set, since when the query dont return anything result would'nt be set
             if(!isset($result)){
                 $result = [];
@@ -97,7 +102,10 @@ class Database{
         }
     }
 
-
+    public function addProvider(int $id, string $name, string $location, string $url)# id null for auto 
+    {
+        $this->executeSQL("INSERT INTO lunchboxfooddb.provider (id, name, location, url) VALUES (?, ?, ?, ?);",[$id,$name,$location,$url],"isss");
+    }
 
 
 
@@ -115,6 +123,26 @@ class Database{
         return $result;
     }
 }
+
+
+function fillDB(Database $db){
+    include "getApi.php";
+
+    # adding provider
+    echo var_dump(getProvider())."<br><br><br>";
+    foreach (getProvider() as $provider) {
+        $provider = (array) $provider;
+        echo "<br><br>".var_dump($provider);
+        $db->addProvider(...$provider);
+    }
+
+    # adding tags
+    #adding offer
+}
+$db = new Database("localhost","root","");
+$db->connect();
+fillDB($db);
+$db->disconnect();
 /*
 $db = new Database("localhost","root","");
 $db->connect();

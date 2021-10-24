@@ -1496,3 +1496,8 @@ AH00015: Unable to open logs
 127.0.0.1 - - [24/Oct/2021:16:26:51 +0200] "GET /api/intern/database.php HTTP/1.1" 200 536 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
 127.0.0.1 - - [24/Oct/2021:16:27:03 +0200] "GET /api/intern/database.php HTTP/1.1" 200 540 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
 127.0.0.1 - - [24/Oct/2021:16:27:04 +0200] "GET /api/intern/database.php HTTP/1.1" 200 540 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
+[Sun Oct 24 16:35:51.874709 2021] [core:warn] [pid 18948:tid 556] AH00098: pid file C:/Program Files/XAMPP/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sun Oct 24 16:35:51.890328 2021] [mpm_winnt:notice] [pid 18948:tid 556] AH00455: Apache/2.4.48 (Win64) OpenSSL/1.1.1l PHP/8.0.10 configured -- resuming normal operations
+[Sun Oct 24 16:35:51.890328 2021] [mpm_winnt:notice] [pid 18948:tid 556] AH00456: Apache Lounge VS16 Server built: Aug 25 2021 12:07:35
+[Sun Oct 24 16:35:51.890328 2021] [core:notice] [pid 18948:tid 556] AH00094: Command line: 'c:\\program files\\xampp\\apache\\bin\\httpd.exe -d C:/Program Files/XAMPP/apache'
+[Sun Oct 24 16:35:51.905954 2021] [mpm_winnt:notice] [pid 18948:tid 556] AH00418: Parent: Created child process 16996

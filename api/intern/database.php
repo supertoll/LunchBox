@@ -33,7 +33,7 @@ class Database{
         if(!empty($param)){
             $stmt = $this->_conn->prepare($statment); //parameter = ? for value; name of var needs to metch
             if($stmt === false){
-                die("some thing went wrong".$stmt .$statment);
+                die("some thing went wrong"."<br>".$stmt ."<br>".$statment);
             }
             $stmt->bind_param($type, ...$param);
             $stmt->execute();
@@ -75,7 +75,7 @@ class Database{
             
             $stmt = $this->_conn->query($statment);
             if($stmt === false){
-                die("some thing went wrong".$stmt .$statment);
+                die("some thing went wrong"."<br>".$this->_conn->error."<br>".$statment);
             }
             else if($stmt === true){
                 #executed without a return
@@ -135,6 +135,39 @@ class FoodBD extends Database{
         $this->executeSQL("INSERT INTO tags (tag,id) VALUES (?,?);",[$tag,$id],"si");
     }
 
+    public function getTagId(array $tags)
+    {#####Testing!!!!!!!!!!
+        if(count($tags) == 0){
+            return (int) $this->executeSQL("USE lunchboxfooddb; SELECT id FROM tags WHERE tag = \"\";")[0]["id"];
+        }else if(count($tags) == 1 && in_array($tags[0],array_values(array_values($this->executeSQL("USE lunchboxfooddb;SELECT * FROM tags;"))))){
+            $r = $this->executeSQL("SELECT * FROM tags WHERE tag = ? ;",[$tags[0]],"s");
+            echo var_dump($r);
+        }else if(count($tags) >1){
+            
+
+            $ids = array();
+            foreach ($tags as $aid => $tag) {
+                $ids[$aid] = $this->executeSQL("SELECT * FROM tags WHERE tag = ?",[$tag],"s");
+            }
+            ### add -> if..... ids can be 0 --> new tag
+            foreach ($ids[0] as $aid => $id) {
+                foreach (array_slice($ids,1) as $abid => $idList) {
+                    if(in_array($id["id"],array_values($idList))){
+                        return (int) $id;
+                    }
+                }
+            }
+
+        }else{ # erlier ..... if multibil and not in bd dosent work
+            #not in db
+            $id = $this->getMaxTagId();
+            foreach ($tags as $aid => $tag) {
+                $ids[$aid] = $this->addTag($tag,$id);
+            }
+            return $id;
+        }
+    }
+
     public function addOffer(int $id = null,int $providerId,int $tagsId,string $name,string $description,string $day,string $price,int $averageRating = null)
     {
         if($averageRating == null){
@@ -158,7 +191,7 @@ class FoodBD extends Database{
 }
 
 
-function fillDB(Database $db){
+function fillFoodDB(Database $db){
     include "getApi.php";
 
     # adding provider
@@ -186,9 +219,10 @@ function fillDB(Database $db){
 }
 $db = new FoodBD("localhost","root","");
 $db->connect();
-$db->dropDB();
+#$db->dropDB();
 $db->executeSQLFromFile("./../DB/createLunchBoxFoodDB2.sql");
-fillDB($db);
+fillfoodDB($db);
+#echo var_dump($db->getTagId([]));
 $db->disconnect();
 /*
 $db = new Database("localhost","root","");

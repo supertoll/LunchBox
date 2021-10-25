@@ -1,10 +1,10 @@
 <?php
 //https://www.w3schools.com/php/php_mysql_connect.asp
 class Database{
-    private $servername;
-    private $username;
-    private $password;
-    private $_conn;
+    protected $servername;
+    protected $username;
+    protected $password;
+    protected $_conn;
 
     public function __construct(string $servername, string $username, string $password){
         $this->servername = $servername;
@@ -27,7 +27,7 @@ class Database{
         $this->_conn->close();
     }
 
-    private function executeSQL(string $statment, Array $param = [],string $type = ""){
+    protected function executeSQL(string $statment, Array $param = [],string $type = ""){
         //querys SQL --> when executed correctly returns true else dies
         
         if(!empty($param)){
@@ -101,35 +101,50 @@ class Database{
             }
         }
     }
+}
 
+
+
+
+
+
+
+
+
+
+class FoodBD extends Database{
+#constructor from perant
     public function addProvider(int $id, string $name, string $location, string $url)# id null for auto 
     {
-        $this->executeSQL("INSERT INTO lunchboxfooddb.provider (id, name, location, url) VALUES (?, ?, ?, ?);",[$id,$name,$location,$url],"isss");
+        $this->executeSQL("INSERT INTO provider (id, name, location, url) VALUES (?, ?, ?, ?);", [$id,$name,$location,$url],"isss");
     }
 
     public function getMaxTagId()
     {
-        $id = $this->executeSQL("SELECT MAX(id) FROM tags")[0];
-        if (!gettype($id) == "integer"){
-            $id = 1;
+        $id = $this->executeSQL("SELECT MAX(id) FROM tags;")[0][0];
+        #echo "<p>".$id."<p>";
+        if ($id == null){
+            $id = 0;
         }
-        return $id;
+        return (int) $id;
     }
+
     public function addTag(string $tag,int $id = null)
     {
+        #echo "<p>".$tag."->id:".$id."<p>";
         $this->executeSQL("INSERT INTO tags (tag,id) VALUES (?,?);",[$tag,$id],"si");
     }
+
     public function addOffer(int $id = null,int $providerId,int $tagsId,string $name,string $description,string $day,string $price,int $averageRating = null)
     {
-        $this->executeSQL("INSERT INTO offer (id,providerId,tagsId,name,description,day,price,averageRating) VALUES (?,?,?,?,?,?,?,?)",
-        [$id,$providerId,$tagsId,$name,$description,$day,$price,$averageRating],"iiisssii");
+        if($averageRating == null){
+            $this->executeSQL("INSERT INTO offer (id,providerId,tagsId,name,description,day,price) VALUES (?,?,?,?,?,?,?)", [$id,$providerId,$tagsId,$name,$description,$day,$price],"iiisssi"); 
+        }else{
+            $this->executeSQL("INSERT INTO offer (id,providerId,tagsId,name,description,day,price,averageRating) VALUES (?,?,?,?,?,?,?,?)", [$id,$providerId,$tagsId,$name,$description,$day,$price,$averageRating],"iiisssii");
+        }
     }
 
-
-
-
     //for testing only --> remove
-
 
     public function dropDB()
     {
@@ -138,42 +153,41 @@ class Database{
     public function execute(string $statment, Array $param=[],string $type="")
     {
         $result = $this->executeSQL($statment,$param,$type);
-        echo var_dump($result) . "<br>";
         return $result;
     }
 }
 
 
 function fillDB(Database $db){
-    echo gettype(1);
-
     include "getApi.php";
 
     # adding provider
-    echo var_dump(getProvider())."<br><br><br>";
+    #echo "<br><br><br><p>".var_dump(getProvider())."<p>";
     foreach (getProvider() as $provider) {
         $provider = (array) $provider;
-        echo "<br><br>".var_dump($provider);
+        #echo "<br><br>".var_dump($provider);
         $db->addProvider(...$provider);
     }
-
     #adding tags and adding offer
-    echo var_dump(getOffer());
     foreach (getOffer() as $offer){
         $offer = (array) $offer;
-        echo "<br><br><br><br>".var_dump($offer);
-        $tagId = $db.getMaxTagId() + 1;
-        foreach($offer["tags"] as $tag){
-            echo "<br><br>".var_dump($tag);
-            $db.addTag($tag[1],$tagId);
+        #echo "<p>".var_dump($offer)."<p>";
+        if (count($offer["tags"]) == 0){
+            $tagId = 0;# tag for all offers without tags --> saving space, having id = 0
+        }else{
+            $tagId = $db->getMaxTagId() + 1;
+            foreach($offer["tags"] as $tag){
+                $db->addTag($tag,$tagId);
+            }
         }
-        $db->addOffer($offer[0],$offer[6],
-        $tagId,$offer[1],$offer[2],$offer[3],$offer[4]);
+        $db->addOffer($offer["id"],$offer["provider"],$tagId,$offer["name"],$offer["description"],$offer["day"],$offer["price"]);
 
     }
 }
-$db = new Database("localhost","root","");
+$db = new FoodBD("localhost","root","");
 $db->connect();
+$db->dropDB();
+$db->executeSQLFromFile("./../DB/createLunchBoxFoodDB2.sql");
 fillDB($db);
 $db->disconnect();
 /*

@@ -25,10 +25,14 @@ class API():
 if __name__ == "__main__":
     api = API("https://lunchbox.rori.info/api/v2")
     offer = api.getLunchData()
+    with open("./sampleOffer.json","w") as file:
+        file.write(json.dumps(offer,indent = 2))
+
+    '''
     for meal in offer:
         if(meal["description"]== ""):
             name = meal["name"]
             id = meal["id"]
             print(f"{name} mit der id {id}")
-
+    '''
 

@@ -107,6 +107,25 @@ class Database{
         $this->executeSQL("INSERT INTO lunchboxfooddb.provider (id, name, location, url) VALUES (?, ?, ?, ?);",[$id,$name,$location,$url],"isss");
     }
 
+    public function getMaxTagId()
+    {
+        $id = $this->executeSQL("SELECT MAX(id) FROM tags")[0];
+        if (!gettype($id) == "integer"){
+            $id = 1;
+        }
+        return $id;
+    }
+    public function addTag(string $tag,int $id = null)
+    {
+        $this->executeSQL("INSERT INTO tags (tag,id) VALUES (?,?);",[$tag,$id],"si");
+    }
+    public function addOffer(int $id = null,int $providerId,int $tagsId,string $name,string $description,string $day,string $price,int $averageRating = null)
+    {
+        $this->executeSQL("INSERT INTO offer (id,providerId,tagsId,name,description,day,price,averageRating) VALUES (?,?,?,?,?,?,?,?)",
+        [$id,$providerId,$tagsId,$name,$description,$day,$price,$averageRating],"iiisssii");
+    }
+
+
 
 
     //for testing only --> remove
@@ -126,6 +145,8 @@ class Database{
 
 
 function fillDB(Database $db){
+    echo gettype(1);
+
     include "getApi.php";
 
     # adding provider
@@ -136,8 +157,20 @@ function fillDB(Database $db){
         $db->addProvider(...$provider);
     }
 
-    # adding tags
-    #adding offer
+    #adding tags and adding offer
+    echo var_dump(getOffer());
+    foreach (getOffer() as $offer){
+        $offer = (array) $offer;
+        echo "<br><br><br><br>".var_dump($offer);
+        $tagId = $db.getMaxTagId() + 1;
+        foreach($offer["tags"] as $tag){
+            echo "<br><br>".var_dump($tag);
+            $db.addTag($tag[1],$tagId);
+        }
+        $db->addOffer($offer[0],$offer[6],
+        $tagId,$offer[1],$offer[2],$offer[3],$offer[4]);
+
+    }
 }
 $db = new Database("localhost","root","");
 $db->connect();

@@ -14,9 +14,9 @@ class Database{
 
     // need to write a heandler!!!
 
-    public function connect(){
+    public function connect($db=null){
         //connects to the DB and ends the programm in case of error
-        $this->_conn = new mysqli($this->servername, $this->username, $this->password);
+        $this->_conn = new mysqli($this->servername, $this->username, $this->password,$db);
         if($this->_conn->connect_error){
             die("Failed to connect ". $this->_conn->connect_error);
         }
@@ -113,7 +113,7 @@ class Database{
 
 
 class FoodBD extends Database{
-#constructor from perant
+
     public function addProvider(int $id, string $name, string $location, string $url)# id null for auto 
     {
         $this->executeSQL("INSERT INTO provider (id, name, location, url) VALUES (?, ?, ?, ?);", [$id,$name,$location,$url],"isss");
@@ -124,7 +124,7 @@ class FoodBD extends Database{
         $id = $this->executeSQL("SELECT MAX(id) FROM tags;")[0][0];
         #echo "<p>".$id."<p>";
         if ($id == null){
-            $id = 0;
+            $id = -1;
         }
         return (int) $id;
     }
@@ -138,33 +138,65 @@ class FoodBD extends Database{
     public function getTagId(array $tags)
     {#####Testing!!!!!!!!!!
         if(count($tags) == 0){
-            return (int) $this->executeSQL("USE lunchboxfooddb; SELECT id FROM tags WHERE tag = \"\";")[0]["id"];
-        }else if(count($tags) == 1 && in_array($tags[0],array_values(array_values($this->executeSQL("USE lunchboxfooddb;SELECT * FROM tags;"))))){
-            $r = $this->executeSQL("SELECT * FROM tags WHERE tag = ? ;",[$tags[0]],"s");
-            echo var_dump($r);
-        }else if(count($tags) >1){
-            
-
-            $ids = array();
-            foreach ($tags as $aid => $tag) {
-                $ids[$aid] = $this->executeSQL("SELECT * FROM tags WHERE tag = ?",[$tag],"s");
+            return (int) $this->executeSQL("SELECT id FROM tags WHERE tag = \"\";")[0][0];#is always there
+        }else if(count($tags) == 1 ){
+            $r = $this->executeSQL("SELECT id FROM tags WHERE tag = ? ;",[$tags[0]],"s");# finding all id with tag
+            #making a list with all ids
+            $tagIds = array();
+            foreach($r as $qi => $q){
+                $tagIds[$qi] =  $q["id"];
             }
-            ### add -> if..... ids can be 0 --> new tag
-            foreach ($ids[0] as $aid => $id) {
-                foreach (array_slice($ids,1) as $abid => $idList) {
-                    if(in_array($id["id"],array_values($idList))){
-                        return (int) $id;
-                    }
+
+            $idsq = $this->executeSQL("SELECT id,COUNT(id) FROM tags GROUP BY id;");#getting list of ids and how often tehy apear--> how many tags they support
+
+            $ids = array();# creating a list of all ids with only one tag
+            foreach($idsq as $idai => $ida){
+                if($ida[1] == "1"){
+                    $ids[$idai] = (int) $ida[0];
                 }
             }
 
-        }else{ # erlier ..... if multibil and not in bd dosent work
-            #not in db
-            $id = $this->getMaxTagId();
-            foreach ($tags as $aid => $tag) {
-                $ids[$aid] = $this->addTag($tag,$id);
+            #checking wich id includes the tag and has only one tag
+            foreach($ids as $iq => $q){
+                if(in_array($q,$tagIds) ){
+                    return $q;
+                }
+            }
+
+            #no maching id in db --> creating
+            $id = $this->getMaxTagId() + 1;
+            $this->addTag($tags[0],$id);
+            return $id;
+
+        }else{
+            $ids = array();
+            foreach($tags as $tagId => $tag){
+                $r = $this->executeSQL("SELECT id FROM tags WHERE tag = ? ;",[$tag],"s");# finding all id with tag
+                #making a list with all ids
+                $tagIds = array();
+                foreach($r as $qi => $q){
+                    $tagIds[$qi] =  $q["id"];
+                }
+                #makeing a list for all tags with possible ids
+                $ids[$tagId] = $tagIds;
+            }
+            foreach($ids[0] as $idid => $id){#crosschecking if one id is in all tag id lists
+                foreach(array_slice($ids,1) as $aidid => $aid){
+                    if(in_array($id,$aid)){
+                        continue;
+                    }else{
+                        break;
+                    }
+                }
+                return $id;
+            }
+            #no natching id for tags in db --> creating
+            $id = $this->getMaxTagId() + 1;
+            foreach($tags as $tagId => $tag){
+                $this->addTag($tag,$id);
             }
             return $id;
+
         }
     }
 
@@ -205,24 +237,22 @@ function fillFoodDB(Database $db){
     foreach (getOffer() as $offer){
         $offer = (array) $offer;
         #echo "<p>".var_dump($offer)."<p>";
-        if (count($offer["tags"]) == 0){
-            $tagId = 0;# tag for all offers without tags --> saving space, having id = 0
-        }else{
-            $tagId = $db->getMaxTagId() + 1;
-            foreach($offer["tags"] as $tag){
-                $db->addTag($tag,$tagId);
-            }
+        $tags = array();
+        foreach($offer["tags"] as $tagId => $tag){
+            $tags[$tagId] = $tag;
         }
+        #echo "<br><br>".var_dump($tags);
+        $tagId = $db->getTagId($tags);#
         $db->addOffer($offer["id"],$offer["provider"],$tagId,$offer["name"],$offer["description"],$offer["day"],$offer["price"]);
 
     }
 }
 $db = new FoodBD("localhost","root","");
-$db->connect();
+$db->connect("lunchboxfooddb");
 #$db->dropDB();
 $db->executeSQLFromFile("./../DB/createLunchBoxFoodDB2.sql");
 fillfoodDB($db);
-#echo var_dump($db->getTagId([]));
+#echo var_dump($db->getTagId(["vegan","Tagessuppe"]));
 $db->disconnect();
 /*
 $db = new Database("localhost","root","");

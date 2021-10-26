@@ -46,5 +46,3 @@ CREATE TABLE IF NOT EXISTS rating(
     PRIMARY KEY (id),
     FOREIGN KEY (foodId) REFERENCES offer(id)
 );
-
-INSERT INTO tags (id) VALUES (0);-- # tag for all offers without tags --> saving space

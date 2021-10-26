@@ -194,10 +194,10 @@ function fillFoodDB(Database $db){
         #echo "<p>".var_dump($offer)."<p>";
         $db->addOffer($offer["id"],$offer["provider"],$offer["name"],$offer["description"],$offer["day"],$offer["price"]);
 
+        if(count($offer["tags"]) == 0){
+            $offer["tags"][0] = "";
+        }
         foreach($offer["tags"] as $tagId => $tag){
-            
-
-
             $id = $db->getTagId($tag);
             if($id == null){#tag not in db
                 $id = $db->getMaxTagId()+1;
@@ -207,9 +207,6 @@ function fillFoodDB(Database $db){
             $db->addOffer2Tags($offer["id"],$id);
         }
         #echo "<br><br>".var_dump($tags);
-        
-        
-
     }
 }
 $db = new FoodBD("localhost","root","");
@@ -219,6 +216,8 @@ $db->dropDB();
 $db->executeSQLFromFile("./../DB/createLunchBoxFoodDB2.sql");
 fillfoodDB($db);
 $db->disconnect();
+
+
 /*
 $db = new Database("localhost","root","");
 $db->connect();

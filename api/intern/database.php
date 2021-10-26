@@ -131,84 +131,32 @@ class FoodBD extends Database{
         return (int) $id;
     }
 
-    public function addTag(string $tag,int $id = null)
+    public function addTag(string $tag,$id = null)
     {
         #echo "<p>".$tag."->id:".$id."<p>";
-        $this->executeSQL("INSERT INTO tags (tag,id) VALUES (?,?);",[$tag,$id],"si");
-    }
-
-    public function getTagId(array $tags)
-    {#####Testing!!!!!!!!!!
-        if(count($tags) == 0){
-            return (int) $this->executeSQL("SELECT id FROM tags WHERE tag = \"\";")[0][0];#is always there
-        }else if(count($tags) == 1 ){
-            $r = $this->executeSQL("SELECT id FROM tags WHERE tag = ? ;",[$tags[0]],"s");# finding all id with tag
-            #making a list with all ids
-            $tagIds = array();
-            foreach($r as $qi => $q){
-                $tagIds[$qi] =  $q["id"];
-            }
-
-            $idsq = $this->executeSQL("SELECT id,COUNT(id) FROM tags GROUP BY id;");#getting list of ids and how often tehy apear--> how many tags they support
-
-            $ids = array();# creating a list of all ids with only one tag
-            foreach($idsq as $idai => $ida){
-                if($ida[1] == "1"){
-                    $ids[$idai] = (int) $ida[0];
-                }
-            }
-
-            #checking wich id includes the tag and has only one tag
-            foreach($ids as $iq => $q){
-                if(in_array($q,$tagIds) ){
-                    return $q;
-                }
-            }
-
-            #no maching id in db --> creating
-            $id = $this->getMaxTagId() + 1;
-            $this->addTag($tags[0],$id);
-            return $id;
-
+        if($id == null){
+            $this->executeSQL("INSERT INTO tags (tag) VALUES (?);",[$tag],"s");
         }else{
-            $ids = array();
-            foreach($tags as $tagId => $tag){
-                $r = $this->executeSQL("SELECT id FROM tags WHERE tag = ? ;",[$tag],"s");# finding all id with tag
-                #making a list with all ids
-                $tagIds = array();
-                foreach($r as $qi => $q){
-                    $tagIds[$qi] =  $q["id"];
-                }
-                #makeing a list for all tags with possible ids
-                $ids[$tagId] = $tagIds;
-            }
-            foreach($ids[0] as $idid => $id){#crosschecking if one id is in all tag id lists
-                foreach(array_slice($ids,1) as $aidid => $aid){
-                    if(in_array($id,$aid)){
-                        continue;
-                    }else{
-                        break;
-                    }
-                }
-                return $id;
-            }
-            #no natching id for tags in db --> creating
-            $id = $this->getMaxTagId() + 1;
-            foreach($tags as $tagId => $tag){
-                $this->addTag($tag,$id);
-            }
-            return $id;
-
+            $this->executeSQL("INSERT INTO tags (id,tag) VALUES (?,?);",[$id,$tag],"is");
         }
     }
 
-    public function addOffer(int $id = null,int $providerId,int $tagsId,string $name,string $description,string $day,string $price,int $averageRating = null)
+    public function getTagId(string $tag)
+    {
+        return $this->executeSQL("SELECT id FROM tags WHERE tag = ?;",[$tag],"s")[0]["id"];
+    }
+
+    public function addOffer(int $id = null,int $providerId,string $name,string $description,string $day,string $price,int $averageRating = null)
     {
         if($averageRating == null){
-            $this->executeSQL("INSERT INTO offer (id,providerId,tagsId,name,description,day,price) VALUES (?,?,?,?,?,?,?)", [$id,$providerId,$tagsId,$name,$description,$day,$price],"iiisssi"); 
+            $this->executeSQL("INSERT INTO offer (id,providerId,name,description,day,price) VALUES (?,?,?,?,?,?)", [$id,$providerId,$name,$description,$day,$price],"iisssi"); 
         }else{
-            $this->executeSQL("INSERT INTO offer (id,providerId,tagsId,name,description,day,price,averageRating) VALUES (?,?,?,?,?,?,?,?)", [$id,$providerId,$tagsId,$name,$description,$day,$price,$averageRating],"iiisssii");
+            $this->executeSQL("INSERT INTO offer (id,providerId,name,description,day,price,averageRating) VALUES (?,?,?,?,?,?,?)", [$id,$providerId,$name,$description,$day,$price,$averageRating],"iisssii");
         }
+    }
+    public function addOffer2Tags(int $offerId,int $tagId)
+    {
+        $this->executeSQL("INSERT INTO offer2tags (offerId,tagId) VALUES (?,?)",[$offerId,$tagId],"ii");
     }
 
     //for testing only --> remove
@@ -239,19 +187,30 @@ function fillFoodDB(Database $db){
     foreach (getOffer() as $offer){
         $offer = (array) $offer;
         #echo "<p>".var_dump($offer)."<p>";
-        $tags = array();
+        $db->addOffer($offer["id"],$offer["provider"],$offer["name"],$offer["description"],$offer["day"],$offer["price"]);
+
         foreach($offer["tags"] as $tagId => $tag){
-            $tags[$tagId] = $tag;
+            
+
+
+            $id = $db->getTagId($tag);
+            if($id == null){#tag not in db
+                $id = $db->getMaxTagId()+1;
+                $db->addTag($tag,$id);
+            }
+            #echo var_dump($offer["id"]),"-->", var_dump($id);
+            $db->addOffer2Tags($offer["id"],$id);
         }
         #echo "<br><br>".var_dump($tags);
-        $tagId = $db->getTagId($tags);#
-        $db->addOffer($offer["id"],$offer["provider"],$tagId,$offer["name"],$offer["description"],$offer["day"],$offer["price"]);
+        
+        
 
     }
 }
 $db = new FoodBD("localhost","root","");
 $db->connect();
-#$db->dropDB();
+#$db->connect("lunchboxfooddb");
+$db->dropDB();
 $db->executeSQLFromFile("./../DB/createLunchBoxFoodDB2.sql");
 fillfoodDB($db);
 $db->disconnect();

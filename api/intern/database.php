@@ -20,6 +20,7 @@ class Database{
         if($this->_conn->connect_error){
             die("Failed to connect ". $this->_conn->connect_error);
         }
+        
     }
 
     public function disconnect(){
@@ -113,6 +114,7 @@ class Database{
 
 
 class FoodBD extends Database{
+    #constructor from parent
 
     public function addProvider(int $id, string $name, string $location, string $url)# id null for auto 
     {
@@ -248,11 +250,10 @@ function fillFoodDB(Database $db){
     }
 }
 $db = new FoodBD("localhost","root","");
-$db->connect("lunchboxfooddb");
+$db->connect();
 #$db->dropDB();
 $db->executeSQLFromFile("./../DB/createLunchBoxFoodDB2.sql");
 fillfoodDB($db);
-#echo var_dump($db->getTagId(["vegan","Tagessuppe"]));
 $db->disconnect();
 /*
 $db = new Database("localhost","root","");

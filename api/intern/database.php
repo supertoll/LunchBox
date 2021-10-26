@@ -143,7 +143,12 @@ class FoodBD extends Database{
 
     public function getTagId(string $tag)
     {
-        return $this->executeSQL("SELECT id FROM tags WHERE tag = ?;",[$tag],"s")[0]["id"];
+        $r = $this->executeSQL("SELECT id FROM tags WHERE tag = ?;",[$tag],"s");
+        if(count($r) > 0){
+            return $r[0]["id"];
+        }else{
+            return null;
+        }
     }
 
     public function addOffer(int $id = null,int $providerId,string $name,string $description,string $day,string $price,int $averageRating = null)

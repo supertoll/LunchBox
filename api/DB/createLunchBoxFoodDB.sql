@@ -4,29 +4,35 @@ USE LunchBoxFoodDB;
 CREATE TABLE IF NOT EXISTS provider(
     id INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
     name TEXT NOT NULL,
-    location TEXT NOT NULL COMMENT "own localisation",
+    location TEXT NOT NULL,
     url TEXT NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS tags (
-    id INT NOT NULL AUTO_INCREMENT,
-    tag TEXT NOT NULL,
+    id INT NOT NULL UNIQUE AUTO_INCREMENT,
+    tag TEXT NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS offer (
     id INT NOT NULL UNIQUE AUTO_INCREMENT,
     providerId INT NOT NULL,
-    tagsId INT NOT NULL UNIQUE,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     day DATE NOT NULL,
     price INT NOT NULL COMMENT "in cent", -- in cent
     averageRating INT NOT NULL DEFAULT 0 COMMENT "Have to Calc",
     PRIMARY KEY (id),
-    FOREIGN KEY (providerId) REFERENCES provider(id),
-    FOREIGN KEY (tagsId) REFERENCES tags(id)
+    FOREIGN KEY (providerId) REFERENCES provider(id)
+);
+
+CREATE TABLE IF NOT EXISTS offer2tags(
+    offerId INT NOT NULL,
+    tagId INT NOT NULL,
+    PRIMARY KEY (offerId,tagId),
+    FOREIGN KEY (offerId) REFERENCES offer(id),
+    FOREIGN KEY (tagId) REFERENCES tags(id)
 );
 
 CREATE TABLE IF NOT EXISTS rating(

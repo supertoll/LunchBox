@@ -213,7 +213,7 @@ $db = new FoodBD("localhost","root","");
 $db->connect();
 #$db->connect("lunchboxfooddb");
 $db->dropDB();
-$db->executeSQLFromFile("./../DB/createLunchBoxFoodDB2.sql");
+$db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
 fillfoodDB($db);
 $db->disconnect();
 

@@ -28,7 +28,7 @@ class Database{
         $this->_conn->close();
     }
 
-    protected function executeSQL(string $statment, Array $param = [],string $type = ""){
+    protected function executeSQL(string $statment, Array $param = []){
         //querys SQL --> when executed correctly returns true else dies
         
         if(!empty($param)){
@@ -36,6 +36,12 @@ class Database{
             if($stmt === false){
                 die("some thing went wrong"."<br>".$stmt ."<br>".$statment);
             }
+
+            $type = "";#generate types
+            foreach ($param as $parami => $parame) {
+                $type .= gettype($parame)[0];
+            }
+
             $stmt->bind_param($type, ...$param);
             $stmt->execute();
             
@@ -118,7 +124,7 @@ class FoodBD extends Database{
 
     public function addProvider(int $id, string $name, string $location, string $url)# id null for auto 
     {
-        $this->executeSQL("INSERT INTO provider (id, name, location, url) VALUES (?, ?, ?, ?);", [$id,$name,$location,$url],"isss");
+        $this->executeSQL("INSERT INTO provider (id, name, location, url) VALUES (?, ?, ?, ?);", [$id,$name,$location,$url]);
     }
 
     public function getMaxTagId()
@@ -135,15 +141,15 @@ class FoodBD extends Database{
     {
         #echo "<p>".$tag."->id:".$id."<p>";
         if($id == null){
-            $this->executeSQL("INSERT INTO tags (tag) VALUES (?);",[$tag],"s");
+            $this->executeSQL("INSERT INTO tags (tag) VALUES (?);",[$tag]);
         }else{
-            $this->executeSQL("INSERT INTO tags (id,tag) VALUES (?,?);",[$id,$tag],"is");
+            $this->executeSQL("INSERT INTO tags (id,tag) VALUES (?,?);",[$id,$tag]);
         }
     }
 
     public function getTagId(string $tag)
     {
-        $r = $this->executeSQL("SELECT id FROM tags WHERE tag = ?;",[$tag],"s");
+        $r = $this->executeSQL("SELECT id FROM tags WHERE tag = ?;",[$tag]);
         if(count($r) > 0){
             return $r[0]["id"];
         }else{
@@ -154,14 +160,14 @@ class FoodBD extends Database{
     public function addOffer(int $id = null,int $providerId,string $name,string $description,string $day,string $price,int $averageRating = null)
     {
         if($averageRating == null){
-            $this->executeSQL("INSERT INTO offer (id,providerId,name,description,day,price) VALUES (?,?,?,?,?,?)", [$id,$providerId,$name,$description,$day,$price],"iisssi"); 
+            $this->executeSQL("INSERT INTO offer (id,providerId,name,description,day,price) VALUES (?,?,?,?,?,?)", [$id,$providerId,$name,$description,$day,$price]); 
         }else{
-            $this->executeSQL("INSERT INTO offer (id,providerId,name,description,day,price,averageRating) VALUES (?,?,?,?,?,?,?)", [$id,$providerId,$name,$description,$day,$price,$averageRating],"iisssii");
+            $this->executeSQL("INSERT INTO offer (id,providerId,name,description,day,price,averageRating) VALUES (?,?,?,?,?,?,?)", [$id,$providerId,$name,$description,$day,$price,$averageRating]);
         }
     }
     public function addOffer2Tags(int $offerId,int $tagId)
     {
-        $this->executeSQL("INSERT INTO offer2tags (offerId,tagId) VALUES (?,?)",[$offerId,$tagId],"ii");
+        $this->executeSQL("INSERT INTO offer2tags (offerId,tagId) VALUES (?,?)",[$offerId,$tagId]);
     }
 
     //for testing only --> remove
@@ -172,7 +178,7 @@ class FoodBD extends Database{
     }
     public function execute(string $statment, Array $param=[],string $type="")
     {
-        $result = $this->executeSQL($statment,$param,$type);
+        $result = $this->executeSQL($statment,$param);
         return $result;
     }
 }

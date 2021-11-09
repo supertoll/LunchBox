@@ -12,25 +12,25 @@ header("Access-Control-Allow-Credentials: true");
 
 include "../intern/database.php";
 
-$db = new FoodBD("localhost","root","");
+$db = new FoodBD("localhost","root","");#need to be changed (secrets)
 
-#x = isset($_GET['date']) ? $_GET['date'] : die();
-if(! isset($_GET['date'])){
-    #no date given
+if(!isset($_GET['date'])){
     http_response_code(404);
     die();
 }else{
-    String date = $_GET['date']
-    if(isset($_GET['provider'])){
-        #return offer only for specific provider
+    #echo var_dump($_GET['date']);
+    $db->connect("lunchboxfooddb");
+    if(isset($_GET['provider'])){#not jet working
+        echo var_dump($_GET['provider']);
+        $offer = $db->getAllOfferByDateAndProvider($_GET['date'],$_GET['provider']);
+    }else {#only date given
+        $offer = $db->getAllOfferByDate($_GET['date']);
     }
-    #return offer for every provider
+    $db->disconnect();
+
+    #respond
+    http_response_code(200);
+    echo json_encode($offer);
 }
 
-#ok
-http_response_code(200);
-echo json_encode($products_arr);
-
-#not kok
-http_response_code(404);
 ?>

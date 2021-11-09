@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS tags (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS offer (
+CREATE TABLE IF NOT EXISTS offer(
     id INT NOT NULL UNIQUE AUTO_INCREMENT,
     providerId INT NOT NULL,
     name TEXT NOT NULL,
@@ -35,13 +35,12 @@ CREATE TABLE IF NOT EXISTS offer2tags(
     FOREIGN KEY (tagId) REFERENCES tags(id)
 );
 
-CREATE TABLE IF NOT EXISTS rating(
+CREATE TABLE IF NOT EXISTS ratings(
     id INT NOT NULL UNIQUE AUTO_INCREMENT,
     userId INT NOT NULL,
     offerId INT NOT NULL, 
     rating INT NOT NULL,
     comment Text NOT NULL DEFAULT "",
-    day DATE NOT NULL,
     CHECK (rating > 0 AND rating < 6),
     PRIMARY KEY (id),
     FOREIGN KEY (offerId) REFERENCES offer(id)

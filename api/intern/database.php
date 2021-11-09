@@ -173,16 +173,64 @@ class FoodBD extends Database{
         $this->executeSQL("INSERT INTO offer2tags (offerId,tagId) VALUES (?,?)",[$offerId,$tagId]);
     }
     
-    #edit-> not function
     public function getAllOfferByDate(String $date)
     {
-        return $this->executeSQL("SELECT * FROM offer, offer2tags, tags WHERE offer.id = offer2tags.offerId AND offer2tags.tagId = tags.id  AND offer.date = ?",[$date]);
-    }
+        $offer = $this->executeSQL("SELECT id, providerId, name, description, price, averageRating FROM offer WHERE offer.date = ?;",[$date]);#geting all relervant food
+        #echo var_dump($offer)."<br><br>";
+        
+        foreach ($offer as $id => $food) {#adding tags and comments
+            #adding tags
+            $offer[$id]["tags"] = array();
+            $tags = $this->executeSQL("SELECT tags.tag FROM offer2tags JOIN tags ON offer2tags.tagId = tags.id WHERE offer2tags.offerId = ?;",[$food["id"]]);
+            if($tags[0]["tag"] != ""){#tag not empty
+                $offer[$id]["tags"] = array();
+                foreach ($tags as $tag) {#only appends the values
+                    $offer[$id]["tags"] = array_merge($offer[$id]["tags"], array($tag["tag"]));
+                }
+            }
+            #echo var_dump($offer[$id]["tags"])."<br><br>";
 
+            #adding comments
+            $comments = $this->executeSQL("SELECT ratings.comment FROM ratings WHERE ratings.id = ?;",[$id]);
+            $offer[$id]["comments"] = array();
+            foreach ($comments as $commentId => $comment) {#adding only the value of comment
+                $offer[$id]["comments"] = array_merge($offer[$id]["comments"], array($tag["comment"]));
+            }
+        }
+        return $offer;
+    }
+    public function getAllOfferByDateAndProvider(String $date, Array $provider)
+    {
+        $offer = $this->executeSQL("SELECT id, providerId, name, description, price, averageRating FROM offer WHERE offer.date = ? AND offer.providerId in ?;",[$date,$provider]);#geting all relervant food
+        #echo var_dump($offer)."<br><br>";
+        
+        foreach ($offer as $id => $food) {#adding tags and comments
+            #adding tags
+            $offer[$id]["tags"] = array();
+            $tags = $this->executeSQL("SELECT tags.tag FROM offer2tags JOIN tags ON offer2tags.tagId = tags.id WHERE offer2tags.offerId = ?;",[$food["id"]]);
+            if($tags[0]["tag"] != ""){#tag not empty
+                $offer[$id]["tags"] = array();
+                foreach ($tags as $tag) {#only appends the values
+                    $offer[$id]["tags"] = array_merge($offer[$id]["tags"], array($tag["tag"]));
+                }
+            }
+            #echo var_dump($offer[$id]["tags"])."<br><br>";
+
+            #adding comments
+            $comments = $this->executeSQL("SELECT ratings.comment FROM ratings WHERE ratings.id = ?;",[$id]);
+            $offer[$id]["comments"] = array();
+            foreach ($comments as $commentId => $comment) {#adding only the value of comment
+                $offer[$id]["comments"] = array_merge($offer[$id]["comments"], array($tag["comment"]));
+            }
+        }
+        return $offer;
+    }
     #del
     public function dropDB()
     {
         $this->executeSQL("DROP DATABASE lunchboxfooddb;");
+
+
     }
 }
 
@@ -221,12 +269,11 @@ function fillFoodDB(Database $db){
     
 }
 $db = new FoodBD("localhost","root","");
-$db->connect();
-#$db->connect("lunchboxfooddb");
+#$db->connect();
+$db->connect("lunchboxfooddb");
 #$db->dropDB();
 #$db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
 #fillfoodDB($db);
-echo var_dump($db->getAllOfferByDate("2021-11-18"));
 $db->disconnect();
 
 

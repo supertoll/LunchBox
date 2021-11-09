@@ -1,4 +1,7 @@
 <?php
+include "getApi.php";
+
+
 //https://www.w3schools.com/php/php_mysql_connect.asp
 class Database{
     protected $servername;
@@ -157,35 +160,35 @@ class FoodBD extends Database{
         }
     }
 
-    public function addOffer(int $id = null,int $providerId,string $name,string $description,string $day,string $price,int $averageRating = null)
+    public function addOffer(int $id = null,int $providerId,string $name,string $description,string $date,string $price,int $averageRating = null)
     {
         if($averageRating == null){
-            $this->executeSQL("INSERT INTO offer (id,providerId,name,description,day,price) VALUES (?,?,?,?,?,?)", [$id,$providerId,$name,$description,$day,$price]); 
+            $this->executeSQL("INSERT INTO offer (id,providerId,name,description,date,price) VALUES (?,?,?,?,?,?)", [$id,$providerId,$name,$description,$date,$price]); 
         }else{
-            $this->executeSQL("INSERT INTO offer (id,providerId,name,description,day,price,averageRating) VALUES (?,?,?,?,?,?,?)", [$id,$providerId,$name,$description,$day,$price,$averageRating]);
+            $this->executeSQL("INSERT INTO offer (id,providerId,name,description,date,price,averageRating) VALUES (?,?,?,?,?,?,?)", [$id,$providerId,$name,$description,$date,$price,$averageRating]);
         }
     }
     public function addOffer2Tags(int $offerId,int $tagId)
     {
         $this->executeSQL("INSERT INTO offer2tags (offerId,tagId) VALUES (?,?)",[$offerId,$tagId]);
     }
+    
+    #edit-> not function
+    public function getAllOfferByDate(String $date)
+    {
+        return $this->executeSQL("SELECT * FROM offer, offer2tags, tags WHERE offer.id = offer2tags.offerId AND offer2tags.tagId = tags.id  AND offer.date = ?",[$date]);
+    }
 
-    //for testing only --> remove
-
+    #del
     public function dropDB()
     {
-       $this->executeSQL("DROP DATABASE lunchboxfooddb;");
-    }
-    public function execute(string $statment, Array $param=[],string $type="")
-    {
-        $result = $this->executeSQL($statment,$param);
-        return $result;
+        $this->executeSQL("DROP DATABASE lunchboxfooddb;");
     }
 }
 
 
 function fillFoodDB(Database $db){
-    include "getApi.php";
+    
 
     # adding provider
     #echo "<br><br><br><p>".var_dump(getProvider())."<p>";
@@ -214,13 +217,16 @@ function fillFoodDB(Database $db){
         }
         #echo "<br><br>".var_dump($tags);
     }
+
+    
 }
 $db = new FoodBD("localhost","root","");
 $db->connect();
 #$db->connect("lunchboxfooddb");
-$db->dropDB();
-$db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
-fillfoodDB($db);
+#$db->dropDB();
+#$db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
+#fillfoodDB($db);
+echo var_dump($db->getAllOfferByDate("2021-11-18"));
 $db->disconnect();
 
 

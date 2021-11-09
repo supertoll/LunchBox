@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS offer (
     providerId INT NOT NULL,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
-    day DATE NOT NULL,
+    date DATE NOT NULL,
     price INT NOT NULL COMMENT "in cent", -- in cent
     averageRating INT NOT NULL DEFAULT 0 COMMENT "Have to Calc",
     PRIMARY KEY (id),
@@ -38,11 +38,11 @@ CREATE TABLE IF NOT EXISTS offer2tags(
 CREATE TABLE IF NOT EXISTS rating(
     id INT NOT NULL UNIQUE AUTO_INCREMENT,
     userId INT NOT NULL,
-    foodId INT NOT NULL, 
+    offerId INT NOT NULL, 
     rating INT NOT NULL,
     comment Text NOT NULL DEFAULT "",
     day DATE NOT NULL,
     CHECK (rating > 0 AND rating < 6),
     PRIMARY KEY (id),
-    FOREIGN KEY (foodId) REFERENCES offer(id)
+    FOREIGN KEY (offerId) REFERENCES offer(id)
 );

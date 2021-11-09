@@ -4089,3 +4089,14 @@ AH00015: Unable to open logs
 127.0.0.1 - - [01/Nov/2021:11:51:55 +0100] "GET /api/intern/database.php HTTP/1.1" 200 3157 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36"
 127.0.0.1 - - [01/Nov/2021:11:52:31 +0100] "GET /api/intern/database.php HTTP/1.1" 200 17314 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36"
 127.0.0.1 - - [01/Nov/2021:11:55:42 +0100] "GET /api/intern/database.php HTTP/1.1" 200 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36"
+[Tue Nov 09 16:06:33.096815 2021] [core:warn] [pid 12340:tid 440] AH00098: pid file C:/Program Files/xampp/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Tue Nov 09 16:06:35.779166 2021] [mpm_winnt:notice] [pid 12340:tid 440] AH00455: Apache/2.4.48 (Win64) OpenSSL/1.1.1l PHP/8.0.10 configured -- resuming normal operations
+[Tue Nov 09 16:06:35.780167 2021] [mpm_winnt:notice] [pid 12340:tid 440] AH00456: Apache Lounge VS16 Server built: Aug 25 2021 12:07:35
+[Tue Nov 09 16:06:35.780167 2021] [core:notice] [pid 12340:tid 440] AH00094: Command line: 'c:\\program files\\xampp\\apache\\bin\\httpd.exe -d C:/Program Files/xampp/apache'
+[Tue Nov 09 16:06:35.869167 2021] [mpm_winnt:notice] [pid 12340:tid 440] AH00418: Parent: Created child process 1332
+[Tue Nov 09 16:06:37.823481 2021] [mpm_winnt:notice] [pid 1332:tid 560] AH00354: Child: Starting 150 worker threads.
+[Tue Nov 09 17:40:10.289764 2021] [core:warn] [pid 13656:tid 376] AH00098: pid file C:/Program Files/xampp/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Tue Nov 09 17:40:11.598797 2021] [mpm_winnt:notice] [pid 13656:tid 376] AH00455: Apache/2.4.48 (Win64) OpenSSL/1.1.1l PHP/8.0.10 configured -- resuming normal operations
+[Tue Nov 09 17:40:11.598797 2021] [mpm_winnt:notice] [pid 13656:tid 376] AH00456: Apache Lounge VS16 Server built: Aug 25 2021 12:07:35
+[Tue Nov 09 17:40:11.598797 2021] [core:notice] [pid 13656:tid 376] AH00094: Command line: 'c:\\program files\\xampp\\apache\\bin\\httpd.exe -d C:/Program Files/xampp/apache'
+[Tue Nov 09 17:40:11.614772 2021] [mpm_winnt:notice] [pid 13656:tid 376] AH00418: Parent: Created child process 8416

@@ -1,7 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-
 header("Access-Control-Allow-Methods: GET");
 
 #?
@@ -17,12 +16,12 @@ $db = new FoodBD("localhost","root","");#need to be changed (secrets)
 if(!isset($_GET['date'])){
     http_response_code(404);
     die();
-}else{
+}else{ 
     #echo var_dump($_GET['date']);
     $db->connect("lunchboxfooddb");
     if(isset($_GET['provider'])){#not jet working
-        echo var_dump($_GET['provider']);
-        $offer = $db->getAllOfferByDateAndProvider($_GET['date'],$_GET['provider']);
+        #echo var_dump(json_decode($_GET['provider']));
+        $offer = $db->getAllOfferByDate($_GET['date'],json_decode($_GET['provider']));
     }else {#only date given
         $offer = $db->getAllOfferByDate($_GET['date']);
     }

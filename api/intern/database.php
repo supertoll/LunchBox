@@ -37,12 +37,13 @@ class Database{
         if(!empty($param)){
             $stmt = $this->_conn->prepare($statment); //parameter = ? for value; name of var needs to metch
             if($stmt === false){
-                die("some thing went wrong"."<br>".$stmt ."<br>".$statment);
+                die("some thing went wrong<br>".$this->_conn->error."<br>".$statment);
             }
 
             $type = "";#generate types
             foreach ($param as $parami => $parame) {
                 $type .= gettype($parame)[0];
+                #echo(gettype($parame));
             }
 
             $stmt->bind_param($type, ...$param);
@@ -173,9 +174,15 @@ class FoodBD extends Database{
         $this->executeSQL("INSERT INTO offer2tags (offerId,tagId) VALUES (?,?)",[$offerId,$tagId]);
     }
     
-    public function getAllOfferByDate(String $date)
+    public function getAllOfferByDate(String $date, Array $provider = array())
     {
-        $offer = $this->executeSQL("SELECT id, providerId, name, description, price, averageRating FROM offer WHERE offer.date = ?;",[$date]);#geting all relervant food
+        if(count($provider) == 0 ){#
+            $offer = $this->executeSQL("SELECT id, providerId, name, description, price, averageRating FROM offer WHERE offer.date = ?;",[$date]);#geting all relervant food
+        }else {
+            #echo var_dump([$date,...$provider]);
+            #echo var_dump("(".str_repeat("?,",count($provider)-1)."?)");
+            $offer = $this->executeSQL("SELECT id, providerId, name, description, price, averageRating FROM offer WHERE offer.date = ? AND offer.providerId in (".str_repeat("?,",count($provider)-1)."?);",[$date,...$provider]);#geting all relervant food
+        }
         #echo var_dump($offer)."<br><br>";
         
         foreach ($offer as $id => $food) {#adding tags and comments
@@ -199,32 +206,7 @@ class FoodBD extends Database{
         }
         return $offer;
     }
-    public function getAllOfferByDateAndProvider(String $date, Array $provider)
-    {
-        $offer = $this->executeSQL("SELECT id, providerId, name, description, price, averageRating FROM offer WHERE offer.date = ? AND offer.providerId in ?;",[$date,$provider]);#geting all relervant food
-        #echo var_dump($offer)."<br><br>";
-        
-        foreach ($offer as $id => $food) {#adding tags and comments
-            #adding tags
-            $offer[$id]["tags"] = array();
-            $tags = $this->executeSQL("SELECT tags.tag FROM offer2tags JOIN tags ON offer2tags.tagId = tags.id WHERE offer2tags.offerId = ?;",[$food["id"]]);
-            if($tags[0]["tag"] != ""){#tag not empty
-                $offer[$id]["tags"] = array();
-                foreach ($tags as $tag) {#only appends the values
-                    $offer[$id]["tags"] = array_merge($offer[$id]["tags"], array($tag["tag"]));
-                }
-            }
-            #echo var_dump($offer[$id]["tags"])."<br><br>";
 
-            #adding comments
-            $comments = $this->executeSQL("SELECT ratings.comment FROM ratings WHERE ratings.id = ?;",[$id]);
-            $offer[$id]["comments"] = array();
-            foreach ($comments as $commentId => $comment) {#adding only the value of comment
-                $offer[$id]["comments"] = array_merge($offer[$id]["comments"], array($tag["comment"]));
-            }
-        }
-        return $offer;
-    }
     #del
     public function dropDB()
     {

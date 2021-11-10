@@ -22,4 +22,11 @@ echo json_encode($products_arr);
 
 #not kok
 http_response_code(404);
+
+
+#HTTP GET
+#HTTP POST
+#HTTP PUT
+#HTTP DELETE
+#HTTP PATCH
 ?>

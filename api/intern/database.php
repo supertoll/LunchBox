@@ -295,7 +295,7 @@ $db->connect("lunchboxfooddb");
 #$db->dropDB();
 #$db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
 #fillfoodDB($db);
-$db->getUserId();
+#$db->getUserId();
 $db->disconnect();
 
 

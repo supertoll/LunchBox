@@ -207,13 +207,52 @@ class FoodBD extends Database{
         return $offer;
     }
 
+    public function getUserId()
+    {   
+        $id =(int) $this->executeSQL("SELECT MAX(id) FROM userId;")[0][0];
+        #echo var_dump($id);
+        if($id == "NULL"){
+            $id = 0;
+        }
+        #echo var_dump($id);
+
+        $this->executeSQL("INSERT INTO userId (id) VALUES (?);",[$id + 1]);
+        #echo var_dump($id);
+        return $id + 1; 
+    }
+
+    public function setRating(int $rating, int $offerId, int $userId, String $comment = null)
+    {
+        if($comment == null){
+            $this->executeSQL("INSERT INTO ratings (userId,offerId,rating) VALUES (?,?,?)",[$userId,$offerId,$rating]);
+        } else{
+            $this->executeSQL("INSERT INTO ratings (userId,offerId,rating,comment) VALUES (?,?,?,?)",[$userId,$offerId,$rating,$comment]);
+        }
+        
+    }
+
+    public function delRating(int $offerId, int $userId)
+    {
+        $this->executeSQL("DELETE FROM ratings WHERE offerId = ? AND userId = ?;",[$offerId,$userId]);
+    }
+
+    public function editRating(int $offerId, int $userId, int $rating = null, String $comment = null)
+    {
+        if(!$rating == null && $comment == null){
+            $this->executeSQL("UPDATE ratings SET rating = ? WHERE offerId = ? AND userId = ?;",[$rating,$offerId,$userId]);
+        }else if(!$comment == null && $rating == null){
+            $this->executeSQL("UPDATE ratings SET comment = ? WHERE offerId = ? AND userId = ?;",[$comment,$offerId,$userId]);
+        }else if(!$rating == null && !$comment == null){
+            $this->executeSQL("UPDATE ratings SET rating = ?, comment = ? WHERE offerId = ? AND userId = ?;",[$rating,$comment,$offerId,$userId]);
+        }
+    }
+
     #del
     public function dropDB()
     {
         $this->executeSQL("DROP DATABASE lunchboxfooddb;");
-
-
     }
+
 }
 
 
@@ -256,6 +295,7 @@ $db->connect("lunchboxfooddb");
 #$db->dropDB();
 #$db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
 #fillfoodDB($db);
+$db->getUserId();
 $db->disconnect();
 
 

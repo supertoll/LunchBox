@@ -174,14 +174,14 @@ class FoodBD extends Database{
         $this->executeSQL("INSERT INTO offer2tags (offerId,tagId) VALUES (?,?)",[$offerId,$tagId]);
     }
     
-    public function getAllOfferByDate(String $date, Array $provider = array())
+    public function getAllOfferByDate(String $date, Array $provider = array())#returns all offers for a given date, hase possibity to only return offers for a specific list of providers
     {
-        if(count($provider) == 0 ){#
-            $offer = $this->executeSQL("SELECT id, providerId, name, description, price, averageRating FROM offer WHERE offer.date = ?;",[$date]);#geting all relervant food
+        if(count($provider) == 0 ){#checks if array of providers is empty
+            $offer = $this->executeSQL("SELECT id, providerId, name, description, price, averageRating FROM offer WHERE offer.date = ?;",[$date]);#geting all offers for a date
         }else {
             #echo var_dump([$date,...$provider]);
             #echo var_dump("(".str_repeat("?,",count($provider)-1)."?)");
-            $offer = $this->executeSQL("SELECT id, providerId, name, description, price, averageRating FROM offer WHERE offer.date = ? AND offer.providerId in (".str_repeat("?,",count($provider)-1)."?);",[$date,...$provider]);#geting all relervant food
+            $offer = $this->executeSQL("SELECT id, providerId, name, description, price, averageRating FROM offer WHERE offer.date = ? AND offer.providerId in (".str_repeat("?,",count($provider)-1)."?);",[$date,...$provider]);#geting all food from the specified provider for a date 
         }
         #echo var_dump($offer)."<br><br>";
         
@@ -189,16 +189,16 @@ class FoodBD extends Database{
             #adding tags
             $offer[$id]["tags"] = array();
             $tags = $this->executeSQL("SELECT tags.tag FROM offer2tags JOIN tags ON offer2tags.tagId = tags.id WHERE offer2tags.offerId = ?;",[$food["id"]]);
-            if($tags[0]["tag"] != ""){#tag not empty
+            if($tags[0]["tag"] != ""){#tag not empty 
                 $offer[$id]["tags"] = array();
                 foreach ($tags as $tag) {#only appends the values
-                    $offer[$id]["tags"] = array_merge($offer[$id]["tags"], array($tag["tag"]));
+                    $offer[$id]["tags"] = array_merge($offer[$id]["tags"], array($tag["tag"]));#add only the tag
                 }
             }
             #echo var_dump($offer[$id]["tags"])."<br><br>";
 
             #adding comments
-            $comments = $this->executeSQL("SELECT ratings.comment FROM ratings WHERE ratings.id = ?;",[$id]);
+            $comments = $this->executeSQL("SELECT ratings.comment FROM ratings WHERE ratings.id = ? AND NOT ratings.comment = \"\";",[$id]);#checking for offers wich arent empty
             $offer[$id]["comments"] = array();
             foreach ($comments as $commentId => $comment) {#adding only the value of comment
                 $offer[$id]["comments"] = array_merge($offer[$id]["comments"], array($tag["comment"]));
@@ -207,7 +207,7 @@ class FoodBD extends Database{
         return $offer;
     }
 
-    public function getUserId()
+    public function getUserId()#returns a userid
     {   
         $id =(int) $this->executeSQL("SELECT MAX(id) FROM userId;")[0][0];
         #echo var_dump($id);
@@ -221,29 +221,29 @@ class FoodBD extends Database{
         return $id + 1; 
     }
 
-    public function setRating(int $rating, int $offerId, int $userId, String $comment = null)
+    public function setRating(int $rating, int $offerId, int $userId, String $comment = null)#create a ratring
     {
-        if($comment == null){
-            $this->executeSQL("INSERT INTO ratings (userId,offerId,rating) VALUES (?,?,?)",[$userId,$offerId,$rating]);
+        if($comment == null){#checks if a comment was provided
+            $this->executeSQL("INSERT INTO ratings (userId,offerId,rating) VALUES (?,?,?)",[$userId,$offerId,$rating]);#creates a rating without comment
         } else{
-            $this->executeSQL("INSERT INTO ratings (userId,offerId,rating,comment) VALUES (?,?,?,?)",[$userId,$offerId,$rating,$comment]);
+            $this->executeSQL("INSERT INTO ratings (userId,offerId,rating,comment) VALUES (?,?,?,?)",[$userId,$offerId,$rating,$comment]);#create a rating with comment
         }
         
     }
 
-    public function delRating(int $offerId, int $userId)
+    public function delRating(int $offerId, int $userId)#del a rating based on offerId and userId
     {
         $this->executeSQL("DELETE FROM ratings WHERE offerId = ? AND userId = ?;",[$offerId,$userId]);
     }
 
-    public function editRating(int $offerId, int $userId, int $rating = null, String $comment = null)
+    public function editRating(int $offerId, int $userId, int $rating = null, String $comment = null)#modifes a rating
     {
-        if(!$rating == null && $comment == null){
-            $this->executeSQL("UPDATE ratings SET rating = ? WHERE offerId = ? AND userId = ?;",[$rating,$offerId,$userId]);
-        }else if(!$comment == null && $rating == null){
-            $this->executeSQL("UPDATE ratings SET comment = ? WHERE offerId = ? AND userId = ?;",[$comment,$offerId,$userId]);
-        }else if(!$rating == null && !$comment == null){
-            $this->executeSQL("UPDATE ratings SET rating = ?, comment = ? WHERE offerId = ? AND userId = ?;",[$rating,$comment,$offerId,$userId]);
+        if(!$rating == null && $comment == null){#checks if rating is set and comment isnt
+            $this->executeSQL("UPDATE ratings SET rating = ? WHERE offerId = ? AND userId = ?;",[$rating,$offerId,$userId]); #modyfies rating
+        }else if(!$comment == null && $rating == null){#checks if comment is set and rating isnt
+            $this->executeSQL("UPDATE ratings SET comment = ? WHERE offerId = ? AND userId = ?;",[$comment,$offerId,$userId]);#modyfies comment
+        }else{
+            $this->executeSQL("UPDATE ratings SET rating = ?, comment = ? WHERE offerId = ? AND userId = ?;",[$rating,$comment,$offerId,$userId]);#modyfies rating and comment
         }
     }
 
@@ -257,8 +257,6 @@ class FoodBD extends Database{
 
 
 function fillFoodDB(Database $db){
-    
-
     # adding provider
     #echo "<br><br><br><p>".var_dump(getProvider())."<p>";
     foreach (getProvider() as $provider) {

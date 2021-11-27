@@ -205,7 +205,7 @@ class FoodBD extends Database{
             #echo var_dump($offer[$id]["tags"])."<br><br>";
 
             #adding comments
-            $comments = $this->executeSQL("SELECT ratings.comment FROM ratings WHERE ratings.id = ?;",[$id]);
+            $comments = $this->executeSQL("SELECT ratings.comment FROM ratings WHERE ratings.offerId = ?;",[$offer[$id]["id"]]);
             $offer[$id]["comments"] = array();
             foreach ($comments as $commentId => $comment) {#adding only the value of comment
                 $offer[$id]["comments"] = array_merge($offer[$id]["comments"], array($tag["comment"]));
@@ -235,12 +235,13 @@ class FoodBD extends Database{
         } else{
             $this->executeSQL("INSERT INTO ratings (userId,offerId,rating,comment) VALUES (?,?,?,?)",[$userId,$offerId,$rating,$comment]);
         }
-        
+        $this->updateAverageRating($offerId);
     }
 
     public function delRating(int $offerId, int $userId)
     {
         $this->executeSQL("DELETE FROM ratings WHERE offerId = ? AND userId = ?;",[$offerId,$userId]);
+        $this->updateAverageRating($offerId);
     }
 
     public function editRating(int $offerId, int $userId, int $rating = null, String $comment = null)
@@ -252,27 +253,35 @@ class FoodBD extends Database{
         }else if(!$rating == null && !$comment == null){
             $this->executeSQL("UPDATE ratings SET rating = ?, comment = ? WHERE offerId = ? AND userId = ?;",[$rating,$comment,$offerId,$userId]);
         }
+        $this->updateAverageRating($offerId);
     }
     private function calcAverageRating(int $offerId)
     {
         $ratings = $this->executeSQL("SELECT rating FROM ratings WHERE ratings.offerId = ?;",[$offerId]);
-        echo "<br>".var_dump($ratings);
+        #echo "<br>".var_dump($ratings);
         
         $sum = 0;
         foreach ($ratings as $rating){
             $sum += $rating["rating"];
         }
 
-        return count($ratings)!=0 ? $sum/count($ratings) : null;
+        return count($ratings)==0 ? null : $sum/count($ratings);
+    }
+
+    private function updateAverageRating(int $id){
+        $averageRating = round($this->calcAverageRating($id),1);
+        #echo $averageRating;
+        if(isset($averageRating)){
+            $this->executeSQL("UPDATE offer SET averageRating = ? WHERE id = ?",[$averageRating,$id]);
+        }else{
+            $this->executeSQL("UPDATE offer SET averageRating = NULL WHERE id = ?",[$id]);
+        }
     }
 
     #del
     public function dropDB()
     {
         $this->executeSQL("DROP DATABASE lunchboxfooddb;");
-    }
-    public function foo(int $id){
-        return $this->calcAverageRating($id);
     }
 
 }

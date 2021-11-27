@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS offer(
     description TEXT NOT NULL,
     date DATE NOT NULL,
     price INT DEFAULT NULL COMMENT "in cent", -- in cent
-    averageRating INT DEFAULT NULL COMMENT "Have to Calc",
+    averageRating DECIMAL (2,1) DEFAULT NULL COMMENT "Have to Calc",
     PRIMARY KEY (id),
     FOREIGN KEY (providerId) REFERENCES provider(id)
 );

@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS provider(
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS tags (
+CREATE TABLE IF NOT EXISTS tags(
     id INT NOT NULL UNIQUE AUTO_INCREMENT,
     tag TEXT NOT NULL UNIQUE,
     PRIMARY KEY (id)
@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS offer(
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     date DATE NOT NULL,
-    price INT NOT NULL COMMENT "in cent", -- in cent
-    averageRating INT NOT NULL DEFAULT 0 COMMENT "Have to Calc",
+    price INT DEFAULT NULL COMMENT "in cent", -- in cent
+    averageRating DECIMAL (2,1) DEFAULT NULL COMMENT "Have to Calc",
     PRIMARY KEY (id),
     FOREIGN KEY (providerId) REFERENCES provider(id)
 );
@@ -41,12 +41,11 @@ CREATE TABLE IF NOT EXISTS userId(
 );
 
 CREATE TABLE IF NOT EXISTS ratings(
-    id INT NOT NULL UNIQUE AUTO_INCREMENT,
     userId INT NOT NULL,
     offerId INT NOT NULL, 
     rating INT NOT NULL,
     comment Text NOT NULL DEFAULT "",
     CHECK (rating > 0 AND rating < 6),
-    PRIMARY KEY (id),
+    PRIMARY KEY (userId,offerId),
     FOREIGN KEY (offerId) REFERENCES offer(id)
 );

@@ -136,7 +136,7 @@ class FoodBD extends Database{
     {
         $id = $this->executeSQL("SELECT MAX(id) FROM tags;")[0][0];
         #echo "<p>".$id."<p>";
-        if ($id == null){
+        if (isset($id)){
             $id = 0;
         }
         return (int) $id;
@@ -145,7 +145,7 @@ class FoodBD extends Database{
     public function addTag(string $tag,$id = null)
     {
         #echo "<p>".$tag."->id:".$id."<p>";
-        if($id == null){
+        if(!isset($id)){
             $this->executeSQL("INSERT INTO tags (tag) VALUES (?);",[$tag]);
         }else{
             $this->executeSQL("INSERT INTO tags (id,tag) VALUES (?,?);",[$id,$tag]);
@@ -230,7 +230,7 @@ class FoodBD extends Database{
 
     public function setRating(int $rating, int $offerId, int $userId, String $comment = null)
     {
-        if($comment == null){
+        if(!isset($comment)){
             $this->executeSQL("INSERT INTO ratings (userId,offerId,rating) VALUES (?,?,?)",[$userId,$offerId,$rating]);
         } else{
             $this->executeSQL("INSERT INTO ratings (userId,offerId,rating,comment) VALUES (?,?,?,?)",[$userId,$offerId,$rating,$comment]);
@@ -246,11 +246,11 @@ class FoodBD extends Database{
 
     public function editRating(int $offerId, int $userId, int $rating = null, String $comment = null)
     {
-        if(!$rating == null && $comment == null){
+        if(isset($rating) && !isset($comment)){
             $this->executeSQL("UPDATE ratings SET rating = ? WHERE offerId = ? AND userId = ?;",[$rating,$offerId,$userId]);
-        }else if(!$comment == null && $rating == null){
+        }else if(isset($comment) && !isset($rating)){
             $this->executeSQL("UPDATE ratings SET comment = ? WHERE offerId = ? AND userId = ?;",[$comment,$offerId,$userId]);
-        }else if(!$rating == null && !$comment == null){
+        }else if(isset($rating) && isset($comment)){
             $this->executeSQL("UPDATE ratings SET rating = ?, comment = ? WHERE offerId = ? AND userId = ?;",[$rating,$comment,$offerId,$userId]);
         }
         $this->updateAverageRating($offerId);
@@ -314,7 +314,7 @@ function fillFoodDB(Database $db){
 
         foreach($offer["tags"] as $tagId => $tag){
             $id = $db->getTagId($tag);
-            if($id == null){#tag not in db
+            if(!isset($id)){#tag not in db
                 $id = $db->getMaxTagId()+1;
                 $db->addTag($tag,$id);
             }

@@ -257,24 +257,24 @@ class FoodBD extends Database{
     }
     private function calcAverageRating(int $offerId)
     {
-        $ratings = $this->executeSQL("SELECT rating FROM ratings WHERE ratings.offerId = ?;",[$offerId]);
+        $ratings = $this->executeSQL("SELECT rating FROM ratings WHERE ratings.offerId = ?;",[$offerId]);#getting all ratings for rating id
         #echo "<br>".var_dump($ratings);
         
         $sum = 0;
         foreach ($ratings as $rating){
-            $sum += $rating["rating"];
+            $sum += $rating["rating"];#adding all ratings
         }
 
-        return count($ratings)==0 ? null : $sum/count($ratings);
+        return count($ratings)==0 ? null : $sum/count($ratings);#returns null if there are no ratings else returns the average
     }
 
     private function updateAverageRating(int $id){
-        $averageRating = round($this->calcAverageRating($id),1);
+        $averageRating = round($this->calcAverageRating($id),1); # gets the average for a id and rounds it to one decermial number
         #echo $averageRating;
-        if(isset($averageRating)){
-            $this->executeSQL("UPDATE offer SET averageRating = ? WHERE id = ?",[$averageRating,$id]);
+        if(isset($averageRating)){#may isset($averageRating) ?  $this->executeSQL("UPDATE offer SET averageRating = ? WHERE id = ?",[$averageRating,$id]) : $this->executeSQL("UPDATE offer SET averageRating = NULL WHERE id = ?",[$id]);
+            $this->executeSQL("UPDATE offer SET averageRating = ? WHERE id = ?",[$averageRating,$id]); #update averagerating to calc
         }else{
-            $this->executeSQL("UPDATE offer SET averageRating = NULL WHERE id = ?",[$id]);
+            $this->executeSQL("UPDATE offer SET averageRating = NULL WHERE id = ?",[$id]);#update average rating to null
         }
     }
 

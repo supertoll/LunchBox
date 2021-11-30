@@ -206,7 +206,7 @@ class FoodBD extends Database{
 
     public function getUserId()
     {   
-        $id =(int) $this->executeSQL("SELECT MAX(id) FROM userId;")[0][0];
+        $id = (int) $this->executeSQL("SELECT MAX(id) FROM userId;")[0][0];
         #echo var_dump($id);
         if($id == "NULL"){
             $id = 0;
@@ -318,14 +318,6 @@ function fillFoodDB(Database $db){
 
     
 }
-
-/*
-$db = new Database("localhost","root","");
-$db->connect();
-$db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
-$db->execute("SELECT * FROM offer");
-$db->disconnect();
-*/
 
 /*
 class DBHandler implements SessionHandlerInterface{ 

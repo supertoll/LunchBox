@@ -25,9 +25,15 @@ class API():
 if __name__ == "__main__":
     api = API("https://lunchbox.rori.info/api/v2")
     offer = api.getLunchData()
-    with open("./sampleOffer.json","w") as file:
-        file.write(json.dumps(offer,indent = 2))
-
+    #with open("./sampleOffer.json","w") as file:
+    #    file.write(json.dumps(offer,indent = 2))
+    sum = 0
+    for meal in offer:
+        for e in meal["tags"]:
+            sum +=1
+        if len(meal["tags"]) == 0:
+            sum +=1
+    print(sum)
     '''
     for meal in offer:
         if(meal["description"]== ""):

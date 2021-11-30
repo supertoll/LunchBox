@@ -78,10 +78,7 @@ class Database{
 
             //$stmt->close();
             #checks if result is set, since when the query dont return anything result would'nt be set
-            if(!isset($result)){
-                $result = [];
-            }
-            return $result;
+            return !isset($result) ? [] : $result;
 
         }else{
             
@@ -136,10 +133,7 @@ class FoodBD extends Database{
     {
         $id = $this->executeSQL("SELECT MAX(id) FROM tags;")[0][0];
         #echo "<p>".$id."<p>";
-        if (isset($id)){
-            $id = 0;
-        }
-        return (int) $id;
+        return isset($id) ?  (int) $id : (int) 0;
     }
 
     public function addTag(string $tag,$id = null)
@@ -155,11 +149,7 @@ class FoodBD extends Database{
     public function getTagId(string $tag)
     {
         $r = $this->executeSQL("SELECT id FROM tags WHERE tag = ?;",[$tag]);
-        if(count($r) > 0){
-            return $r[0]["id"];
-        }else{
-            return null;
-        }
+        return (count($r) > 0) ? $r[0]["id"] : null;
     }
 
     public function addOffer(string $id = null,int $providerId,string $name,string $description,string $date,int $averageRating = null,$price = null)
@@ -311,9 +301,11 @@ function fillFoodDB(Database $db){
         if(count($offer["tags"]) == 0){
             $offer["tags"][0] = "";
         }
+        #echo "<br>".var_dump($offer["tags"]);
 
         foreach($offer["tags"] as $tagId => $tag){
             $id = $db->getTagId($tag);
+            #echo "<br>".var_dump($id);
             if(!isset($id)){#tag not in db
                 $id = $db->getMaxTagId()+1;
                 $db->addTag($tag,$id);

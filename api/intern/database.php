@@ -131,6 +131,7 @@ class FoodBD extends Database{
             $this->executeSQL("INSERT INTO provider (name, location, url) VALUES (?, ?, ?);", [$name,$location,$url]);
         }
     }
+
     public function getMaxTagId()
     {
         $id = $this->executeSQL("SELECT MAX(id) FROM tags;")[0][0];
@@ -281,7 +282,6 @@ class FoodBD extends Database{
     {
         $this->executeSQL("DROP DATABASE lunchboxfooddb;");
     }
-
 }
 
 

@@ -1,6 +1,5 @@
 <?php
-include "getApi.php";
-
+include "getApi.php";#for filling
 
 //https://www.w3schools.com/php/php_mysql_connect.asp
 class Database{
@@ -21,7 +20,7 @@ class Database{
         //connects to the DB and ends the programm in case of error
         $this->_conn = new mysqli($this->servername, $this->username, $this->password,$db);
         if($this->_conn->connect_error){
-            die("Failed to connect ". $this->_conn->connect_error);
+            die("Failed to connect! ". $this->_conn->connect_error);
         }
         
     }
@@ -31,14 +30,12 @@ class Database{
         $this->_conn->close();
     }
 
-    protected function executeSQL(string $statment, Array $param = []){
-        //querys SQL --> when executed correctly returns true else dies
-        
+    protected function executeSQL(string $statment, Array $param = []){   
         if(!empty($param)){
             #echo "<br> args";
-            $stmt = $this->_conn->prepare($statment); //parameter = ? for value; name of var needs to metch
+            $stmt = $this->_conn->prepare($statment); //parameter replaced with ? --> args need to be in order of questionmark
             if($stmt === false){
-                die("some thing went wrong<br>".$this->_conn->error."<br>".$statment);
+                die("something went wrong<br>".$this->_conn->error."<br>with the Quesrry: ".$statment."<br> and the args: ".var_dump($param));
             }
 
             $type = "";#generate types
@@ -47,7 +44,7 @@ class Database{
                 #echo(gettype($parame));
             }
 
-            $stmt->bind_param($type, ...$param);
+            $stmt->bind_param($type, ...$param);#replaces ? with value of param ... but only treads them as values --> (against sql injections)
             $stmt->execute();
             
             
@@ -60,13 +57,14 @@ class Database{
                 $stmt->close();
                 return $meta;
             }
+
             while ($field = $meta->fetch_field()) 
             { 
                 $params[] = &$row[$field->name]; 
             }
             call_user_func_array(array($stmt, 'bind_result'), $params); 
 
-            #filling iwth content
+            #filling with content
             while ($stmt->fetch()) { 
                 foreach($row as $key => $val) 
                 { 
@@ -75,39 +73,37 @@ class Database{
                 $result[] = $c; 
             } 
 
+            $stmt->close();
+            #checks if result is set, since when the query dont return anything "result" would'nt be set
+            return isset($result) ? $result : [] ;
 
-            //$stmt->close();
-            #checks if result is set, since when the query dont return anything result would'nt be set
-            if(!isset($result)){
-                $result = [];
-            }
-            return $result;
-
-        }else{
-            
+        }else{#querry without param
             $stmt = $this->_conn->query($statment);
             if($stmt === false){
                 die("some thing went wrong"."<br>".$this->_conn->error."<br>".$statment);
             }
             else if($stmt === true){
                 #executed without a return
+                
                 return true;
             }else{
                 #https://stackoverflow.com/questions/1501274/get-array-of-rows-with-mysqli-result
                 # convert result to array
+
                 while($row = $stmt->fetch_row()) {
                     $result[] = $row;
                 }
+                $stmt->close();
                 return $result;
             }
         }
     }
 
     public function executeSQLFromFile(string $pathToFile){
-        $statment = ""; //temp var for 
+        $statment = ""; //temp var for multiline statments
         foreach (file($pathToFile) as $line){
             $statment .= $line;
-            if(strpos($line,";") !== false){
+            if(str_contains($line,";")){
                 $this->executeSQL($statment);
                 $statment = "";
             }
@@ -127,19 +123,20 @@ class Database{
 class FoodBD extends Database{
     #constructor from parent
 
-    public function addProvider(int $id, string $name, string $location, string $url)# id null for auto 
+    public function addProvider(int $id = null, string $name, string $location, string $url) 
     {
-        $this->executeSQL("INSERT INTO provider (id, name, location, url) VALUES (?, ?, ?, ?);", [$id,$name,$location,$url]);
+        if (isset($id)){
+            $this->executeSQL("INSERT INTO provider (id, name, location, url) VALUES (?, ?, ?, ?);", [$id,$name,$location,$url]);
+        }else{#leting the db chose the id
+            $this->executeSQL("INSERT INTO provider (name, location, url) VALUES (?, ?, ?);", [$name,$location,$url]);
+        }
     }
 
     public function getMaxTagId()
     {
         $id = $this->executeSQL("SELECT MAX(id) FROM tags;")[0][0];
         #echo "<p>".$id."<p>";
-        if (isset($id)){
-            $id = 0;
-        }
-        return (int) $id;
+        return isset($id) ?  (int) $id : (int) 0;#returning 0 when no tag is set
     }
 
     public function addTag(string $tag,$id = null)
@@ -155,24 +152,24 @@ class FoodBD extends Database{
     public function getTagId(string $tag)
     {
         $r = $this->executeSQL("SELECT id FROM tags WHERE tag = ?;",[$tag]);
-        if(count($r) > 0){
-            return $r[0]["id"];
-        }else{
-            return null;
-        }
+        return (count($r) > 0) ? $r[0]["id"] : null;#returning null if tag issnt in table
     }
 
     public function addOffer(string $id = null,int $providerId,string $name,string $description,string $date,int $averageRating = null,$price = null)
     {
+        #dynamicaly generating the values that are beeing set by the querry
         $values = (isset($id) ? "id," : "")."providerId,name,description,date".(isset($averageRating) ? ",averageRating" : "").(isset($price) ? ",price" : "");
         #echo $values;
         $param = array();
+        #checking wich params are going to be set
         foreach ([$id,$providerId,$name,$description,$date,$averageRating,$price] as $p){
             if (isset($p)){
                 $param = array_merge($param,array($p));
             }
         }
+
         #echo var_dump($param);
+        #generating the querry
         $this->executeSQL("INSERT INTO offer ($values) VALUES (".str_repeat("?,",count($param) -1)."?)",$param);
     }
     
@@ -183,6 +180,7 @@ class FoodBD extends Database{
     
     public function getAllOfferByDate(String $date, Array $provider = array())
     {
+        #getting the offers
         if(count($provider) == 0 ){#
             $offer = $this->executeSQL("SELECT id, providerId, name, description, price, averageRating FROM offer WHERE offer.date = ?;",[$date]);#geting all relervant food
         }else {
@@ -216,9 +214,9 @@ class FoodBD extends Database{
 
     public function getUserId()
     {   
-        $id =(int) $this->executeSQL("SELECT MAX(id) FROM userId;")[0][0];
+        $id = (int) $this->executeSQL("SELECT MAX(id) FROM userId;")[0][0];
         #echo var_dump($id);
-        if($id == "NULL"){
+        if($id == "NULL"){#no id was set befor
             $id = 0;
         }
         #echo var_dump($id);
@@ -227,21 +225,44 @@ class FoodBD extends Database{
         #echo var_dump($id);
         return $id + 1; 
     }
+    
+    private function calcAverageRating(int $offerId)
+    {
+        $ratings = $this->executeSQL("SELECT rating FROM ratings WHERE ratings.offerId = ?;",[$offerId]);#getting all ratings for rating id
+        #echo "<br>".var_dump($ratings);
+        
+        $sum = 0;
+        foreach ($ratings as $rating){
+            $sum += $rating["rating"];#adding all ratings
+        }
+
+        return count($ratings)==0 ? null : $sum/count($ratings);#returns null if there are no ratings else returns the average
+    }
+
+    private function updateAverageRating(int $id){
+        $averageRating = round($this->calcAverageRating($id),1); # gets the average for a id and rounds it to one decermial number
+        #echo $averageRating;
+        if(isset($averageRating)){#may isset($averageRating) ?  $this->executeSQL("UPDATE offer SET averageRating = ? WHERE id = ?",[$averageRating,$id]) : $this->executeSQL("UPDATE offer SET averageRating = NULL WHERE id = ?",[$id]);
+            $this->executeSQL("UPDATE offer SET averageRating = ? WHERE id = ?",[$averageRating,$id]); #update averagerating to calc
+        }else{
+            $this->executeSQL("UPDATE offer SET averageRating = NULL WHERE id = ?",[$id]);#update average rating to null
+        }
+    }
 
     public function setRating(int $rating, int $offerId, int $userId, String $comment = null)
     {
-        if(!isset($comment)){
-            $this->executeSQL("INSERT INTO ratings (userId,offerId,rating) VALUES (?,?,?)",[$userId,$offerId,$rating]);
-        } else{
+        if(isset($comment)){
             $this->executeSQL("INSERT INTO ratings (userId,offerId,rating,comment) VALUES (?,?,?,?)",[$userId,$offerId,$rating,$comment]);
+        } else{
+            $this->executeSQL("INSERT INTO ratings (userId,offerId,rating) VALUES (?,?,?)",[$userId,$offerId,$rating]);
         }
-        $this->updateAverageRating($offerId);
+        $this->updateAverageRating($offerId);#changing the averageRating of the offer
     }
 
     public function delRating(int $offerId, int $userId)
     {
         $this->executeSQL("DELETE FROM ratings WHERE offerId = ? AND userId = ?;",[$offerId,$userId]);
-        $this->updateAverageRating($offerId);
+        $this->updateAverageRating($offerId);#changing the averageRating of the offer
     }
 
     public function editRating(int $offerId, int $userId, int $rating = null, String $comment = null)
@@ -255,41 +276,16 @@ class FoodBD extends Database{
         }
         $this->updateAverageRating($offerId);
     }
-    private function calcAverageRating(int $offerId)
-    {
-        $ratings = $this->executeSQL("SELECT rating FROM ratings WHERE ratings.offerId = ?;",[$offerId]);
-        #echo "<br>".var_dump($ratings);
-        
-        $sum = 0;
-        foreach ($ratings as $rating){
-            $sum += $rating["rating"];
-        }
-
-        return count($ratings)==0 ? null : $sum/count($ratings);
-    }
-
-    private function updateAverageRating(int $id){
-        $averageRating = round($this->calcAverageRating($id),1);
-        #echo $averageRating;
-        if(isset($averageRating)){
-            $this->executeSQL("UPDATE offer SET averageRating = ? WHERE id = ?",[$averageRating,$id]);
-        }else{
-            $this->executeSQL("UPDATE offer SET averageRating = NULL WHERE id = ?",[$id]);
-        }
-    }
 
     #del
     public function dropDB()
     {
         $this->executeSQL("DROP DATABASE lunchboxfooddb;");
     }
-
 }
 
 
 function fillFoodDB(Database $db){
-    
-
     # adding provider
     #echo "<br><br><br><p>".var_dump(getProvider())."<p>";
     foreach (getProvider() as $provider) {
@@ -301,7 +297,7 @@ function fillFoodDB(Database $db){
     foreach (getOffer() as $offer){
         $offer = (array) $offer;
         
-        if(!in_array("price",array_keys($offer))){#change!!!!!!!!!!!!!!!!!!!!!!!
+        if(!in_array("price",array_keys($offer))){
             #echo "<br> offer without price ". var_dump($offer);
             $offer["price"] = null;
         }
@@ -309,14 +305,17 @@ function fillFoodDB(Database $db){
         $db->addOffer($offer["id"],$offer["provider"],$offer["name"],$offer["description"],$offer["day"],null,$offer["price"]);
 
         if(count($offer["tags"]) == 0){
-            $offer["tags"][0] = "";
+            $offer["tags"][0] = "";#default tag
         }
+        #echo "<br>".var_dump($offer["tags"]);
 
+        #adding offer to tag
         foreach($offer["tags"] as $tagId => $tag){
             $id = $db->getTagId($tag);
+            #echo "<br>".var_dump($id);
             if(!isset($id)){#tag not in db
                 $id = $db->getMaxTagId()+1;
-                $db->addTag($tag,$id);
+                $db->addTag($tag,$id);#adding tag to table
             }
             #echo "<br>adding ",var_dump($offer["id"]),"-->", var_dump($id);
             $db->addOffer2Tags($offer["id"],$id);
@@ -326,14 +325,6 @@ function fillFoodDB(Database $db){
 
     
 }
-
-/*
-$db = new Database("localhost","root","");
-$db->connect();
-$db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
-$db->execute("SELECT * FROM offer");
-$db->disconnect();
-*/
 
 /*
 class DBHandler implements SessionHandlerInterface{ 

@@ -32,5 +32,5 @@ if(!isset($_GET['rating']) || !isset($_GET['offerId']) || !isset($_GET['userId']
     http_response_code(200);
     echo json_encode(true);
 }
-
+#http://127.0.0.1/api/setRating/?rating=3&offerId=950&userId=1
 ?>

@@ -1,0 +1,32 @@
+<template>
+<div class="page" data-name="about">
+  <div class="navbar">
+    <div class="navbar-bg"></div>
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="#" class="link back">
+          <i class="icon icon-back"></i>
+          <span class="if-not-md">Back</span>
+        </a>
+      </div>
+      <div class="title">About</div>
+      <div class="subtitle">Thank you for downloading our app.</div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="block-title">About My App</div>
+    <div class="block block-strong">
+      <p>This is the official Luchbox app form the info-ag at data-experts.</p>
+      <p>All rights reserved to Markus.</p>
+    </div>
+    <div class="block">
+      <p>Thanks to all developers from the info-ag.</p>
+    </div>
+  </div>
+</div>
+</template>
+<script>
+export default () => {
+  return $render;
+};
+</script>

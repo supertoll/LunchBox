@@ -5446,3 +5446,8 @@ AH00015: Unable to open logs
 127.0.0.1 - - [13/Nov/2021:15:50:41 +0100] "POST /phpmyadmin/index.php?route=/config/get HTTP/1.1" 200 1653 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"
 127.0.0.1 - - [13/Nov/2021:15:50:41 +0100] "GET /phpmyadmin/index.php?route=/recent-table&ajax_request=1&recent_table=1&no_debug=true&_nocache=1636815041177662083&token=5a243e34372e752740742d6a4d7f215b HTTP/1.1" 200 1675 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"
 127.0.0.1 - - [13/Nov/2021:15:50:41 +0100] "POST /phpmyadmin/index.php?route=/config/set HTTP/1.1" 200 1553 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"
+[Mon Dec 06 17:05:39.098996 2021] [core:warn] [pid 1148:tid 572] AH00098: pid file C:/Program Files/XAMPP/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Mon Dec 06 17:05:39.291981 2021] [mpm_winnt:notice] [pid 1148:tid 572] AH00455: Apache/2.4.48 (Win64) OpenSSL/1.1.1l PHP/8.0.10 configured -- resuming normal operations
+[Mon Dec 06 17:05:39.291981 2021] [mpm_winnt:notice] [pid 1148:tid 572] AH00456: Apache Lounge VS16 Server built: Aug 25 2021 12:07:35
+[Mon Dec 06 17:05:39.291981 2021] [core:notice] [pid 1148:tid 572] AH00094: Command line: 'c:\\program files\\xampp\\apache\\bin\\httpd.exe -d C:/Program Files/XAMPP/apache'
+[Mon Dec 06 17:05:39.296981 2021] [mpm_winnt:notice] [pid 1148:tid 572] AH00418: Parent: Created child process 10192

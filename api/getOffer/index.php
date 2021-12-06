@@ -24,9 +24,17 @@ if(!isset($_GET['date'])){#checking if date is set.. (needed)
     $db->connect("lunchboxfooddb");#connect to db
     if(isset($_GET['provider'])){#checks if a array of provider is givin
         #echo var_dump(json_decode($_GET['provider']));
-        $offer = $db->getAllOfferByDate($_GET['date'],json_decode($_GET['provider'])); # returns only offers for givin providers
+        if(isset($_GET["location"])){
+            $offer = $db->getAllOfferByDate($_GET['date'],json_decode($_GET['provider']),$_GET["location"]);
+        }else{
+            $offer = $db->getAllOfferByDate($_GET['date'],json_decode($_GET['provider'])); # returns only offers for givin providers
+        }
     }else {#only date given
-        $offer = $db->getAllOfferByDate($_GET['date']); # returns all offers at this day
+        if(isset($_GET["location"])){
+            $offer = $db->getAllOfferByDate($_GET['date'],null,$_GET["location"]);
+        }else {
+            $offer = $db->getAllOfferByDate($_GET['date']); # returns all offers at this day
+        }
     }
     $db->disconnect();#disconnect db
 

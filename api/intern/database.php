@@ -178,16 +178,29 @@ class FoodBD extends Database{
         $this->executeSQL("INSERT INTO offer2tags (offerId,tagId) VALUES (?,?);",[$offerId,$tagId]);
     }
     
-    public function getAllOfferByDate(String $date, Array $provider = array())
+    public function getAllOfferByDate(String $date,array $provider = null,String $location = null)
     {
-        #getting the offers
-        if(count($provider) == 0 ){#
-            $offer = $this->executeSQL("SELECT id, providerId, name, description, price, averageRating FROM offer WHERE offer.date = ?;",[$date]);#geting all relervant food
-        }else {
-            #echo var_dump([$date,...$provider]);
-            #echo var_dump("(".str_repeat("?,",count($provider)-1)."?)");
-            $offer = $this->executeSQL("SELECT id, providerId, name, description, price, averageRating FROM offer WHERE offer.date = ? AND offer.providerId in (".str_repeat("?,",count($provider)-1)."?);",[$date,...$provider]);#geting all relervant food
+        #selecting statment and args
+        if(isset($location)){
+            if(isset($provider)){
+                $statment = "SELECT offer.id, offer.providerId, offer.name, offer.description, offer.price, offer.averageRating FROM offer JOIN provider ON offer.providerId = provider.id WHERE provider.location = ? AND offer.date = ? AND offer.providerId in (".str_repeat("?,",count($provider)-1)."?);";
+                $args = [$location,$date,...$provider];
+            }else {
+                $statment = "SELECT offer.id, offer.providerId, offer.name, offer.description, offer.price, offer.averageRating FROM offer JOIN provider ON offer.providerId = provider.id WHERE provider.location = ? AND offer.date = ?;";
+                $args = [$location,$date];
+            }            
+        }else{
+            if(isset($provider)){
+                $statment = "SELECT offer.id, offer.providerId, offer.name, offer.description, offer.price, offer.averageRating FROM offer WHERE offer.date = ? AND offer.providerId in (".str_repeat("?,",count($provider)-1)."?);";
+                $args = [$date,...$provider];
+            }else {
+                $statment = "SELECT offer.id, offer.providerId, offer.name, offer.description, offer.price, offer.averageRating FROM offer WHERE offer.date = ?;";
+                $args = [$date];
+            }
         }
+        
+        #getting the offers
+        $offer = $this->executeSQL($statment,$args);#geting all relervant food
         #echo var_dump($offer)."<br><br>";
         
         foreach ($offer as $id => $food) {#adding tags and comments

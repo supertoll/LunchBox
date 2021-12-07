@@ -5,13 +5,13 @@
     <div class="toolbar toolbar-top">
       <div class="toolbar-inner">
         <div class="button">
-          &lt;&#60;&#x0003C;&lt; &LT; &#x0003C; &#60;back
+          back
         </div>
-        <div class="block-strong">
-          date
+        <div class="title-large">
+          <div class="title-large-text">${thisdate}</div>
         </div>
         <div class="button" >
-          for&gt;
+          for
         </div>
       </div>
     </div>
@@ -27,65 +27,40 @@
 
     <!-- Scrollable page content-->
     <div class="page-content">
-      <div class="block block-strong">
-        <p>Here is your blank Framework7 app. Let's see what we have here.</p>
-        
+      <div class="block block-strong"> 
+        <p>funny text</p>       
         <div class="list accordion-list accordion-opposite">
           <ul id="foodlist">
-            <li class="accordion-item">
-              <a href="" class="item-link item-content">
-                <div class="item-inner">
-                  <div class="item-title">Provider1</div>
+            ${providers.map((provider) => $h`
+              <li class="accordion-item">
+                <a href="" class="item-link item-content">
+                  <div class="item-inner">
+                    <div class="item-title">${provider.name}</div>
+                  </div>
+                </a>
+                <div class="accordion-item-content">
+                  <div class="list">
+                    <ul>
+                      ${provider.offer.map((meal) => $h`
+                        <li>
+                          <a href="/detail/" class="item-link item-content">
+                            <!--div class="item-media"><i class="icon icon-f7"></i></div-->
+                            <div class="item-inner">
+                              <div class="item-title">
+                                <div class="item-header">${meal.tags}</div>
+                                ${meal.name}
+                                <div class="item-footer">${meal.price}</div>
+                              </div>
+                              <div class="item-after">Details & Comments</div>
+                            </div>
+                          </a>
+                        </li>
+                      `)}
+                    </ul>
+                  </div>
                 </div>
-              </a>
-              <div class="accordion-item-content">
-                <div class="list">
-                  <ul>
-                    <li>
-                      <a href="/detail/" class="item-link item-content">
-                        <!--div class="item-media"><i class="icon icon-f7"></i></div-->
-                        <div class="item-inner">
-                          <div class="item-title">
-                            <div class="item-header">#tag1 #gluten free?</div>
-                            meal1
-                            <div class="item-footer">price</div>
-                          </div>
-                          <div class="item-after">Details & Comments</div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="item-link item-content">
-                        <div class="item-inner">
-                          <div class="item-title">
-                            <div class="item-header">#tag2 #vegan?</div>
-                            meal2
-                            <div class="item-footer">3,50€</div>
-                          </div>
-                          <div class="item-after">Details & Comments</div>
-                        </div>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li class="accordion-item">
-              <a href="" class="item-link item-content">
-                <div class="item-inner">
-                  <div class="item-title">Provider2</div>
-                </div>
-              </a>
-              <div class="accordion-item-content">more nice food</div>
-            </li>
-            <li class="accordion-item">
-              <a href="" class="item-link item-content">
-                <div class="item-inner">
-                  <div class="item-title">Provider3</div>
-                </div>
-              </a>
-              <div class="accordion-item-content">not so nice food</div>
-            </li--->
+              </li>
+            `)}
           </ul>
         </div>
 
@@ -115,6 +90,47 @@
 </template>
 <script>
 export default () => {
+  //example data:
+  //will be replaced by a databaseconnection
+  let meals = [
+    {
+      tags: "vegan",
+      name: "soup",
+      price: "3.00",
+      id: 1
+    },
+    {
+      tags: "premium",
+      name: "steak",
+      price: "5.60",
+      id: 2  
+    },
+    {
+      tags: "",
+      name: "pommes frites",
+      price: "2.50",
+      id: 3
+    }
+  ];
+  let providers = [
+    {
+      name: "Call a Pizza",
+      offer: meals
+    },
+    {
+      name: "Lieferando",
+      offer: meals
+    },
+    {
+      name: "was",
+      offer: meals
+    }
+  ];
+  //Date function for header
+  let date = new Date();
+  let thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
+  //function to change data with date missing
+  //event for next/back missing
   return $render;
 }
 </script>

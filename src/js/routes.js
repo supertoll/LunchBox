@@ -23,7 +23,7 @@ var routes = [
   },
   {
     path: '/detail/',
-    component: DetailPage
+    component: DetailPage,
   },
 
 

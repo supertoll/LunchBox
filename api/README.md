@@ -20,7 +20,7 @@ http://127.0.0.1/api/getOffer/?date={jjjj}-{mm}-{dd}
 http://127.0.0.1/api/getOffer/?date=2021-12-7
 ```
 output:
-```
+```Json
 [
 {
 "id": 696,
@@ -150,7 +150,7 @@ http://127.0.0.1/api/getOffer/?date=2021-12-7&location={location}
 http://127.0.0.1/api/getOffer/?date=2021-12-7&location=Neubrandenburg
 ```
 output:
-```
+```JSON
 [
 {
 "id": 773,
@@ -261,7 +261,7 @@ http://127.0.0.1/api/getOffer/?date=2021-12-7&provider=[{id}]
 http://127.0.0.1/api/getOffer/?date=2021-12-7&provider=[1,2,3]
 ```
 output:
-```
+```JSON
 [
 {
 "id": 696,
@@ -378,7 +378,7 @@ http://127.0.0.1/api/setRating?offerId={id}
 http://127.0.0.1/api/setRating?offerId=3
 ```
 ##### userId:
->"offerId" ist ein benötigtes Argument. Es Dient der Identifikation eines Nutzers.
+>"offerId" ist ein benötigtes Argument. Es dient der Identifikation eines Nutzers.
 >
 ```
 http://127.0.0.1/api/setRating?offerId=3&userId={id}
@@ -388,7 +388,7 @@ http://127.0.0.1/api/setRating?offerId=3&userId=1
 ```
 
 ##### rating:
->"rating" ist ein immer optionales Argument. Es muss eine zahl zwischen 1 und 5 sein. Dabei wird dann der Wert der Bewertung aktuallisiert.
+>"rating" ist ein optionales Argument. Es muss eine zahl zwischen 1 und 5 sein. Dabei wird dann der Wert der Bewertung aktuallisiert.
 >
 ```
 http://127.0.0.1/api/setRating?offerId=3&userId=1&rating={id}
@@ -397,13 +397,13 @@ http://127.0.0.1/api/setRating?offerId=3&userId=1&rating={id}
 http://127.0.0.1/api/setRating?offerId=3&userId=1&rating=3
 ```
 ##### comment:
->"comment" ist ein optionales Argument. Es aktualliesiert den  Kommentar der Bewertung. 
+>"comment" ist ein optionales Argument. Es aktualliesiert den  Kommentar der Bewertung.
 >
 ```
 http://127.0.0.1/api/setRating?offerId=3&userId=1&comment={comment}
 ```
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId=1&comment=Das Essen war supertoll! Kann ich nur weiterempfhlen.
+http://127.0.0.1/api/setRating?offerId=3&userId=1&comment=Das Essen war supertoll!
 ```
 ### delRating:
 #### Beschreibung:
@@ -420,11 +420,83 @@ http://127.0.0.1/api/setRating?offerId={id}
 http://127.0.0.1/api/setRating?offerId=3
 ```
 ##### userId:
->"offerId" ist ein benötigtes Argument. Es Dient der Identifikation eines Nutzers.
+>"offerId" ist ein benötigtes Argument. Es dient der Identifikation eines Nutzers.
 >
 ```
 http://127.0.0.1/api/setRating?offerId=3&userId={id}
 ```
 ```
 http://127.0.0.1/api/setRating?offerId=3&userId=1
+```
+### getProvider:
+#### Beschreibung:
+>Gibt die Essensanbieter und ihre daten zurück.
+>
+```
+http://127.0.0.1/api/getProvider
+```
+output:
+```Json
+[
+{
+"id": 1,
+"name": "Schweinestall",
+"location": "Neubrandenburg",
+"url": "https://www.schweinestall-nb.de/mittagstisch-2/"
+},
+{
+"id": 2,
+"name": "Hotel am Ring",
+"location": "Neubrandenburg",
+"url": "http://www.hotel-am-ring.de/restaurant-rethra.html"
+},
+{
+"id": 3,
+"name": "AOK Cafeteria",
+"location": "Neubrandenburg",
+"url": "https://www.tfa-bistro.de"
+},
+{
+"id": 4,
+"name": "Suppenkulttour",
+"location": "Neubrandenburg",
+"url": "https://www.suppenkult.com/wochenplan.html"
+},
+{
+"id": 5,
+"name": "Salt 'n' Pepper",
+"location": "Berlin Springpfuhl",
+"url": "https://www.partyservice-rohde.de/bistro-angebot-der-woche"
+},
+{
+"id": 6,
+"name": "Gesundheitszentrum",
+"location": "Berlin Springpfuhl",
+"url": "https://de-de.facebook.com/pages/Kantine-BQuakatz-Allee-der-Kosmonauten/181190361991823"
+},
+{
+"id": 7,
+"name": "Feldküche Karow",
+"location": "Berlin Springpfuhl",
+"url": "https://www.feldkuechebkarow.de/speiseplan"
+},
+{
+"id": 8,
+"name": "Das Krauthof",
+"location": "Neubrandenburg",
+"url": "https://www.daskrauthof.de/karte"
+},
+{
+"id": 9,
+"name": "Tabbouleh",
+"location": "Berlin Springpfuhl",
+"url": "https://www.restaurant-tabbouleh.de/menu"
+},
+{
+"id": 10,
+"name": "Phoenixeum",
+"location": "Neubrandenburg",
+"url": "https://www.suppenkult.com/wochenplan.html"
+}
+]
 ```

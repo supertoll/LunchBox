@@ -122,6 +122,15 @@ class Database{
 
 class FoodBD extends Database{
     #constructor from parent
+    public function getProvider()
+    {
+        $providers = $this->executeSQL("SELECT id, name, location, url FROM provider;");
+        $rt = array();
+        foreach ($providers as $id=>$provider){
+            array_push($rt,["id"=>(int)$provider[0],"name"=>$provider[1],"location"=>$provider[2],"url"=>$provider[3]]);
+        }
+        return $rt;
+    }
 
     public function addProvider(int $id = null, string $name, string $location, string $url) 
     {

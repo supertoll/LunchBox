@@ -22,7 +22,7 @@ var routes = [
     component: FormPage,
   },
   {
-    path: '/detail/',
+    path: '/detail/:name',
     component: DetailPage,
   },
 

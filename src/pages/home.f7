@@ -4,14 +4,14 @@
     <!-- Toolbar-->
     <div class="toolbar toolbar-top">
       <div class="toolbar-inner">
-        <div class="button">
-          back
+        <div class="button" >
+          <a href="#" @click=${bDay} >back</a>
         </div>
         <div class="title-large">
           <div class="title-large-text">${thisdate}</div>
         </div>
-        <div class="button" >
-          for
+        <div class="button">
+          <a href="#" @click=${nDay} >for</a>
         </div>
       </div>
     </div>
@@ -29,10 +29,10 @@
     <div class="page-content">
       <div class="block block-strong"> 
         <p>funny text</p>       
-        <div class="list accordion-list accordion-opposite">
+        <div class="list accordion-opposite">
           <ul id="foodlist">
             ${providers.map((provider) => $h`
-              <li class="accordion-item">
+              <li class="accordion-item accordion-item-opened">
                 <a href="" class="item-link item-content">
                   <div class="item-inner">
                     <div class="item-title">${provider.name}</div>
@@ -43,7 +43,7 @@
                     <ul>
                       ${provider.offer.map((meal) => $h`
                         <li>
-                          <a href="/detail/" class="item-link item-content">
+                          <a href="/detail/meal" class="item-link item-content">
                             <!--div class="item-media"><i class="icon icon-f7"></i></div-->
                             <div class="item-inner">
                               <div class="item-title">
@@ -89,7 +89,7 @@
   </div>
 </template>
 <script>
-export default () => {
+export default (props, { $update }) => {
   //example data:
   //will be replaced by a databaseconnection
   let meals = [
@@ -131,6 +131,22 @@ export default () => {
   let thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
   //function to change data with date missing
   //event for next/back missing
+  var nDay = () => {
+    date.setDate(date.getDate()+1);
+    thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
+    $update();
+  }
+  var bDay = () => {
+    date.setDate(date.getDate()-1);
+    if(date < new Date()){
+      date = new Date();
+    }
+    thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
+    $update();
+  }
+  function getUrl(name){
+    return "/deatil/" + name + "/";
+  }
   return $render;
 }
 </script>

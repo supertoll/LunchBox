@@ -14,7 +14,28 @@
     </div>
   </div>
   <div class="page-content">
-    <div class="block-title">About My App</div>
+    <div class="block-title">Choose Location</div>
+    <div class="list">
+      <ul>
+        <li>
+          <label class="item-radio item-content">
+            <input type="radio" name="radio" value="Books" checked="checked"/>
+            <i class="icon icon-radio"></i>
+            <div class="item-inner">
+              <div class="item-title">Neubrandenburg</div>
+            </div>
+          </label>
+        </li>
+        <li>
+          <label class="item-radio item-content">
+            <input type="radio" name="radio" value="Movies"/>
+            <i class="icon icon-radio"></i>
+            <div class="item-inner">
+              <div class="item-title">Berlin</div>
+            </div>
+          </label>
+        </li>
+      </ul>
     <div class="block block-strong">
       <p>This is the official Luchbox app form the info-ag at data-experts.</p>
       <p>All rights reserved to Markus.</p>

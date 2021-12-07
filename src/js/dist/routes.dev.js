@@ -31,7 +31,7 @@ var routes = [{
   path: '/form/',
   component: _form["default"]
 }, {
-  path: '/detail/',
+  path: '/detail/:name',
   component: _detail["default"]
 }, {
   path: '/dynamic-route/blog/:blogId/post/:postId/',

@@ -9,7 +9,7 @@
               <span class="if-not-md">Back</span>
             </a>
           </div>
-          <div class="title">hi</div>
+          <div class="title">${name}</div>
         </div>
       </div>
       <div class="page-content">
@@ -25,7 +25,9 @@
     </div>
 </template>
 <script>
-export default () => {
+export default (props, { $f7, $f7route, $update }) => {
+  let name = $f7route.params.name;
+  console.log(name);
   return $render;
 };
 </script>

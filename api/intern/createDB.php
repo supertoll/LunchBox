@@ -5,8 +5,6 @@ include "./database.php";
 $db = new FoodBD("localhost","lunchboxuser","");
 $db->connect();
 $db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
-$db->dropDB();
-$db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
 $db->disconnect();
 $db->connect("lunchboxfooddb");
 fillfoodDB($db);

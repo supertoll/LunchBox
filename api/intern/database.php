@@ -122,12 +122,30 @@ class Database{
 
 class FoodBD extends Database{
     #constructor from parent
-    public function getProvider()
+    public function getLocations()
     {
-        $providers = $this->executeSQL("SELECT id, name, location, url FROM provider;");
+        $locations = array();
+        foreach ($this->executeSQL("SELECT location FROM `provider` GROUP BY location") as $id=>$location) {
+            array_push($locations,$location[0]);
+        }
+        return ["locations"=>$locations];
+    }
+
+    public function getProvider(array $locations = null)
+    {
+        if(isset($locations)){
+            $providers = $this->executeSQL("SELECT id, name, location, url FROM provider WHERE location in (".str_repeat("?,",count($locations)-1)."?);", [...$locations]);
+        }else{
+            $providers = $this->executeSQL("SELECT id, name, location, url FROM provider;");
+        }
+
         $rt = array();
-        foreach ($providers as $id=>$provider){
-            array_push($rt,["id"=>(int)$provider[0],"name"=>$provider[1],"location"=>$provider[2],"url"=>$provider[3]]);
+        if(isset($providers[0]["id"])){
+            $rt = $providers;
+        }else{
+            foreach ($providers as $id=>$provider){
+                array_push($rt,["id"=>(int)$provider[0],"name"=>$provider[1],"location"=>$provider[2],"url"=>$provider[3]]);
+            }
         }
         return $rt;
     }
@@ -187,16 +205,16 @@ class FoodBD extends Database{
         $this->executeSQL("INSERT INTO offer2tags (offerId,tagId) VALUES (?,?);",[$offerId,$tagId]);
     }
     
-    public function getAllOfferByDate(String $date,array $provider = null,String $location = null)
+    public function getOffer(String $date,array $provider = null, array $location = null)
     {
         #selecting statment and args
         if(isset($location)){
             if(isset($provider)){
-                $statment = "SELECT offer.id, offer.providerId, offer.name, offer.description, offer.price, offer.averageRating FROM offer JOIN provider ON offer.providerId = provider.id WHERE provider.location = ? AND offer.date = ? AND offer.providerId in (".str_repeat("?,",count($provider)-1)."?);";
-                $args = [$location,$date,...$provider];
+                $statment = "SELECT offer.id, offer.providerId, offer.name, offer.description, offer.price, offer.averageRating FROM offer JOIN provider ON offer.providerId = provider.id WHERE provider.location in (".str_repeat("?,",count($location)-1)."?) AND offer.date = ? AND offer.providerId in (".str_repeat("?,",count($provider)-1)."?);";
+                $args = [...$location,$date,...$provider];
             }else {
-                $statment = "SELECT offer.id, offer.providerId, offer.name, offer.description, offer.price, offer.averageRating FROM offer JOIN provider ON offer.providerId = provider.id WHERE provider.location = ? AND offer.date = ?;";
-                $args = [$location,$date];
+                $statment = "SELECT offer.id, offer.providerId, offer.name, offer.description, offer.price, offer.averageRating FROM offer JOIN provider ON offer.providerId = provider.id WHERE provider.location in (".str_repeat("?,",count($location)-1)."?) AND offer.date = ?;";
+                $args = [...$location,$date];
             }            
         }else{
             if(isset($provider)){
@@ -207,7 +225,7 @@ class FoodBD extends Database{
                 $args = [$date];
             }
         }
-        
+
         #getting the offers
         $offer = $this->executeSQL($statment,$args);#geting all relervant food
         #echo var_dump($offer)."<br><br>";

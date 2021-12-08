@@ -13,15 +13,16 @@ header("Access-Control-Allow-Credentials: true");
 include "../intern/database.php";
 
 $db = new FoodBD("localhost","root","");#need to be changed (secrets)
+
 $db->connect("lunchboxfooddb");
 
-if(isset($_GET["locations"])){
-    $provider = $db->getProvider(json_decode($_GET["locations"]));   
-}else{
-    $provider = $db->getProvider();
-}
+$locations = $db->getLocations();
+
 $db->disconnect();#disconnect db
+
 #respond
 http_response_code(200);
-echo json_encode($provider);
+echo json_encode($locations);
+
+
 ?>

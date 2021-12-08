@@ -25,15 +25,15 @@ if(!isset($_GET['date'])){#checking if date is set.. (needed)
     if(isset($_GET['provider'])){#checks if a array of provider is givin
         #echo var_dump(json_decode($_GET['provider']));
         if(isset($_GET["location"])){
-            $offer = $db->getAllOfferByDate($_GET['date'],json_decode($_GET['provider']),$_GET["location"]);
+            $offer = $db->getOffer($_GET['date'],json_decode($_GET['provider']),json_decode($_GET["location"]));
         }else{
-            $offer = $db->getAllOfferByDate($_GET['date'],json_decode($_GET['provider'])); # returns only offers for givin providers
+            $offer = $db->getOffer($_GET['date'],json_decode($_GET['provider'])); # returns only offers for givin providers
         }
     }else {#only date given
         if(isset($_GET["location"])){
-            $offer = $db->getAllOfferByDate($_GET['date'],null,$_GET["location"]);
+            $offer = $db->getOffer($_GET['date'],null,json_decode($_GET["location"]));
         }else {
-            $offer = $db->getAllOfferByDate($_GET['date']); # returns all offers at this day
+            $offer = $db->getOffer($_GET['date']); # returns all offers at this day
         }
     }
     $db->disconnect();#disconnect db

@@ -11,7 +11,7 @@ header("Access-Control-Allow-Credentials: true");
 # using fooddb class
 include "../intern/database.php";
 
-$db = new FoodBD("localhost","root","");#need to be changed (secrets)
+$db = new FoodBD("localhost","lunchboxuser","");#need to be changed (secrets)
 
 $db->connect("lunchboxfooddb");#connect to db
 $id = $db->getUserId();#getting a userid

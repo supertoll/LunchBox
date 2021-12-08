@@ -2,7 +2,7 @@
 
 include "./database.php";
 
-$db = new FoodBD("localhost","root","");
+$db = new FoodBD("localhost","lunchboxuser","");
 $db->connect();
 $db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
 $db->dropDB();

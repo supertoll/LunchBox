@@ -12,7 +12,7 @@ header("Access-Control-Allow-Credentials: true");
 # using fooddb class
 include "../intern/database.php";
 
-$db = new FoodBD("localhost","root","");#need to be changed (secrets)
+$db = new FoodBD("localhost","lunchboxuser","");#need to be changed (secrets)
 
 if(!isset($_GET['rating']) || !isset($_GET['offerId']) || !isset($_GET['userId'])){#checks if rating, offerId, userId is set
     #error

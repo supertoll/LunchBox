@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS lunchboxfooddb;
-USE LunchBoxFoodDB;
+USE lunchboxfooddb;
 
 CREATE TABLE IF NOT EXISTS provider(
     id INTEGER NOT NULL UNIQUE AUTO_INCREMENT,

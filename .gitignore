@@ -1,6 +1,0 @@
-logs/
-httpd.conf
-.vscode/
-api/DB/aria_log_control
-lunchbox.session.sql
-git.info

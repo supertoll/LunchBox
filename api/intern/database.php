@@ -126,8 +126,9 @@ class FoodBD extends Database{
     {
         $locations = array();
         foreach ($this->executeSQL("SELECT location FROM `provider` GROUP BY location") as $id=>$location) {
-            array_push($locations,$location[0]);
+            $locations[$id]=$location[0];
         }
+        echo var_dump($locations);
         return ["locations"=>$locations];
     }
 

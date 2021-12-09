@@ -5,9 +5,9 @@ ____
 >
 ## Funktionen:
 ### getUserId:
-___
+___.
 #### Beschreibung:
->"getUserId" gibt eine userid zurück und ist eine GET Methode. Sie wird zum kommentieren benötigt. Die Funktion benötigt keine weiteren Parameter.
+>"getUserId" gibt eine id zurück und ist eine GET Methode. Die id wird zur Identifizierung des Nutzers genutzt. Die id wird zum kommentieren benötigt. Die Funktion benötigt keine weiteren Parameter.
 >
 ```
 http://127.0.0.1/api/getUserId
@@ -21,7 +21,7 @@ output:
 ### getLocations:
 ---
 #### Beschreibung:
->Gibt die Orte für die es Essensanbieter gibt zurück.
+>Gibt die Orte für die es Essensanbieter gibt in einem array zurück.
 >
 ```
 http://127.0.0.1/api/getLocations
@@ -42,7 +42,7 @@ ___
 >
 #### Args:
 ##### locations:
->"locations" ist ein optionales Argument. Es ist ein array im JSON Fromant. Durch die Angabe eines Ortes werden nur für den Ort spezifische Anbieter zurück gegeben. 
+>"locations" ist ein optionales Argument. Es ist ein array im JSON Fromant. Durch die Angabe eines Ortes werden nur für den Ort spezifische Essensanbieter zurück gegeben. 
 >
 ```
 http://127.0.0.1/api/getProvider?location=[{locations}]
@@ -95,7 +95,7 @@ output:
 ### getOffer
 ___
 #### Beschreibung:
->Die "getOffer Methode" ist eine GET Methode. Sie gibt im Allgemeinen Essensangebote für ein bestimmtes Datum wieder. Jedoch können auch nur Essensangebote für bestimmte Essensanbieter und/oder ein bestimmten Ort geliefert werden.
+>Die "getOffer" Methode ist eine GET Methode. Sie gibt im Allgemeinen Essensangebote für ein bestimmtes Datum wieder. Jedoch können auch nur Essensangebote für bestimmte Essensanbieter und/oder ein bestimmten Ort geliefert werden.
 >
 #### Args:
 ##### date:
@@ -175,7 +175,7 @@ output:
 ]
 ```
 ##### location:
->"location" ist ein optionales Argument. Durch Location werden nur nach der entsprechenden "location" gefilterte Essensangebote zurückgegeben.
+>"location" ist ein optionales Argument. Durch "location" werden nur nach der entsprechenden "location" gefilterte Essensangebote zurückgegeben.
 >
 ```
 http://127.0.0.1/api/getOffer/?date=2021-12-7&location=[{location}]
@@ -210,7 +210,7 @@ output:
 ```
 ##### provider:
 
->"provider" ist ein optionales Argument. Es erhält ein Array mit Essensanbieter id's in json Format **[n\*{0-9}]**. Mit "location" werden nur Essensangebote von den entsprechenden Essensanbiertern angezeigt.
+>"provider" ist ein optionales Argument. Es erhält ein Array mit Essensanbieter id's in json Format **[n\*{0-9}]**. Mit "provider" werden nur Essensangebote von den entsprechenden Essensanbiertern angezeigt.
 >
 ```
 http://127.0.0.1/api/getOffer/?date=2021-12-7&provider=[{id}]
@@ -280,7 +280,7 @@ http://127.0.0.1/api/setRating?offerId={id}
 http://127.0.0.1/api/setRating?offerId=3
 ```
 ##### userId:
->"offerId" ist ein benötigtes Argument. Es Dient der Identifikation eines Nutzers.
+>"offerId" ist ein benötigtes Argument. Es dient der Identifikation eines Nutzers.
 >
 ```
 http://127.0.0.1/api/setRating?offerId=3&userId={id}
@@ -299,7 +299,7 @@ http://127.0.0.1/api/setRating?offerId=3&userId=1&rating={id}
 http://127.0.0.1/api/setRating?offerId=3&userId=1&rating=3
 ```
 ##### comment:
->"comment" ist ein optionales Argument. Es Fügt der Bewertung des Gerichtes ein Kommentar in Textform hinzu. 
+>"comment" ist ein optionales Argument. Es fügt der Bewertung des Gerichtes ein Kommentar in Textform hinzu. 
 >
 ```
 http://127.0.0.1/api/setRating?offerId=3&userId=1&rating=3&comment={comment}

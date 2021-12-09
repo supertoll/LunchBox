@@ -6507,3 +6507,8 @@ AH00015: Unable to open logs
 127.0.0.1 - - [08/Dec/2021:16:04:53 +0100] "GET /phpmyadmin/index.php?route=/recent-table&ajax_request=1&recent_table=1&no_debug=true&_nocache=1638975893135315840&token=5a243e34372e752740742d6a4d7f215b HTTP/1.1" 200 1713 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
 127.0.0.1 - - [08/Dec/2021:16:05:13 +0100] "GET /api/getOffer/?date=2021-12-6&location=[%22Berlin%20Springpfuhl%22] HTTP/1.1" 200 263 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
 127.0.0.1 - - [08/Dec/2021:16:06:04 +0100] "GET /api/getOffer/?date=2021-12-6&location=[%22Berlin%20Springpfuhl%22] HTTP/1.1" 200 263 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
+[Thu Dec 09 16:14:12.043584 2021] [core:warn] [pid 2008:tid 564] AH00098: pid file C:/Program Files/XAMPP/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Thu Dec 09 16:14:12.151298 2021] [mpm_winnt:notice] [pid 2008:tid 564] AH00455: Apache/2.4.48 (Win64) OpenSSL/1.1.1l PHP/8.0.10 configured -- resuming normal operations
+[Thu Dec 09 16:14:12.151298 2021] [mpm_winnt:notice] [pid 2008:tid 564] AH00456: Apache Lounge VS16 Server built: Aug 25 2021 12:07:35
+[Thu Dec 09 16:14:12.151298 2021] [core:notice] [pid 2008:tid 564] AH00094: Command line: 'c:\\program files\\xampp\\apache\\bin\\httpd.exe -d C:/Program Files/XAMPP/apache'
+[Thu Dec 09 16:14:12.156309 2021] [mpm_winnt:notice] [pid 2008:tid 564] AH00418: Parent: Created child process 2676

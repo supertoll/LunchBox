@@ -1,4 +1,5 @@
 <template>
+    
     <div class="page" data-name="about">
       <div class="navbar">
         <div class="navbar-bg"></div>
@@ -9,7 +10,7 @@
               <span class="if-not-md">Back</span>
             </a>
           </div>
-          <div class="title">${name}</div>
+          <div class="title">${mealObject.name}</div>
         </div>
       </div>
       <div class="page-content">
@@ -19,15 +20,35 @@
         </div>
         <div class="block-title">Comments</div>
         <div class="block block-strong">
-            <p>Very tasty</p>
+          <a href="#" class="col button button-raised button-fill popup-open" data-popup="#commentPopup">
+            New Comment
+          </a>
+          <div class="list">
+            <ul>
+              ${mealObject.comments.map((c) =>$h`
+                <li>
+                  <div class="item-content">
+                    <div class="item-inner">
+                      ${c}
+                    </div>  
+                  </div>
+                </li>
+              `)}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
 </template>
 <script>
+import mealData from "../js/database.js";
 export default (props, { $f7, $f7route, $update }) => {
-  let name = $f7route.params.name;
+  let pK = $f7route.params.id;
+  let mealObject = mealData.filter(m => m.id == pK)[0];
   console.log(name);
+  var addComment = () =>{
+
+  }
   return $render;
 };
 </script>

@@ -43,7 +43,7 @@
                     <ul>
                       ${provider.offer.map((meal) => $h`
                         <li>
-                          <a href="/detail/meal" class="item-link item-content">
+                          <a href=${detail + meal.id} class="item-link item-content">
                             <!--div class="item-media"><i class="icon icon-f7"></i></div-->
                             <div class="item-inner">
                               <div class="item-title">
@@ -89,9 +89,12 @@
   </div>
 </template>
 <script>
+
 export default (props, { $update }) => {
   //example data:
   //will be replaced by a databaseconnection
+  let detail = "/detail/";
+  let praefix = "m";
   let meals = [
     {
       tags: "vegan",

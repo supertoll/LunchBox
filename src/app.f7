@@ -10,28 +10,49 @@
 
 
     <!-- Popup -->
-    <div class="popup" id="my-popup">
+    <div class="popup" id="commentPopup">
       <div class="view">
         <div class="page">
           <div class="navbar">
             <div class="navbar-bg"></div>
             <div class="navbar-inner">
-              <div class="title">Popup</div>
+              <div class="title">Add Comment</div>
               <div class="right">
-                <a href="#" class="link popup-close">Close</a>
+                <a href="#" class="link popup-close">Cancel</a>
               </div>
             </div>
           </div>
           <div class="page-content">
-            <div class="block">
-              <p>Popup content goes here.</p>
+            <div class="list no-hairlines no-hairlines-beetween">
+              <ul>
+                <li class="align-top">
+                  <div class="item-content item-input">
+                    <div class="item-inner">
+                      <!---div class="item-title item-label">---</div--->
+                      <div class="item-input-wrap">
+                        <textarea placeholder="Comment goes here..." class="resizable"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="align-top">
+                  <div class="item-content item-input">
+                    <div class="item-inner">
+                      <a href="#" @click="addComment" class="col button button-raised align-self-stretch button-fill">
+                        Submit
+                      </a>
+                    </div>
+                  </div>
+                </li>
+
+              </ul>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Login Screen -->
+    <!-- Login Screen>
     <div class="login-screen" id="my-login-screen">
       <div class="view">
         <div class="page">
@@ -71,7 +92,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div-->
 
   </div>
 </template>

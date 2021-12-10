@@ -15,7 +15,7 @@ include "../intern/database.php";
 
 isset($_GET['id']) ? $_GET['id'] : die();
 
-$db = new FoodBD("localhost","root","");
+$db = new FoodBD("localhost","lunchboxuser","");
 #ok
 http_response_code(200);
 echo json_encode($products_arr);

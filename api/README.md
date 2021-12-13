@@ -1,13 +1,13 @@
 # Schnittstellenberschreibung
 ____
 ## Beschreibung:
->Diese API basiert auf Daten der [rori-api](https://lunchbox.rori.info/about). Sie liefert die Essensangebote von Partnern. Die API fügt der rori-api noch weitere Funtion hinzu. So gibt es zusätzlich die Möglichkeit der Bewertung und Kommentierung. Außerdem ist es möglich einzelne Essensangebote für bestimmte Orte, Tage, Essensanbieter zu bekommen.
+>Diese API basiert auf Daten der [rori-api](https://lunchbox.rori.info/about). Sie liefert die Essensangebote von Partnern. Die API fügt der rori-api noch weitere Funktionen hinzu. So gibt es zusätzlich die Möglichkeit der Bewertung und Kommentierung. Außerdem ist es möglich, einzelne Essensangebote für bestimmte Orte, Tage, Essensanbieter zu bekommen.
 >
 ## Funktionen:
 ### getUserId:
-___.
+___
 #### Beschreibung:
->"getUserId" gibt eine id zurück und ist eine GET Methode. Die id wird zur Identifizierung des Nutzers genutzt. Die id wird zum kommentieren benötigt. Die Funktion benötigt keine weiteren Parameter.
+>"getUserId" gibt eine ID zurück und ist eine GET Methode. Die ID wird zur Identifizierung des Nutzers genutzt. Die ID wird zum Kommentieren benötigt. Die Funktion benötigt keine weiteren Parameter.
 >
 ```
 http://127.0.0.1/api/getUserId
@@ -21,7 +21,7 @@ output:
 ### getLocations:
 ---
 #### Beschreibung:
->Gibt die Orte für die es Essensanbieter gibt in einem array zurück.
+>Gibt die Orte, für die es Essensanbieter gibt, in einem array zurück.
 >
 ```
 http://127.0.0.1/api/getLocations
@@ -38,11 +38,11 @@ output:
 ### getProvider:
 ___
 #### Beschreibung:
->Gibt die Essensanbieter und ihre daten zurück.
+>Gibt die Essensanbieter und ihre Daten zurück.
 >
 #### Args:
 ##### locations:
->"locations" ist ein optionales Argument. Es ist ein array im JSON Fromant. Durch die Angabe eines Ortes werden nur für den Ort spezifische Essensanbieter zurück gegeben. 
+>"locations" ist ein optionales Argument. Es ist ein array im JSON Format. Durch die Angabe eines Ortes werden nur für den Ort spezifische Essensanbieter zurückgegeben. 
 >
 ```
 http://127.0.0.1/api/getProvider?location=[{locations}]
@@ -95,11 +95,11 @@ output:
 ### getOffer
 ___
 #### Beschreibung:
->Die "getOffer" Methode ist eine GET Methode. Sie gibt im Allgemeinen Essensangebote für ein bestimmtes Datum wieder. Jedoch können auch nur Essensangebote für bestimmte Essensanbieter und/oder ein bestimmten Ort geliefert werden.
+>Die "getOffer" Methode ist eine GET Methode. Sie gibt im Allgemeinen Essensangebote für ein bestimmtes Datum wieder. Jedoch können auch nur Essensangebote für bestimmte Essensanbieter und/oder bestimmte Orte geliefert werden.
 >
 #### Args:
 ##### date:
->"date" ist ein nötiges Argument das in jedem Fall übergeben werden muss. Das Format entspricht **{jjjj}-{mm}-{dd}**. Durch "date" werden nur Essensangebote für das entsprechende Datum zurückgegeben.
+>"date" ist ein nötiges Argument, das in jedem Fall übergeben werden muss. Das Format entspricht **{jjjj}-{mm}-{dd}**. Durch "date" werden nur Essensangebote für das entsprechende Datum zurückgegeben.
 >
 ```
 http://127.0.0.1/api/getOffer/?date={jjjj}-{mm}-{dd}
@@ -210,7 +210,7 @@ output:
 ```
 ##### provider:
 
->"provider" ist ein optionales Argument. Es erhält ein Array mit Essensanbieter id's in json Format **[n\*{0-9}]**. Mit "provider" werden nur Essensangebote von den entsprechenden Essensanbiertern angezeigt.
+>"provider" ist ein optionales Argument. Es erhält ein array mit Essensanbieter ID's im JSON Format **[n\*{0-9}]**. Mit "provider" werden nur Essensangebote von den entsprechenden Essensanbietern angezeigt.
 >
 ```
 http://127.0.0.1/api/getOffer/?date=2021-12-7&provider=[{id}]
@@ -267,7 +267,7 @@ output:
 ### setRating:
 ___
 #### Beschreibung:
->Fügt einem Gericht eine Bewertung (1-5) hinzu. Außerdem ist es möglich ein Kommentar zu hinterlegen:
+>Fügt einem Gericht eine Bewertung **(1-5)** hinzu. Außerdem ist es möglich, ein Kommentar zu hinterlegen:
 >
 #### Args:
 ##### offerId:
@@ -290,7 +290,7 @@ http://127.0.0.1/api/setRating?offerId=3&userId=1
 ```
 
 ##### rating:
->"rating" ist ein immer benötigtes Argument. Es muss eine zahl zwischen 1 und 5 sein.
+>"rating" ist ein benötigtes Argument. Es muss eine Zahl zwischen 1 und 5 sein.
 >
 ```
 http://127.0.0.1/api/setRating?offerId=3&userId=1&rating={id}
@@ -299,7 +299,7 @@ http://127.0.0.1/api/setRating?offerId=3&userId=1&rating={id}
 http://127.0.0.1/api/setRating?offerId=3&userId=1&rating=3
 ```
 ##### comment:
->"comment" ist ein optionales Argument. Es fügt der Bewertung des Gerichtes ein Kommentar in Textform hinzu. 
+>"comment" ist ein optionales Argument. Es fügt der Bewertung des Gerichtes einen Kommentar in Textform hinzu. 
 >
 ```
 http://127.0.0.1/api/setRating?offerId=3&userId=1&rating=3&comment={comment}
@@ -310,7 +310,7 @@ http://127.0.0.1/api/setRating?offerId=3&userId=1&rating=3&comment=Das Essen war
 ### updateRating:
 ___
 #### Beschreibung:
->"updateRating" ist für die Bearbeitung einer Bewertung da. So ist es möglich den Kommentar, das rating oder beides zu aktuallisieren.
+>"updateRating" ist für die Bearbeitung einer Bewertung da. So ist es möglich, den Kommentar, das rating oder beides zu aktuallisieren.
 >
 #### Args:
 ##### offerId:
@@ -333,7 +333,7 @@ http://127.0.0.1/api/setRating?offerId=3&userId=1
 ```
 
 ##### rating:
->"rating" ist ein optionales Argument. Es muss eine zahl zwischen 1 und 5 sein. Dabei wird dann der Wert der Bewertung aktuallisiert.
+>"rating" ist ein optionales Argument. Es muss eine Zahl zwischen 1 und 5 sein. Dabei wird dann der Wert der Bewertung aktualisiert.
 >
 ```
 http://127.0.0.1/api/setRating?offerId=3&userId=1&rating={id}
@@ -342,7 +342,7 @@ http://127.0.0.1/api/setRating?offerId=3&userId=1&rating={id}
 http://127.0.0.1/api/setRating?offerId=3&userId=1&rating=3
 ```
 ##### comment:
->"comment" ist ein optionales Argument. Es aktualliesiert den  Kommentar der Bewertung.
+>"comment" ist ein optionales Argument. Es aktualiesiert den Kommentar der Bewertung.
 >
 ```
 http://127.0.0.1/api/setRating?offerId=3&userId=1&comment={comment}

@@ -9,7 +9,7 @@
           <span class="if-not-md">Back</span>
         </a>
       </div>
-      <div class="title">About</div>
+      <div class="title">Settings</div>
       <div class="subtitle">Thank you for downloading our app.</div>
     </div>
   </div>
@@ -17,25 +17,35 @@
     <div class="block-title">Choose Location</div>
     <div class="list">
       <ul>
+        ${locs["locations"].map((ll) => $h`
+          <li>
+            <label class="item-radio item-content">
+              <input type="radio" name="loc" value=${ll} @click=${changeLoc}/>
+              <i class="icon icon-radio"></i>
+              <div class="item-inner">
+                <div class="item-title">${ll}</div>
+              </div>
+            </label>
+          </li>
+        `)}
         <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="radio" value="Books" checked="checked"/>
-            <i class="icon icon-radio"></i>
+          <div class="item-content">
             <div class="item-inner">
-              <div class="item-title">Neubrandenburg</div>
+              <div class="item-title">Enable Dark Mode</div>
+              <div class="item-after">
+                <label class="toggle toggle-init">
+                  <input type="checkbox"/>
+                  <span class="toggle-icon"></span>
+                </label>
+              </div>
             </div>
-          </label>
-        </li>
-        <li>
-          <label class="item-radio item-content">
-            <input type="radio" name="radio" value="Movies"/>
-            <i class="icon icon-radio"></i>
-            <div class="item-inner">
-              <div class="item-title">Berlin</div>
-            </div>
-          </label>
+          </div>
         </li>
       </ul>
+    </div>
+    <div class="toggle">
+
+    </div>
     <div class="block block-strong">
       <p>This is the official Luchbox app form the info-ag at data-experts.</p>
       <p>All rights reserved to Markus.</p>
@@ -47,7 +57,12 @@
 </div>
 </template>
 <script>
+import global from '../js/globals.js';
 export default () => {
+  let locs = {"locations":["Neubrandenburg", "Berlin"]};//global.getLocations();
+  const changeLoc = (e) => {
+    global.setLocation(e.target.value);
+  };
   return $render;
 };
 </script>

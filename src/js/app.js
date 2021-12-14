@@ -29,6 +29,7 @@ var app = new Framework7({
   store: store,
   // App routes
   routes: routes,
+  mealID: 0  ,
 
 
   // Input settings

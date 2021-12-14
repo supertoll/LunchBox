@@ -72,7 +72,7 @@
           <li>
             <a href="/about/" class="item-content item-link">
               <div class="item-inner">
-                <div class="item-title">About</div>
+                <div class="item-title">Settings & About</div>
               </div>
             </a>
           </li>
@@ -147,9 +147,7 @@ export default (props, { $update }) => {
     thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
     $update();
   }
-  function getUrl(name){
-    return "/deatil/" + name + "/";
-  }
+
   return $render;
 }
 </script>

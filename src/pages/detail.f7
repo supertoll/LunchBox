@@ -42,13 +42,17 @@
 </template>
 <script>
 import mealData from "../js/database.js";
-export default (props, { $f7, $f7route, $update }) => {
+import global from "../js/globals.js";
+export default (props, { $f7, $f7route, $update, $on }) => {
   let pK = $f7route.params.id;
   let mealObject = mealData.filter(m => m.id == pK)[0];
-  console.log(name);
-  var addComment = () =>{
+  global.set(5);
+  console.log(global.get().toString())
 
-  }
+  $on('pageInit', (e, page) => {
+  
+  });
+
   return $render;
 };
 </script>

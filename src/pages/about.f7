@@ -58,11 +58,16 @@
 </template>
 <script>
 import global from '../js/globals.js';
-export default () => {
-  let locs = {"locations":["Neubrandenburg", "Berlin"]};//global.getLocations();
+export default (props, {$on}) => {
+  global.initLocation();
+  let locs = global.getLocations();
+  console.log(locs);
   const changeLoc = (e) => {
-    global.setLocation(e.target.value);
+    //global.setLocation(e.target.value);
   };
+  $on('pageInit', (e, page) => {
+    
+});
   return $render;
 };
 </script>

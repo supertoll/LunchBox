@@ -97,12 +97,14 @@
   </div>
 </template>
 <script>
+  import global from '/js/globals.js';
   export default (props, { $f7, $update, $on }) => {
     // Login screen demo data
     let username = '';
     let password = '';
     let comment = '';
-    
+    global.initOffers("20-12-2021");
+    global.initProviders("Neubrandenburg");
 
     const updateComment = (e) => {
       comment = e.target.value;

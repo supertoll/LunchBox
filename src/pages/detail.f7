@@ -16,7 +16,9 @@
       <div class="page-content">
         <div class="block-title">Details</div>
         <div class="block block-strong">
-          <p>Some Ingredients</p>
+          <p>${mealObject.description}</p>
+          <p>${mealObject.price}</p>
+          <p>${mealObject.averageRating}</p>
         </div>
         <div class="block-title">Comments</div>
         <div class="block block-strong">
@@ -41,16 +43,12 @@
     </div>
 </template>
 <script>
-import mealData from "../js/database.js";
 import global from "../js/globals.js";
 export default (props, { $f7, $f7route, $update, $on }) => {
   let pK = $f7route.params.id;
-  let mealObject = mealData.filter(m => m.id == pK)[0];
-  global.set(5);
-  console.log(global.get().toString())
+  let mealObject = global.getOffers().filter(m => m.id == pK)[0];
 
   $on('pageInit', (e, page) => {
-  
   });
 
   return $render;

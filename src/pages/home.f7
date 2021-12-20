@@ -5,13 +5,18 @@
     <div class="toolbar toolbar-top">
       <div class="toolbar-inner">
         <div class="button" >
-          <a href="#" @click=${bDay} >back</a>
+          <a href="#" @click=${bDay} >
+            <i class="icon arrow_left"></i>
+            <span class="if-not-md">back</span>
+          </a>
         </div>
         <div class="title-large">
           <div class="title-large-text">${thisdate}</div>
         </div>
         <div class="button">
-          <a href="#" @click=${nDay} >for</a>
+          <a href="#" @click=${nDay} >
+            For
+          </a>
         </div>
       </div>
     </div>
@@ -28,20 +33,20 @@
     <!-- Scrollable page content-->
     <div class="page-content">
       <div class="block block-strong"> 
-        <p>funny text</p>       
+        <p>${loc}</p>       
         <div class="list accordion-opposite">
           <ul id="foodlist">
             ${providers.map((provider) => $h`
               <li class="accordion-item accordion-item-opened">
                 <a href="" class="item-link item-content">
                   <div class="item-inner">
-                    <div class="item-title">${provider.name}</div>
+                    <div class="item-title">${provider.pp.name}</div>
                   </div>
                 </a>
                 <div class="accordion-item-content">
                   <div class="list">
                     <ul>
-                      ${provider.offer.map((meal) => $h`
+                      ${provider.oo.map((meal) => $h`
                         <li>
                           <a href=${detail + meal.id} class="item-link item-content">
                             <!--div class="item-media"><i class="icon icon-f7"></i></div-->
@@ -49,7 +54,7 @@
                               <div class="item-title">
                                 <div class="item-header">${meal.tags}</div>
                                 ${meal.name}
-                                <div class="item-footer">${meal.price}</div>
+                                <div class="item-footer">${meal.price + " Cent"}</div>
                               </div>
                               <div class="item-after">Details & Comments</div>
                             </div>
@@ -89,46 +94,15 @@
   </div>
 </template>
 <script>
-
+import global from '../js/globals.js';
 export default (props, { $update }) => {
   //example data:
   //will be replaced by a databaseconnection
   let detail = "/detail/";
-  let praefix = "m";
-  let meals = [
-    {
-      tags: "vegan",
-      name: "soup",
-      price: "3.00",
-      id: 1
-    },
-    {
-      tags: "premium",
-      name: "steak",
-      price: "5.60",
-      id: 2  
-    },
-    {
-      tags: "",
-      name: "pommes frites",
-      price: "2.50",
-      id: 3
-    }
-  ];
-  let providers = [
-    {
-      name: "Call a Pizza",
-      offer: meals
-    },
-    {
-      name: "Lieferando",
-      offer: meals
-    },
-    {
-      name: "was",
-      offer: meals
-    }
-  ];
+  let loc = global.getLocation()
+  let meals = global.getOffers();
+  let providerlist = global.getProviders();
+  let providers = global.organizeOffers(meals, providerlist);
   //Date function for header
   let date = new Date();
   let thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
@@ -139,6 +113,7 @@ export default (props, { $update }) => {
     thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
     $update();
   }
+
   var bDay = () => {
     date.setDate(date.getDate()-1);
     if(date < new Date()){

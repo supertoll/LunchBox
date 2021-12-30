@@ -17,7 +17,7 @@
         <div class="block-title">Details</div>
         <div class="block block-strong">
           <p>${mealObject.description}</p>
-          <p>${mealObject.price}</p>
+          <p>${priceView(mealObject.price)}</p>
           <p>${mealObject.averageRating}</p>
         </div>
         <div class="block-title">Comments</div>
@@ -47,7 +47,13 @@ import global from "../js/globals.js";
 export default (props, { $f7, $f7route, $update, $on }) => {
   let pK = $f7route.params.id;
   let mealObject = global.getOffers().filter(m => m.id == pK)[0];
-
+  function priceView(rn){
+    if(rn == null){
+      return "";
+    }
+    let r = rn.toString();
+    return r[0] + '.' + r[1] + r[2] + ' €';
+  }
   $on('pageInit', (e, page) => {
   });
 

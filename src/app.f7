@@ -1,6 +1,6 @@
 
 <template>
-  <div id="app" class="theme-dark">
+  <div id="app" class=${th}>
 
 
 
@@ -103,6 +103,8 @@
     let username = '';
     let password = '';
     let comment = '';
+    global.importSettings();
+    let th = global.getTheme();
     global.initOffers("20-12-2021");
     global.initProviders("Neubrandenburg");
 

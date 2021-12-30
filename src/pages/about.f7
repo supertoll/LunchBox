@@ -31,16 +31,17 @@
         <li>
           <div class="item-content">
             <div class="item-inner">
-              <div class="item-title">Enable Dark Mode</div>
+              <div class="item-title">Dark Mode</div>
               <div class="item-after">
                 <label class="toggle toggle-init">
-                  <input type="checkbox"/>
+                  <input type="checkbox" @click=${changeColorTheme} ${isChecked()}/>
                   <span class="toggle-icon"></span>
                 </label>
               </div>
             </div>
           </div>
         </li>
+        
       </ul>
     </div>
     <div class="toggle">
@@ -58,12 +59,33 @@
 </template>
 <script>
 import global from '../js/globals.js';
-export default (props, {$on}) => {
+export default (props, {$on, $update}) => {
   global.initLocation();
   let locs = global.getLocations();
   console.log(locs);
   const changeLoc = (e) => {
     //global.setLocation(e.target.value);
+  };
+  let isChecked = () =>{
+    if(global.getTheme() == "theme-dark"){
+      console.log("c")
+      return "checked";
+    }
+    else{
+      console.log("n");
+      return "";
+    }
+  }
+  let changeColorTheme = () => {
+    if(global.getTheme() == "theme-dark"){
+      global.themee = "";
+      $update();
+    }
+    else{
+      global.themee = "theme-dark";
+      $update();
+    }
+    console.log("changed");
   };
   $on('pageInit', (e, page) => {
     

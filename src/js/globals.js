@@ -1,12 +1,15 @@
+//const { writer } = require('repl');
+const path = 'src/js/resource.txt';
 //https = require('node:http');
+//const fs = require('fs');
+import { fs } from 'fs';
 //import * as https from 'http';
 var id = 0;
 var locations;
 var theme;
-var location = "Neubrandenburg";
+var location;
 var offers;
 var providers;
-//console.log(https)
 
 const global = {
     setId: (i) =>{
@@ -213,7 +216,21 @@ const global = {
             
         });
         return result;
-    }
+    },
+    saveSettings: () => {
+        writeFile(path, theme + ';' + location);
+        
+
+    },
+    importSettings: () => {
+
+        fs.readFile(path, (err, data) => {
+            if (err) throw err;
+            let l = data.split(';');
+            theme = l[0];
+            location = l[1];
+        });
+    },
 
 }
 /*
@@ -224,3 +241,4 @@ let a = global.organizeOffers(offers, providers);
 a.forEach( (aa) => console.log(aa.oo));
 */
 export default global;
+

@@ -1,0 +1,8 @@
+{
+    "scripts": {
+        "API": "node API.js"
+    },
+    "dependencies": {
+        "xmlhttprequest": "^1.8.0"
+    }
+}

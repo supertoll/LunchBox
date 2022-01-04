@@ -10,7 +10,7 @@
 
 
     <!-- Popup -->
-    <div class="popup" id="commentPopup">
+    <div class="popup" id="commentPopup" data-close-on-escape="true" data-swipe-to-close="to-bottom" >
       <div class="view">
         <div class="page">
           <div class="navbar">
@@ -38,7 +38,7 @@
                 <li class="align-top">
                   <div class="item-content item-input">
                     <div class="item-inner">
-                      <a href="#" @click="${addComment}" class="col button button-raised align-self-stretch button-fill">
+                      <a href="#" @click="${addComment}" class="col button button-raised align-self-stretch button-fill link popup-close">
                         Submit
                       </a>
                     </div>
@@ -98,14 +98,15 @@
 </template>
 <script>
   import global from '/js/globals.js';
-  export default (props, { $f7, $update, $on }) => {
+  export default (props, { $f7, $app, $update, $on }) => {
     // Login screen demo data
     let username = '';
     let password = '';
     let comment = '';
     global.importSettings();
     let th = global.getTheme();
-    global.initOffers("20-12-2021");
+    let d = new Date();
+    global.initOffers(d.getFullYear().toString() + "-" + (d.getMonth() + 1).toString() + "-" + d.getDate().toString());
     global.initProviders("Neubrandenburg");
 
     const updateComment = (e) => {
@@ -127,7 +128,12 @@
       });
     }
     const addComment = () => {
+      let mealObject = global.getOffers().filter(m => m.id == global.getId())[0];
+      mealObject.comments.push(comment);
       console.log(comment);
+      global.pushRating(5,comment);
+      comment = "";
+      $update();
     }
     $on('pageInit', (e, page) => {
       //global.initLocation();

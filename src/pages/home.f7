@@ -110,6 +110,7 @@ export default (props, { $update }) => {
   var nDay = () => {
     date.setDate(date.getDate()+1);
     thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
+    global.initOffers(date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString());
     $update();
   }
 
@@ -125,6 +126,9 @@ export default (props, { $update }) => {
     date.setDate(date.getDate()-1);
     if(date < new Date()){
       date = new Date();
+    }
+    else{
+      global.initOffers(date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString());
     }
     thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
     $update();

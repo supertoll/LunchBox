@@ -22,7 +22,7 @@
         </div>
         <div class="block-title">Comments</div>
         <div class="block block-strong">
-          <a href="#" class="col button button-raised button-fill popup-open" data-popup="#commentPopup">
+          <a href="#" class="col button button-raised button-fill popup-open" data-popup="#commentPopup"  >
             New Comment
           </a>
           <div class="list">
@@ -44,8 +44,9 @@
 </template>
 <script>
 import global from "../js/globals.js";
-export default (props, { $f7, $f7route, $update, $on }) => {
+export default (props, { $f7, $, $f7route, $update, $on }) => {
   let pK = $f7route.params.id;
+  global.setId(pK);
   let mealObject = global.getOffers().filter(m => m.id == pK)[0];
   function priceView(rn){
     if(rn == null){
@@ -54,8 +55,17 @@ export default (props, { $f7, $f7route, $update, $on }) => {
     let r = rn.toString();
     return r[0] + '.' + r[1] + r[2] + ' €';
   }
-  $on('pageInit', (e, page) => {
+
+  $('#commentPopup').on('popup:close', function (e) {
+    $update();
   });
+  
+  $on('pageInit', (e, page) => {
+
+  });
+
+
+  
 
   return $render;
 };

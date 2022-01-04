@@ -11,10 +11,11 @@ var path = 'src/js/resource.txt'; //https = require('node:http');
 
 var id = 0;
 var locations;
-var theme = "";
-var location = "Neubrandenburg";
+var theme;
+var location;
 var offers;
 var providers;
+var settingsStorage = localStorage;
 var global = {
   setId: function setId(i) {
     id = i;
@@ -198,8 +199,15 @@ var global = {
     });
     return result;
   },
-  saveSettings: function saveSettings() {},
-  importSettings: function importSettings() {}
+  saveSettings: function saveSettings() {
+    localStorage.setItem("theme", theme);
+    localStorage.setItem("location", location);
+  },
+  importSettings: function importSettings() {
+    theme = localStorage.getItem("theme");
+    location = localStorage.getItem("location");
+  },
+  pushRating: function pushRating(stars, commentText) {}
 };
 /*
 global.initLocation();

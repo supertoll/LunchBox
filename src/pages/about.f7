@@ -20,7 +20,7 @@
         ${locs["locations"].map((ll) => $h`
           <li>
             <label class="item-radio item-content">
-              <input type="radio" name="loc" value=${ll} @click=${changeLoc}/>
+              <input type="radio" name="loc" value=${ll} @click=${changeLoc} id=${ll + suffix}/>
               <i class="icon icon-radio"></i>
               <div class="item-inner">
                 <div class="item-title">${ll}</div>
@@ -33,8 +33,8 @@
             <div class="item-inner">
               <div class="item-title">Dark Mode</div>
               <div class="item-after">
-                <label class="toggle toggle-init">
-                  <input type="checkbox" @click=${changeColorTheme} ${isChecked()}/>
+                <label class="toggle toggle-init themeToggle">
+                  <input type="checkbox" @click=${changeColorTheme} name="toggleTheme" />
                   <span class="toggle-icon"></span>
                 </label>
               </div>
@@ -59,37 +59,40 @@
 </template>
 <script>
 import global from '../js/globals.js';
-export default (props, {$on, $update}) => {
+export default (props, {$f7,$, $on, $update}) => {
   global.initLocation();
   let locs = global.getLocations();
-  console.log(locs);
+  const suffix = "box";
+
   const changeLoc = (e) => {
-    //global.setLocation(e.target.value);
+    global.setLocation(e.target.value);
+    //console.log(e.target.value);
+    global.saveSettings();
+    location.reload();
   };
-  let isChecked = () =>{
-    if(global.getTheme() == "theme-dark"){
-      console.log("c")
-      return "checked";
-    }
-    else{
-      console.log("n");
-      return "";
-    }
-  }
+
   let changeColorTheme = () => {
     if(global.getTheme() == "theme-dark"){
-      global.themee = "";
-      $update();
+      global.setTheme("");
+      console.log(global.getTheme());
     }
     else{
-      global.themee = "theme-dark";
-      $update();
+      global.setTheme("theme-dark");
+      console.log(global.getTheme());
     }
+    global.saveSettings();
+    global.importSettings();
+    location.reload();
     console.log("changed");
+    //$('id="app"').update();
   };
   $on('pageInit', (e, page) => {
-    
-});
+    if(global.getTheme() == "theme-dark"){
+    $('[name="toggleTheme"]').prop('checked', true);
+    }
+    $('[id="' + global.getLocation() + 'box"]').prop('checked', true);
+
+  });
   return $render;
 };
 </script>

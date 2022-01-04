@@ -5,10 +5,11 @@ const path = 'src/js/resource.txt';
 //import * as https from 'http';
 var id = 0;
 var locations;
-var theme = "";
-var location = "Neubrandenburg";
+var theme;
+var location;
 var offers;
 var providers;
+var settingsStorage = localStorage;
 
 const global = {
     setId: (i) =>{
@@ -217,11 +218,16 @@ const global = {
         return result;
     },
     saveSettings: () => {
-
+        localStorage.setItem("theme", theme);
+        localStorage.setItem("location", location);
     },
     importSettings: () => {
-
+        theme = localStorage.getItem("theme");
+        location = localStorage.getItem("location");
     },
+    pushRating: (stars, commentText) => {
+        
+    }
 
 }
 /*

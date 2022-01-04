@@ -2,12 +2,11 @@
 const path = 'src/js/resource.txt';
 //https = require('node:http');
 //const fs = require('fs');
-import { fs } from 'fs';
 //import * as https from 'http';
 var id = 0;
 var locations;
-var theme;
-var location;
+var theme = "";
+var location = "Neubrandenburg";
 var offers;
 var providers;
 
@@ -218,18 +217,10 @@ const global = {
         return result;
     },
     saveSettings: () => {
-        writeFile(path, theme + ';' + location);
-        
 
     },
     importSettings: () => {
 
-        fs.readFile(path, (err, data) => {
-            if (err) throw err;
-            let l = data.split(';');
-            theme = l[0];
-            location = l[1];
-        });
     },
 
 }

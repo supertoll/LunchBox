@@ -1,8 +1,8 @@
 //const { writer } = require('repl');
-const path = 'src/js/resource.txt';
 //https = require('node:http');
 //const fs = require('fs');
 //import * as https from 'http';
+import { request } from 'framework7';
 var id = 0;
 var locations;
 var theme;
@@ -20,19 +20,8 @@ const global = {
     },
     initLocation: () =>{
         /*
-        https.get('http://lunchboxdev.ddns.net/getLocations/index.php', res => {
-            let data = [];
-
-            res.on('data', chunk => {
-            data.push(chunk);
-            });
-
-            res.on('end', () => {
-                locations = JSON.parse(Buffer.concat(data).toString());
-            });
-        })
-        .on('error', err => {
-            console.log('Error: ', err.message);
+        request.get('http://lunchboxdev.ddns.net/getLocations/index.php').then((res) => {
+            locations = JSON.parse(res.data);
         });
         */
        locations = {
@@ -57,21 +46,10 @@ const global = {
     setLocation: (l) => {
         location = l;
     },
-    initOffers: (d) =>{
+    initOffers: (d,l) =>{
         /*
-        https.get('http://127.0.0.1/api/getOffer/?date=' + d + '&location=["' + location + '"]', res => {
-            let data = [];
-
-            res.on('data', chunk => {
-            data.push(chunk);
-            });
-
-            res.on('end', () => {
-                offers = JSON.parse(Buffer.concat(data).toString());
-            });
-        })
-        .on('error', err => {
-            console.log('Error: ', err.message);
+        request.get('http://127.0.0.1/api/getOffer/?date=' + d + '&location=["' + l + '"]').then((res) => {
+            offers = JSON.parse(res.data);
         });
         */
 
@@ -141,19 +119,9 @@ const global = {
         ]
     },
     initProviders: (l) => {
-        /*https.get('http://127.0.0.1/api/getProvider?location=["' + l + '"]', res => {
-            let data = [];
-
-            res.on('data', chunk => {
-            data.push(chunk);
-            });
-
-            res.on('end', () => {
-                providers = JSON.parse(Buffer.concat(data).toString());
-            });
-        })
-        .on('error', err => {
-            console.log('Error: ', err.message);
+        /*
+        request.get('http://127.0.0.1/api/getProvider?location=["' + l + '"]').then((res) => {
+            providers = JSON.parse(res.data);
         });
         */
         providers = [

@@ -4,11 +4,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+
+var _framework = require("framework7");
+
 //const { writer } = require('repl');
-var path = 'src/js/resource.txt'; //https = require('node:http');
+//https = require('node:http');
 //const fs = require('fs');
 //import * as https from 'http';
-
 var id = 0;
 var locations;
 var theme;
@@ -25,17 +27,8 @@ var global = {
   },
   initLocation: function initLocation() {
     /*
-    https.get('http://lunchboxdev.ddns.net/getLocations/index.php', res => {
-        let data = [];
-          res.on('data', chunk => {
-        data.push(chunk);
-        });
-          res.on('end', () => {
-            locations = JSON.parse(Buffer.concat(data).toString());
-        });
-    })
-    .on('error', err => {
-        console.log('Error: ', err.message);
+    request.get('http://lunchboxdev.ddns.net/getLocations/index.php').then((res) => {
+        locations = JSON.parse(res.data);
     });
     */
     locations = {
@@ -57,19 +50,10 @@ var global = {
   setLocation: function setLocation(l) {
     location = l;
   },
-  initOffers: function initOffers(d) {
+  initOffers: function initOffers(d, l) {
     /*
-    https.get('http://127.0.0.1/api/getOffer/?date=' + d + '&location=["' + location + '"]', res => {
-        let data = [];
-          res.on('data', chunk => {
-        data.push(chunk);
-        });
-          res.on('end', () => {
-            offers = JSON.parse(Buffer.concat(data).toString());
-        });
-    })
-    .on('error', err => {
-        console.log('Error: ', err.message);
+    request.get('http://127.0.0.1/api/getOffer/?date=' + d + '&location=["' + l + '"]').then((res) => {
+        offers = JSON.parse(res.data);
     });
     */
     offers = [{
@@ -129,17 +113,9 @@ var global = {
     }];
   },
   initProviders: function initProviders(l) {
-    /*https.get('http://127.0.0.1/api/getProvider?location=["' + l + '"]', res => {
-        let data = [];
-          res.on('data', chunk => {
-        data.push(chunk);
-        });
-          res.on('end', () => {
-            providers = JSON.parse(Buffer.concat(data).toString());
-        });
-    })
-    .on('error', err => {
-        console.log('Error: ', err.message);
+    /*
+    request.get('http://127.0.0.1/api/getProvider?location=["' + l + '"]').then((res) => {
+        providers = JSON.parse(res.data);
     });
     */
     providers = [{

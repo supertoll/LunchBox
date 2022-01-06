@@ -103,11 +103,17 @@
     let username = '';
     let password = '';
     let comment = '';
+    
     global.importSettings();
-    let th = global.getTheme();
+    if(global.getLocation() == ""){
+      global.setLocation("Neubrandenburg");
+    }
+    global.initLocation();
+    global.initProviders(global.getLocation());
     let d = new Date();
-    global.initOffers(d.getFullYear().toString() + "-" + (d.getMonth() + 1).toString() + "-" + d.getDate().toString());
-    global.initProviders("Neubrandenburg");
+    global.initOffers(d.getFullYear().toString() + "-" + (d.getMonth() + 1).toString() + "-" + d.getDate().toString(),global.getLocation());
+   
+    let th = global.getTheme();
 
     const updateComment = (e) => {
       comment = e.target.value;

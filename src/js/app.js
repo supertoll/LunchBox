@@ -18,6 +18,8 @@ import store from './store.js';
 // Import main app component
 import App from '../app.f7';
 
+import global from './globals';
+
 var device = getDevice();
 var app = new Framework7({
   name: 'Lunchbox', // App name
@@ -47,7 +49,9 @@ var app = new Framework7({
       if (f7.device.cordova) {
         // Init cordova APIs (see cordova-app.js)
         cordovaApp.init(f7);
-        //further code i guess
+        //init all globals
+
+
         
       }
     },

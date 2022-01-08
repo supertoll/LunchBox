@@ -1,4 +1,5 @@
-require("XMLHttpRequest");
+//require("XMLHttpRequest");
+var j = "";
 
 class FoodApi{
     constructor(baseUrl = "127.0.0.1/api/"){
@@ -9,7 +10,7 @@ class FoodApi{
         this.baseUrl = baseUrl;
     }
 
-    #callAPI(endPoint,param= null,method="GET"){
+    async #callAPI(endPoint,param= null,method="GET"){
         let paramString = "";
         if(param != null){
             paramString += "?"
@@ -20,21 +21,23 @@ class FoodApi{
                 paramString += key + "=" + param[key]+"&";
             }
         }
-            
-        let request = new XMLHttpRequest();
-        request.open(method, this.baseUrl+ endPoint+"/index.php"+paramString);
-        request.send();
-        request.onload = ()=>{
-            return JSON.parse(request.response);
-        }
+        let url = this.baseUrl+ endPoint+"/index.php"+paramString;
+
+        return new Promise(function (resolve, reject) {
+            resolve(fetch(url).json)
+          })
+
+        
     }
 
     getUserId(){
-        return this.#callAPI("getUserId")
+        return this.#callAPI("getUserId");
     }
 
     getLocations(){
-        return this.#callAPI("getLocations");
+        let response = this.#callAPI("getLocations");
+        
+        console.log(response);
     }
 
     getProvider(locations=null){
@@ -79,6 +82,8 @@ class FoodApi{
         this.#callAPI("delRating",{"offerId":offerId,"userId":userId},"DELETE")
     }
 }
+    
+//let api = new FoodApi("http://lunchboxdev.ddns.net/");
+let api = new FoodApi("http://127.0.0.1/api");
 
-api = new FoodApi("127.0.0.1/api/");
 console.log(api.getLocations());

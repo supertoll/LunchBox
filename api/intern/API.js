@@ -1,5 +1,3 @@
-//require("XMLHttpRequest");
-var j = "";
 
 class FoodApi{
     constructor(baseUrl = "127.0.0.1/api/"){
@@ -10,22 +8,27 @@ class FoodApi{
         this.baseUrl = baseUrl;
     }
 
-    async #callAPI(endPoint,param= null,method="GET"){
-        let paramString = "";
+    #callAPI(endPoint,param= null,method="GET"){
+        let paramString = "?";
         if(param != null){
-            paramString += "?"
-            for (key in param.keys()){
-                if (typeof param[key] == "array"){
+            for (let key of Object.keys(param)) {
+                //console.log(key);
+                //console.log(param[key]);
+                if (Array.isArray(param[key])){
                     param[key] = JSON.stringify(param[key]);
+                    //console.log(param[key]);
                 }
-                paramString += key + "=" + param[key]+"&";
+                paramString += `${key}=${param[key]}&`;
             }
         }
+        
         let url = this.baseUrl+ endPoint+"/index.php"+paramString;
+        console.log(url);
 
-        return new Promise(function (resolve, reject) {
-            resolve(fetch(url).json)
-          })
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( method, url, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return JSON.parse(xmlHttp.responseText);
 
         
     }
@@ -37,7 +40,7 @@ class FoodApi{
     getLocations(){
         let response = this.#callAPI("getLocations");
         
-        console.log(response);
+        return response;
     }
 
     getProvider(locations=null){
@@ -50,13 +53,13 @@ class FoodApi{
 
     getOffer(date,locations=null,provider=null){
         if(locations == null && provider == null){
-            return this.#callAPI("getOffer");
+            return this.#callAPI("getOffer",{"date":date});
         }else if(locations != null && provider == null){
-            return this.#callAPI("getOffer",{"locations":locations});
+            return this.#callAPI("getOffer",{"date":date,"locations":locations});
         }else if(locations == null && provider != null){
-            return this.#callAPI("getOffer",{"provider":provider});
-        }else if(locations != null && provider == null){
-            return this.#callAPI("getOffer",{"locations":locations,"provider":provider});
+            return this.#callAPI("getOffer",{"date":date,"provider":provider});
+        }else if(locations != null && provider != null){
+            return this.#callAPI("getOffer",{"date":date,"locations":locations,"provider":provider});
         }
     }
 
@@ -84,6 +87,12 @@ class FoodApi{
 }
     
 //let api = new FoodApi("http://lunchboxdev.ddns.net/");
-let api = new FoodApi("http://127.0.0.1/api");
 
+/*
+let api = new FoodApi("http://192.168.2.202/");
+
+console.log(api.getUserId());
 console.log(api.getLocations());
+console.log(api.getProvider(["Neubrandenburg"]));
+console.log(api.getOffer("2022-1-06",["Neubrandenburg"],[4]));
+*/

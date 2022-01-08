@@ -245,10 +245,10 @@ class FoodBD extends Database{
 
             #adding comments
             $comments = $this->executeSQL("SELECT ratings.comment,ratings.rating FROM ratings WHERE ratings.offerId = ?;",[$offer[$id]["id"]]);
-            $offer[$id]["comments"] = array();
-            foreach ($comments as $commentId => $comment) {#adding only the value of comment
-                $offer[$id]["comments"] = array_merge($offer[$id]["comments"], array($comment["comment"],$comment["rating"]));
-            }
+            $offer[$id]["comments"] = $comments;
+            #foreach ($comments as $commentId => $comment) {#adding only the value of comment
+            #    $offer[$id]["comments"] = array_merge($offer[$id]["comments"], $comment);
+            #}
         }
         return $offer;
     }

@@ -2,7 +2,7 @@
 #Headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: DELETE");
+header("Access-Control-Allow-Methods: POST");
 
 #?ToDo check what mean
 header("Access-Control-Allow-Headers: access");

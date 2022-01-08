@@ -27,10 +27,8 @@ class FoodApi{
 
         let xmlHttp = new XMLHttpRequest();
         xmlHttp.open( method, url, false ); // false for synchronous request
-        xmlHttp.send( null );
-        return JSON.parse(xmlHttp.responseText);
-
-        
+        xmlHttp.send(  );
+        return JSON.parse(xmlHttp.responseText);   
     }
 
     getUserId(){
@@ -73,11 +71,11 @@ class FoodApi{
 
     updateRating(offerId,userId,rating=null,comment=null){
         if(rating != null && comment == null){
-            this.#callAPI("updateRating",{"offerId":offerId,"userId":userId,"rating":rating},"UPDATE")
+            this.#callAPI("updateRating",{"offerId":offerId,"userId":userId,"rating":rating},"POST")
         }else if(rating == null && comment != null){
-            this.#callAPI("updateRating",{"offerId":offerId,"userId":userId,"comment":comment},"UPDATE")
+            this.#callAPI("updateRating",{"offerId":offerId,"userId":userId,"comment":comment},"POST")
         }else{
-            this.#callAPI("updateRating",{"offerId":offerId,"userId":userId,"rating":rating,"comment":comment},"UPDATE")
+            this.#callAPI("updateRating",{"offerId":offerId,"userId":userId,"rating":rating,"comment":comment},"POST")
         }
     }
 
@@ -88,11 +86,14 @@ class FoodApi{
     
 //let api = new FoodApi("http://lunchboxdev.ddns.net/");
 
-/*
+
 let api = new FoodApi("http://192.168.2.202/");
 
 console.log(api.getUserId());
 console.log(api.getLocations());
 console.log(api.getProvider(["Neubrandenburg"]));
 console.log(api.getOffer("2022-1-06",["Neubrandenburg"],[4]));
-*/
+console.log(api.setRating(180,1,4,"hi ich bin toll"));
+console.log(api.updateRating(180,1,5,"hi du bist toll"));//throws error but functions
+console.log(api.delRating(180,1));
+

@@ -244,11 +244,7 @@ class FoodBD extends Database{
             #echo var_dump($offer[$id]["tags"])."<br><br>";
 
             #adding comments
-            $comments = $this->executeSQL("SELECT ratings.comment,ratings.rating FROM ratings WHERE ratings.offerId = ?;",[$offer[$id]["id"]]);
-            $offer[$id]["comments"] = $comments;
-            #foreach ($comments as $commentId => $comment) {#adding only the value of comment
-            #    $offer[$id]["comments"] = array_merge($offer[$id]["comments"], $comment);
-            #}
+            $offer[$id]["comments"] = $this->executeSQL("SELECT ratings.comment,ratings.rating FROM ratings WHERE ratings.offerId = ?;",[$offer[$id]["id"]]);
         }
         return $offer;
     }

@@ -23,7 +23,7 @@ class FoodApi{
         }
         
         let url = this.baseUrl+ endPoint+"/index.php"+paramString;
-        console.log(url);
+        //console.log(url);
 
         let xmlHttp = new XMLHttpRequest();
         xmlHttp.open( method, url, false ); // false for synchronous request

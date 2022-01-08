@@ -111,14 +111,23 @@ output:
 ```Json
 [
     {
-        "id": 696,
-        "providerId": 3,
-        "name": "Eier",
-        "description": "in süß- saurer Soße mit Kartoffeln, dazu Rohkost",
-        "price": null,
-        "averageRating": null,
+        "id": 171,
+        "providerId": 10,
+        "name": "Senfei",
+        "description": "2 Bio-Eier in Senfsoße, dazu Kartoffeln",
+        "price": 600,
+        "averageRating": "3.0",
         "tags": [],
-        "comments": []
+        "comments": [
+            {
+                "comment": "test2",
+                "rating": 3
+            },
+            {
+                "comment": "test",
+                "rating": 3
+            }
+        ]
     },
     {
         "id": 697,

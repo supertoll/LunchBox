@@ -1,8 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-<script src="./API.js">
-    
+<script  type = "text/javascript" src="./API.js">
+</script>
+<script>
+    let api = new FoodApi("http://192.168.2.202/");
+    console.log(api.getUserId());
+    console.log(api.getLocations());
+    console.log(api.getProvider(["Neubrandenburg"]));
+    console.log(api.getOffer("2022-1-06",["Neubrandenburg"],[4]));
+    console.log(api.setRating(180,1,4,"hi ich bin toll"));
+    console.log(api.updateRating(180,1,5,"hi du bist toll"));
+
+    //console.log(api.delRating(180,1));
 </script>
 </body>
 </html>

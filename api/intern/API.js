@@ -1,9 +1,9 @@
 
-class FoodApi{
     /**
      * Adds a simple way to interface with the modifed lunchbox api. The individual API calls are translated in methods of this class.
      * @param baseUrl - Sting of the base url of the api. EG. "lunchboxdev.ddns.net"
      */
+class FoodApi{
     constructor(baseUrl = "127.0.0.1/api/"){
         if(baseUrl.slice(-1) != "/"){//checking for a "/" at the end 
             baseUrl += "/";
@@ -11,13 +11,14 @@ class FoodApi{
         this.baseUrl = baseUrl;
     }
 
-    #callAPI(endPoint,param= null,method="GET"){
-        /**
+
+    /**
          * makes the actual api call.
          * @param endPoint - Is the endPoint wich is called. EG. "getLocations"
          * @param param - (optional) Is a dic of the values wich are handed overe. The keys of the dic need to mach the real api parameter name.
          * @param method - (optional) Specifies the http method. (GET, DELETE, POST ..etc)
-         */
+    */
+    #callAPI(endPoint,param= null,method="GET"){
         //creating a param string
         let paramString = "?";
         if(param != null){
@@ -41,11 +42,11 @@ class FoodApi{
         xmlHttp.send(  );
         return JSON.parse(xmlHttp.responseText);   
     }
-
+    
+    /**
+     * returns a userid.
+     */
     getUserId(){
-        /**
-         * returns a userid.
-         */
         return this.#callAPI("getUserId");
     }
 
@@ -53,11 +54,11 @@ class FoodApi{
         return this.#callAPI("getLocations");
     }
 
+    /**
+     * returns available provider. Its possible to specifie the location of wich providers are returned.
+     * @param locations - (optional) nerrows down the provider. Is in form of a list of the location name. EG. ["Neubrandenburg"]
+     */
     getProvider(locations=null){
-        /**
-         * returns available provider. Its possible to specifie the location of wich providers are returned.
-         * @param locations - (optional) nerrows down the provider. Is in form of a list of the location name. EG. ["Neubrandenburg"]
-         */
         if(locations == null){//check if defined
             return this.#callAPI();
         }else{
@@ -65,13 +66,13 @@ class FoodApi{
         }
     }
 
+    /**
+     * retuns the offers. Can be nerrowed down to locations/ provider
+     * @param date - in format "yyyy-mm-dd"
+     * @param locations - (optional) nerrows down the offers to a spesific location. Is in form of a list of the location name. EG. ["Neubrandenburg"]
+     * @param provider - (optional) nerrows down the offers to specific providers. Is in form, of a list of the provider ids. EG. [1,2,3,4]
+     */
     getOffer(date,locations=null,provider=null){
-        /**
-         * retuns the offers. Can be nerrowed down to locations/ provider
-         * @param date - in format "yyyy-mm-dd"
-         * @param locations - (optional) nerrows down the offers to a spesific location. Is in form of a list of the location name. EG. ["Neubrandenburg"]
-         * @param provider - (optional) nerrows down the offers to specific providers. Is in form, of a list of the provider ids. EG. [1,2,3,4]
-         */
         if(locations == null && provider == null){
             return this.#callAPI("getOffer",{"date":date});
         }else if(locations != null && provider == null){
@@ -83,14 +84,14 @@ class FoodApi{
         }
     }
 
+    /**
+     * sets a rating for a offer
+     * @param offerId - is the id of a offer, is used to connect a rating to a offer.
+     * @param userId - is the id of a user, is used to connect a rating to a user.
+     * @param rating - is the rating in 1-5 stars.
+     * @param comment - (optional) is a comment for a offer rating.
+     */
     setRating(offerId,userId,rating,comment=null){
-        /**
-         * sets a rating for a offer
-         * @param offerId - is the id of a offer, is used to connect a rating to a offer.
-         * @param userId - is the id of a user, is used to connect a rating to a user.
-         * @param rating - is the rating in 1-5 stars.
-         * @param comment - (optional) is a comment for a offer rating.
-         */
         if (comment == null){
             this.#callAPI("setRating",{"offerId":offerId,"userId":userId,"rating":rating});
         }else{            
@@ -98,14 +99,14 @@ class FoodApi{
         }
     }
 
+    /**
+     * updates alredy done ratings
+     * @param offerId - is the id of a offer, is used to connect a rating to a offer.
+     * @param userId - is the id of a user, is used to connect a rating to a user.
+     * @param rating - (optional) the to update rating
+     * @param comment - (optional) the to update comment
+     */
     updateRating(offerId,userId,rating=null,comment=null){
-        /**
-         * updates alredy done ratings
-         * @param offerId - is the id of a offer, is used to connect a rating to a offer.
-         * @param userId - is the id of a user, is used to connect a rating to a user.
-         * @param rating - (optional) the to update rating
-         * @param comment - (optional) the to update comment
-         */
         if(rating != null && comment == null){
             this.#callAPI("updateRating",{"offerId":offerId,"userId":userId,"rating":rating},"POST")
         }else if(rating == null && comment != null){
@@ -115,16 +116,16 @@ class FoodApi{
         }
     }
 
+    /**
+     * del a rating
+     * @param offerId - is the id of a offer, is used to connect a rating to a offer.
+     * @param userId - is the id of a user, is used to connect a rating to a user.
+     */
     delRating(offerId,userId){
-        /**
-         * del a rating
-         * @param offerId - is the id of a offer, is used to connect a rating to a offer.
-         * @param userId - is the id of a user, is used to connect a rating to a user.
-         */
         this.#callAPI("delRating",{"offerId":offerId,"userId":userId},"DELETE")
     }
 }
-    
+
 
 /*testing
 let api = new FoodApi("http://192.168.2.202/");

@@ -17,6 +17,7 @@ class FoodApi{
          * @param endPoint - Is the endPoint wich is called. EG. "getLocations"
          * @param param - (optional) Is a dic of the values wich are handed overe. The keys of the dic need to mach the real api parameter name.
          * @param method - (optional) Specifies the http method. (GET, DELETE, POST ..etc)
+         * @returns {JSON} - returns the json respons of the api call
     */
     #callAPI(endPoint,param= null,method="GET"){
         //creating a param string
@@ -45,11 +46,15 @@ class FoodApi{
     
     /**
      * returns a userid.
+     * @returns {int} 
      */
     getUserId(){
-        return this.#callAPI("getUserId");
+        return this.#callAPI("getUserId")["id"];
     }
 
+    /**
+     * returns a list of available locations
+     */
     getLocations(){
         return this.#callAPI("getLocations");
     }
@@ -137,3 +142,4 @@ console.log(api.setRating(180,1,4,"hi ich bin toll"));
 console.log(api.updateRating(180,1,5,"hi du bist toll"));
 console.log(api.delRating(180,1));
 */
+FoodApi.get

@@ -49,7 +49,7 @@ class FoodApi{
      * @returns {int} 
      */
     getUserId(){
-        return this.#callAPI("getUserId")["id"];
+        return this.#callAPI("getUserId");
     }
 
     /**

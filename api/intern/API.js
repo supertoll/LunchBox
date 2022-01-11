@@ -142,4 +142,3 @@ console.log(api.setRating(180,1,4,"hi ich bin toll"));
 console.log(api.updateRating(180,1,5,"hi du bist toll"));
 console.log(api.delRating(180,1));
 */
-FoodApi.get

@@ -1,0 +1,151 @@
+
+<template>
+  <div id="app" class=${th}>
+
+
+
+
+    <!-- Your main view, should have "view-main" class -->
+    <div class="view view-main view-init safe-areas" data-url="/"></div>
+
+
+    <!-- Popup -->
+    <div class="popup" id="commentPopup" data-close-on-escape="true" data-swipe-to-close="to-bottom" >
+      <div class="view">
+        <div class="page">
+          <div class="navbar">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner">
+              <div class="title">Add Comment</div>
+              <div class="right">
+                <a href="#" class="link popup-close">Cancel</a>
+              </div>
+            </div>
+          </div>
+          <div class="page-content">
+            <div class="list no-hairlines no-hairlines-beetween">
+              <ul>
+                <li class="align-top">
+                  <div class="item-content item-input">
+                    <div class="item-inner">
+                      <!---div class="item-title item-label">---</div--->
+                      <div class="item-input-wrap">
+                        <textarea placeholder="Comment goes here..." value=${comment} class="resizable" @input="${updateComment}"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="align-top">
+                  <div class="item-content item-input">
+                    <div class="item-inner">
+                      <a href="#" @click="${addComment}" class="col button button-raised align-self-stretch button-fill link popup-close">
+                        Submit
+                      </a>
+                    </div>
+                  </div>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Screen>
+    <div class="login-screen" id="my-login-screen">
+      <div class="view">
+        <div class="page">
+          <div class="page-content login-screen-content">
+            <div class="login-screen-title">Login</div>
+            <div class="list">
+              <ul>
+                <li class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Username</div>
+                    <div class="item-input-wrap">
+                      <input type="text" name="username" placeholder="Your username" value="${username}" @input="${updateUsername}"/>
+
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Password</div>
+                    <div class="item-input-wrap">
+                      <input type="password" name="password" placeholder="Your password" value="${password}" @input="${updatePassword}"/>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="list">
+              <ul>
+                <li>
+                  <a href="#" class="item-link list-button login-button" @click="${alertLoginData}">Sign In</a>
+
+                </li>
+              </ul>
+              <div class="block-footer">Some text about login information.<br/>Click "Sign In" to close Login Screen</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div-->
+
+  </div>
+</template>
+<script>
+  import global from '/js/globals.js';
+  export default (props, { $f7, $app, $update, $on }) => {
+    // Login screen demo data
+    let username = '';
+    let password = '';
+    let comment = '';
+    
+    global.importSettings();
+    if(global.getLocation() == ""){
+      global.setLocation("Neubrandenburg");
+    }
+    global.initLocation();
+    global.initProviders(global.getLocation());
+    let d = new Date();
+    global.initOffers(d.getFullYear().toString() + "-" + (d.getMonth() + 1).toString() + "-" + d.getDate().toString(),global.getLocation());
+   
+    let th = global.getTheme();
+
+    const updateComment = (e) => {
+      comment = e.target.value;
+      $update();
+    }
+
+    const updateUsername = (e) => {
+      username = e.target.value;
+      $update();
+    }
+    const updatePassword = (e) => {
+      password = e.target.value;
+      $update();
+    }
+    const alertLoginData = () => {
+      $f7.dialog.alert('Username: ' + username + '<br/>Password: ' + password, () => {
+        $f7.loginScreen.close();
+      });
+    }
+    const addComment = () => {
+      let mealObject = global.getOffers().filter(m => m.id == global.getId())[0];
+      mealObject.comments.push(comment);
+      console.log(comment);
+      global.pushRating(5,comment);
+      comment = "";
+      $update();
+    }
+    $on('pageInit', (e, page) => {
+      //global.initLocation();
+
+    });
+
+    return $render;
+  }
+</script>

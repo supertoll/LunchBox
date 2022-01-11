@@ -1,0 +1,98 @@
+<template>
+<div class="page" data-name="about">
+  <div class="navbar">
+    <div class="navbar-bg"></div>
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="#" class="link back">
+          <i class="icon icon-back"></i>
+          <span class="if-not-md">Back</span>
+        </a>
+      </div>
+      <div class="title">Settings</div>
+      <div class="subtitle">Thank you for downloading our app.</div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="block-title">Choose Location</div>
+    <div class="list">
+      <ul>
+        ${locs["locations"].map((ll) => $h`
+          <li>
+            <label class="item-radio item-content">
+              <input type="radio" name="loc" value=${ll} @click=${changeLoc} id=${ll + suffix}/>
+              <i class="icon icon-radio"></i>
+              <div class="item-inner">
+                <div class="item-title">${ll}</div>
+              </div>
+            </label>
+          </li>
+        `)}
+        <li>
+          <div class="item-content">
+            <div class="item-inner">
+              <div class="item-title">Dark Mode</div>
+              <div class="item-after">
+                <label class="toggle toggle-init themeToggle">
+                  <input type="checkbox" @click=${changeColorTheme} name="toggleTheme" />
+                  <span class="toggle-icon"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </li>
+        
+      </ul>
+    </div>
+    <div class="toggle">
+
+    </div>
+    <div class="block block-strong">
+      <p>This is the official Luchbox app form the info-ag at data-experts.</p>
+      <p>All rights reserved to Markus.</p>
+    </div>
+    <div class="block">
+      <p>Thanks to all developers from the info-ag.</p>
+    </div>
+  </div>
+</div>
+</template>
+<script>
+import global from '../js/globals.js';
+export default (props, {$f7,$, $on, $update}) => {
+  global.initLocation();
+  let locs = global.getLocations();
+  const suffix = "box";
+
+  const changeLoc = (e) => {
+    global.setLocation(e.target.value);
+    //console.log(e.target.value);
+    global.saveSettings();
+    location.reload();
+  };
+
+  let changeColorTheme = () => {
+    if(global.getTheme() == "theme-dark"){
+      global.setTheme("");
+      console.log(global.getTheme());
+    }
+    else{
+      global.setTheme("theme-dark");
+      console.log(global.getTheme());
+    }
+    global.saveSettings();
+    global.importSettings();
+    location.reload();
+    console.log("changed");
+    //$('id="app"').update();
+  };
+  $on('pageInit', (e, page) => {
+    if(global.getTheme() == "theme-dark"){
+    $('[name="toggleTheme"]').prop('checked', true);
+    }
+    $('[id="' + global.getLocation() + 'box"]').prop('checked', true);
+
+  });
+  return $render;
+};
+</script>

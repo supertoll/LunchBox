@@ -59,8 +59,8 @@
 </template>
 <script>
 import global from '../js/globals.js';
-export default (props, {$f7,$, $on, $update}) => {
-  global.initLocation();
+export default async (props, {$f7,$, $on, $update}) => {
+  await global.initLocation();
   let locs = global.getLocations();
   const suffix = "box";
 
@@ -81,7 +81,6 @@ export default (props, {$f7,$, $on, $update}) => {
       console.log(global.getTheme());
     }
     global.saveSettings();
-    global.importSettings();
     location.reload();
     console.log("changed");
     //$('id="app"').update();

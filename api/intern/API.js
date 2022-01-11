@@ -64,7 +64,7 @@ class FoodApi{
      */
     getProvider(locations=null){
         if(locations == null){//check if defined
-            return this.#callAPI();
+            return this.#callAPI("getProvider");
         }else{
             return this.#callAPI("getProvider",{"locations":locations});
         }

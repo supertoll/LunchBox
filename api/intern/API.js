@@ -46,7 +46,6 @@ class FoodApi{
     
     /**
      * returns a userid.
-     * @returns {int} 
      */
     getUserId(){
         return this.#callAPI("getUserId");

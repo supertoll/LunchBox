@@ -5,7 +5,7 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: DELETE");
 
 #? ToDo check what mean
-header("Access-Control-Allow-Headers: access");
+header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Credentials: true");
 
 # using fooddb class

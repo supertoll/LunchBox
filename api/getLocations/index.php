@@ -6,7 +6,6 @@ header("Access-Control-Allow-Methods: GET");
 
 #?ToDo check what mean
 header("Access-Control-Allow-Headers: *");
-header("Access-Control-Allow-Credentials: true");
 
 
 # using fooddb class

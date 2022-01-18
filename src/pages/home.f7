@@ -52,10 +52,10 @@
                             <div class="item-inner">
                               <div class="item-title">
                                 <div class="item-header">${meal.tags}</div>
-                                ${meal.name + " " + meal.description} 
-                                <div class="item-footer">${ratingToStars(meal.averageRating)}</div>
+                                ${meal.name}
+                                <div class="item-footer">${priceView(meal.price)}</div>
                               </div>
-                              <div class="item-after">${priceView(meal.price)}</div>
+                              <div class="item-after">Details & Comments</div>
                             </div>
                           </a>
                         </li>
@@ -94,7 +94,7 @@
 </template>
 <script>
 import global from '../js/globals.js';
-export default async (props, { $update }) => {
+export default (props, { $update }) => {
   //example data:
   //will be replaced by a databaseconnection
   let detail = "/detail/";
@@ -107,14 +107,10 @@ export default async (props, { $update }) => {
   let thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
   //function to change data with date missing
   //event for next/back missing
-  var nDay = async () => {
+  var nDay = () => {
     date.setDate(date.getDate()+1);
     thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
-    await global.initOffers(date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString());
-    meals = global.getOffers();
-    providerlist = global.getProviders();
-    providers = global.organizeOffers(meals, providerlist);
-    nsole.log(1);
+    global.initOffers(date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString());
     $update();
   }
 
@@ -126,30 +122,16 @@ export default async (props, { $update }) => {
     return r[0] + '.' + r[1] + r[2] + ' €';
   }
 
-  var bDay = async () => {
+  var bDay = () => {
     date.setDate(date.getDate()-1);
     if(date < new Date()){
       date = new Date();
     }
     else{
-      await global.initOffers(date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString());
-      meals = global.getOffers();
-      providerlist = global.getProviders();
-      providers = global.organizeOffers(meals, providerlist);
+      global.initOffers(date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString());
     }
     thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
-    console.log(2);
     $update();
-  }
-  const ratingToStars = (r) => {
-    let result = "";
-    result += "#".repeat(Math.trunc(r));
-    if(r % 1 != 0){
-      result += "+";
-    }
-    result += "o".repeat(5- result.length);
-    return result;
-
   }
 
   return $render;

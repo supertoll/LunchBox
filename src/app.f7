@@ -52,6 +52,60 @@
       </div>
     </div>
 
+    <div class="popup" id="startPopup" >
+      <div class="view">
+        <div class="page">
+          <div class="navbar">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner">
+              <div class="title center">Einrichtung abschließen</div>
+            </div>
+          </div>
+          <div class="page-content">
+
+            <div class="list no-hairlines no-hairlines-beetween">
+              <ul>
+  	            ${locs["locations"].map((ll) => $h`
+  	            <li>
+  	              <label class="item-radio item-content">
+  	                <input type="radio" value=${ll} @click=${changeLoc}/>
+  	                <i class="icon icon-radio"></i>
+  	                <div class="item-inner">
+  	                  <div class="item-title">${ll}</div>
+  	                </div>
+  	              </label>
+  	            </li>
+  	            `)}
+  	            <li>
+  	              <div class="item-content">
+  	                <div class="item-inner">
+  	                  <div class="item-title">Dark Mode</div>
+  	                  <div class="item-after">
+  	                    <label class="toggle toggle-init themeToggle">
+  	                      <input type="checkbox" @click=${changeColorTheme} name="toggleTheme" />
+  	                      <span class="toggle-icon"></span>
+  	                    </label>
+  	                  </div>
+  	                </div>
+  	              </div>
+  	            </li>
+                <li class="align-top">
+                  <div class="item-content item-input">
+                    <div class="item-inner">
+                      <a href="#" @click="${isReady}" class="popup-close">
+                        Fertig
+                      </a>
+                    </div>
+                  </div>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Login Screen>
     <div class="login-screen" id="my-login-screen">
       <div class="view">
@@ -98,20 +152,25 @@
 </template>
 <script>
   import global from '/js/globals.js';
-  export default (props, { $f7, $app, $update, $on }) => {
+  export default async (props, { $f7, $, $app, $update, $on }) => {
     // Login screen demo data
     let username = '';
     let password = '';
     let comment = '';
-    
+    let locs = {"locations" : ['Nb', 'B', "H4"]};
     global.importSettings();
-    if(global.getLocation() == ""){
-      global.setLocation("Neubrandenburg");
+    console.log("start");
+    if(localStorage.getItem("first-start") != "done"){
+      console.log(global.getLocation());
+      await global.initLocation();
+      locs = global.getLocations();
+      //$("#startPopup").open();
+      localStorage.setItem("first-start", "done");
     }
-    global.initLocation();
-    global.initProviders(global.getLocation());
+
+    await global.initProviders();
     let d = new Date();
-    global.initOffers(d.getFullYear().toString() + "-" + (d.getMonth() + 1).toString() + "-" + d.getDate().toString(),global.getLocation());
+    await global.initOffers(d.getFullYear().toString() + "-" + (d.getMonth() + 1).toString() + "-" + d.getDate().toString());
    
     let th = global.getTheme();
 
@@ -134,6 +193,9 @@
       });
     }
     const addComment = () => {
+      if(comment == ''){
+        return;
+      }
       let mealObject = global.getOffers().filter(m => m.id == global.getId())[0];
       mealObject.comments.push(comment);
       console.log(comment);
@@ -141,9 +203,27 @@
       comment = "";
       $update();
     }
-    $on('pageInit', (e, page) => {
-      //global.initLocation();
+    
 
+
+
+    const changeLoc = (e) => {
+      global.setLocation(e.target.value);
+    }
+
+    const changeColorTheme = () => {
+      if(global.getTheme() == "theme-dark"){
+        global.setTheme("");
+      }
+      else{
+        global.setTheme("theme-dark");
+      }
+    }
+    const isReady = () => {
+      global.saveSettings();
+      location.reload();
+    }
+    $on('pageInit', (e, page) => {
     });
 
     return $render;

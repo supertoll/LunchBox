@@ -52,10 +52,9 @@ export default (props, { $f7, $, $f7route, $update, $on }) => {
     if(rn == null){
       return "";
     }
-    let r = rn.toString();
-    return r[0] + '.' + r[1] + r[2] + ' €';
+    return (rn/100).toFixed(2) + ' €';
   }
-
+  
   $('#commentPopup').on('popup:close', function (e) {
     $update();
   });
@@ -63,6 +62,7 @@ export default (props, { $f7, $, $f7route, $update, $on }) => {
   $on('pageInit', (e, page) => {
 
   });
+          
 
 
   

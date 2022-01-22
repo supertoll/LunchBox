@@ -233,7 +233,7 @@ class FoodBD extends Database{
         
         foreach ($offer as $id => $food) {#adding tags and comments
             #convert average rating str to decimal
-            $offer[$id]["averageRating"] = isset($offer[$id]["averageRating"]) ? floatval($offer[$id]["averageRating"] : null);
+            $offer[$id]["averageRating"] = isset($offer[$id]["averageRating"]) ? floatval($offer[$id]["averageRating"]) : null);
 
             #adding tags
             $offer[$id]["tags"] = array();

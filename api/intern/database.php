@@ -324,12 +324,6 @@ class FoodBD extends Database{
     }
 }
 
-$db = new FoodBD("localhost","lunchboxuser","");
-$db->connect("lunchboxfooddb");
-$offer = $db->getOffer("2022-1-21");
-$db->disconnect();
-
-echo var_dump($offer[0]["averageRating"]);
 
 /*
 class DBHandler implements SessionHandlerInterface{ 

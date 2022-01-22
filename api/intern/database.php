@@ -323,7 +323,7 @@ class FoodBD extends Database{
 }
 
 $api = new FoodBD("localhost","lunchboxuser","");
-$api.getOffer("2022-1-21");
+$offer = $api.getOffer("2022-1-21");
 
 /*
 class DBHandler implements SessionHandlerInterface{ 

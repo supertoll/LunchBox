@@ -322,8 +322,10 @@ class FoodBD extends Database{
     }
 }
 
-$api = new FoodBD("localhost","lunchboxuser","");
-$offer = $api->getOffer("2022-1-21");
+$db = new FoodBD("localhost","lunchboxuser","");
+$db->connect("lunchboxfooddb");
+$offer = $db->getOffer("2022-1-21");
+$db->disconnect();
 
 /*
 class DBHandler implements SessionHandlerInterface{ 

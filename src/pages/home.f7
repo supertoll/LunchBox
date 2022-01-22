@@ -1,4 +1,5 @@
 <template>
+  
   <div class="page" data-name="home">
 
     <!-- Toolbar-->
@@ -52,10 +53,17 @@
                             <div class="item-inner">
                               <div class="item-title">
                                 <div class="item-header">${meal.tags}</div>
-                                ${meal.name}
-                                <div class="item-footer">${priceView(meal.price)}</div>
+                                ${meal.name + " " + meal.description }
+                                <!-- for dev only -->
+                                ${"\tid: " + meal.id}
+                                <!-- for dev only --> 
+                                <!-- <div class="item-footer">${ratingToStars(meal.averageRating)}</div>--> 
+                                <div class= "item-footer">
+                                  
+                                  ${ratingToFilledStars(meal.averageRating)}
+                                </div>
                               </div>
-                              <div class="item-after">Details & Comments</div>
+                              <div class="item-after">${priceView(meal.price)}</div>
                             </div>
                           </a>
                         </li>
@@ -94,7 +102,7 @@
 </template>
 <script>
 import global from '../js/globals.js';
-export default (props, { $update }) => {
+export default async (props, { $update }) => {
   //example data:
   //will be replaced by a databaseconnection
   let detail = "/detail/";
@@ -102,15 +110,18 @@ export default (props, { $update }) => {
   let meals = global.getOffers();
   let providerlist = global.getProviders();
   let providers = global.organizeOffers(meals, providerlist);
+  global.setLocation("Neubrandenburg"); 
   //Date function for header
-  let date = new Date();
-  let thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
+  let thisdate = global.getDate();
   //function to change data with date missing
   //event for next/back missing
-  var nDay = () => {
-    date.setDate(date.getDate()+1);
-    thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
-    global.initOffers(date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString());
+  var nDay = async () => {
+    global.increaseDate();
+    thisdate = global.getDate();
+    //await global.initOffers(thisdate.getFullYear().toString() + "-" + (thisdate.getMonth() + 1).toString() + "-" + thisdate.getDate().toString());
+    meals = global.getOffers([global.getLocation()]);
+    providerlist = global.getProviders();
+    providers = global.organizeOffers(meals, providerlist);
     $update();
   }
 
@@ -118,20 +129,36 @@ export default (props, { $update }) => {
     if(rn == null){
       return "";
     }
-    let r = rn.toString();
-    return r[0] + '.' + r[1] + r[2] + ' €';
+    return (rn/100).toFixed(2) + ' €';
   }
 
-  var bDay = () => {
-    date.setDate(date.getDate()-1);
-    if(date < new Date()){
-      date = new Date();
-    }
-    else{
-      global.initOffers(date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString());
-    }
-    thisdate = date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
+  var bDay = async () => {
+    global.decreaseDate();
+    thisdate = global.getDate();
+    //await global.initOffers(date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString());
+    meals = global.getOffers(global.getLocation());
+    providerlist = global.getProviders();
+    providers = global.organizeOffers(meals, providerlist);
     $update();
+  }
+
+  const ratingToStars = (r) => {
+    let result = "";
+    result += "#".repeat(Math.trunc(r));
+    if(r % 1 != 0){
+      result += "+";
+    }
+    result += "o".repeat(5- result.length);
+    return result;
+  }
+
+  const ratingToFilledStars = (rating) => {
+    if (rating == null){
+      return;
+    }else{
+      let a = rating.toFixed(1);
+      console.log(a);
+    }
   }
 
   return $render;

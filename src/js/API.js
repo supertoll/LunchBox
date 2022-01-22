@@ -1,10 +1,10 @@
 
+class FoodApi{
     /**
      * Adds a simple way to interface with the modifed lunchbox api. The individual API calls are translated in methods of this class.
      * @param baseUrl - Sting of the base url of the api. EG. "lunchboxdev.ddns.net"
      */
-class FoodApi{
-    constructor(baseUrl = "127.0.0.1/api/"){
+    constructor(baseUrl = "lunchboxdev.ddns.net"){
         if(baseUrl.slice(-1) != "/"){//checking for a "/" at the end 
             baseUrl += "/";
         }
@@ -129,7 +129,7 @@ class FoodApi{
         this.#callAPI("delRating",{"offerId":offerId,"userId":userId},"DELETE")
     }
 }
-
+export default FoodApi;
 
 /*testing
 let api = new FoodApi("http://192.168.2.202/");

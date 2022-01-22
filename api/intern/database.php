@@ -230,7 +230,7 @@ class FoodBD extends Database{
         #getting the offers
         $offer = $this->executeSQL($statment,$args);#geting all relervant food
         #echo var_dump($offer)."<br><br>";
-        echo var_dump(gettype($offer[0].averageRating));
+        echo var_dump($offer[0].averageRating);
         
         foreach ($offer as $id => $food) {#adding tags and comments
             #adding tags

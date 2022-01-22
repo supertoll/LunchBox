@@ -230,9 +230,11 @@ class FoodBD extends Database{
         #getting the offers
         $offer = $this->executeSQL($statment,$args);#geting all relervant food
         #echo var_dump($offer)."<br><br>";
-        echo var_dump(gettype($offer[0]["averageRating"]));
         
         foreach ($offer as $id => $food) {#adding tags and comments
+            #convert average rating str to decimal
+            $offer[$id]["averageRating"] = floatval($offer[$id]["averageRating"]);
+
             #adding tags
             $offer[$id]["tags"] = array();
             $tags = $this->executeSQL("SELECT tags.tag FROM offer2tags JOIN tags ON offer2tags.tagId = tags.id WHERE offer2tags.offerId = ?;",[$food["id"]]);
@@ -326,6 +328,8 @@ $db = new FoodBD("localhost","lunchboxuser","");
 $db->connect("lunchboxfooddb");
 $offer = $db->getOffer("2022-1-21");
 $db->disconnect();
+
+echo var_dump(gettype($offer[0]["averageRating"]));
 
 /*
 class DBHandler implements SessionHandlerInterface{ 

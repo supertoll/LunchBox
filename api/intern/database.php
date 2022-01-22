@@ -230,6 +230,7 @@ class FoodBD extends Database{
         #getting the offers
         $offer = $this->executeSQL($statment,$args);#geting all relervant food
         #echo var_dump($offer)."<br><br>";
+        echo gettype($offer[0].averageRating);
         
         foreach ($offer as $id => $food) {#adding tags and comments
             #adding tags
@@ -321,8 +322,8 @@ class FoodBD extends Database{
     }
 }
 
-
-
+$api = new FoodBD("localhost","lunchboxuser","");
+$api.getOffer("2022-1-21");
 
 /*
 class DBHandler implements SessionHandlerInterface{ 

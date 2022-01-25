@@ -114,7 +114,6 @@ export default async (props, { $update }) => {
     meals = global.getOffers();
     providerlist = global.getProviders();
     providers = global.organizeOffers(meals, providerlist);
-    nsole.log(1);
     $update();
   }
 

@@ -2,12 +2,21 @@
 import HomePage from '../pages/home.f7';
 import AboutPage from '../pages/about.f7';
 import FormPage from '../pages/form.f7';
+import WelcomePage from '../pages/welcome.f7';
 
 import DetailPage  from '../pages/detail.f7';
 //import DynamicRoutePage from '../pages/dynamic-route.f7';
 //import RequestAndLoad from '../pages/request-and-load.f7';
 import NotFoundPage from '../pages/404.f7';
 
+function startpage(){
+  if ( localStorage.getItem("first") != "done" ){
+    return WelcomePage
+  }
+  else{
+    return HomePage
+  } 
+}
 var routes = [
   {
     path: '/',

@@ -1,0 +1,84 @@
+<template class="page" data-name="welcome">
+  <!--div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="#" class="link back">
+            <i class="icon icon-back"></i>
+            <span class="if-not-md">Back</span>
+          </a>
+        </div>
+        <div class="title">Settings</div>
+        <div class="subtitle">Thank you for downloading our app.</div>
+      </div>
+	</div-->
+	
+	<div class="page-content">
+		<div class="block-title">Willkommen bei der neuen Lunchbox-App der info-ag!</div>
+		<div class="list no-hairlines no-hairlines-beetween">
+			<ul>
+				${locs["locations"].map((ll) => $h`
+				<li>
+					<label class="item-radio item-content">
+						<input type="radio" value=${ll} @click=${changeLoc}/>
+						<i class="icon icon-radio"></i>
+						<div class="item-inner">
+							<div class="item-title">${ll}</div>
+						</div>
+					</label>
+				</li>
+				`)}
+				<li>
+					<div class="item-content">
+						<div class="item-inner">
+							<div class="item-title">Dark Mode</div>
+							<div class="item-after">
+								<label class="toggle toggle-init themeToggle">
+									<input type="checkbox" @click=${changeColorTheme} name="toggleTheme" />
+									<span class="toggle-icon"></span>
+								</label>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="align-top">
+					<div class="item-content item-input">
+						<div class="item-inner">
+							<a href="#" @click="${isReady}" class="popup-close">
+								Fertig
+							</a>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+</template>
+<script>
+	import global from '/js/globals.js';
+	export default async (props) => {
+		await global.initLocation();
+  	let locs = global.getLocations();
+
+		const changeLoc = (e) => {
+      global.setLocation(e.target.value);
+    }
+
+    const changeColorTheme = () => {
+      if(global.getTheme() == "theme-dark"){
+        global.setTheme("");
+      }
+      else{
+        global.setTheme("theme-dark");
+      }
+    }
+    const isReady = () => {
+      global.saveSettings();
+			//localStorage.setItem("first", "done");
+      location.reload();
+
+    }
+		return $render;
+	}
+</script>

@@ -11,6 +11,8 @@ var _about = _interopRequireDefault(require("../pages/about.f7"));
 
 var _form = _interopRequireDefault(require("../pages/form.f7"));
 
+var _welcome = _interopRequireDefault(require("../pages/welcome.f7"));
+
 var _detail = _interopRequireDefault(require("../pages/detail.f7"));
 
 var _ = _interopRequireDefault(require("../pages/404.f7"));
@@ -19,6 +21,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 //import DynamicRoutePage from '../pages/dynamic-route.f7';
 //import RequestAndLoad from '../pages/request-and-load.f7';
+function startpage() {
+  if (localStorage.getItem("first") != "done") {
+    return _welcome["default"];
+  } else {
+    return _home["default"];
+  }
+}
+
 var routes = [{
   path: '/',
   component: _home["default"]

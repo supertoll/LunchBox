@@ -2,9 +2,6 @@
 <template>
   <div id="app" class=${th}>
 
-
-
-
     <!-- Your main view, should have "view-main" class -->
     <div class="view view-main view-init safe-areas" data-url="/"></div>
 
@@ -52,7 +49,7 @@
       </div>
     </div>
 
-    <div class="popup" id="startPopup" >
+    <div class="popup popup-tablet-fullscreen" id="startPopup" >
       <div class="view">
         <div class="page">
           <div class="navbar">
@@ -98,7 +95,6 @@
                     </div>
                   </div>
                 </li>
-
               </ul>
             </div>
           </div>
@@ -160,13 +156,12 @@
     let locs = {"locations" : ['Nb', 'B', "H4"]};
     global.importSettings();
     console.log("start");
-    if(localStorage.getItem("first-start") != "done"){
-      console.log(global.getLocation());
-      await global.initLocation();
-      locs = global.getLocations();
-      //$("#startPopup").open();
-      localStorage.setItem("first-start", "done");
-    }
+    console.log(global.getLocation());
+    await global.initLocation();
+    locs = global.getLocations();
+    var pr = $(".startPopup");
+    console.log(pr);
+
 
     await global.initProviders();
     let d = new Date();

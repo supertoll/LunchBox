@@ -62,12 +62,12 @@
                                   ${Array(ratingToStars(meal.averageRating)["filledStars"]).fill(undefined).map((u,i) => $h`
                                     <i class="f7-icons" style="font-size: 18px; color: #FFE900;">star_fill</i>
                                     `)}
-                                    ${Array(ratingToStars(meal.averageRating)["halfFilledStars"]).fill(undefined).map((u,i) => $h`
+                                  ${Array(ratingToStars(meal.averageRating)["halfFilledStars"]).fill(undefined).map((u,i) => $h`
                                     <i class="f7-icons" style="font-size: 18px; color: #FFE900;">star_lefthalf_fill</i>
                                     `)}
-                                    ${Array(ratingToStars(meal.averageRating)["emptyStars"]).fill(undefined).map((u,i) => $h`
+                                  ${Array(ratingToStars(meal.averageRating)["emptyStars"]).fill(undefined).map((u,i) => $h`
                                     <i class="f7-icons" style="font-size: 18px; color: #FFE900;">star</i>
-                                    `)}
+                                  `)}
 
                                 </div>
                               </div>
@@ -110,6 +110,7 @@
 </template>
 <script>
 import global from '../js/globals.js';
+//import getStars from "../elements/rating.js"
 export default async (props, { $update }) => {
   //example data:
   //will be replaced by a databaseconnection

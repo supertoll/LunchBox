@@ -47,12 +47,16 @@
     <div class="toggle">
 
     </div>
-    <div class="block block-strong">
-      <p>This is the official Luchbox app form the info-ag at data-experts.</p>
-      <p>All rights reserved to Markus.</p>
+<div class="block block-strong">
+      <p>Dies ist die offizielle App der Info-AG von data experts</p> 
+      <p>Alle Rechte enthält Markus</p>
     </div>
-    <div class="block">
-      <p>Thanks to all developers from the info-ag.</p>
+<div class="block">
+	<p> E-Mail : informatik-ag@data-experts.de</p>
+	<p> Webseite data experts : <a href="https://www.data-experts.de"> Link zur Webseite</a>
+	<p> Github : <a href="https://github.com/supertoll/LunchBox"> Link zum Github</a>
+<div class="block block-strong">
+      <p>Ein großes Dankeschön an alle Entwickler der Info-AG :)</p>
     </div>
   </div>
 </div>

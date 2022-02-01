@@ -1,69 +1,85 @@
-<template class="page" data-name="welcome">
-  <!--div class="navbar">
-      <div class="navbar-bg"></div>
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
-            <i class="icon icon-back"></i>
-            <span class="if-not-md">Back</span>
-          </a>
-        </div>
-        <div class="title">Settings</div>
-        <div class="subtitle">Thank you for downloading our app.</div>
-      </div>
-	</div-->
-	
-	<div class="page-content">
-		<div class="block-title">Willkommen bei der neuen Lunchbox-App der info-ag!</div>
-		<div class="list no-hairlines no-hairlines-beetween">
-			<ul>
-				${locs["locations"].map((ll) => $h`
-				<li>
-					<label class="item-radio item-content">
-						<input type="radio" value=${ll} @click=${changeLoc}/>
-						<i class="icon icon-radio"></i>
-						<div class="item-inner">
-							<div class="item-title">${ll}</div>
-						</div>
-					</label>
-				</li>
-				`)}
-				<li>
-					<div class="item-content">
-						<div class="item-inner">
-							<div class="item-title">Dark Mode</div>
-							<div class="item-after">
-								<label class="toggle toggle-init themeToggle">
-									<input type="checkbox" @click=${changeColorTheme} name="toggleTheme" />
-									<span class="toggle-icon"></span>
-								</label>
+<template>
+	<div  class="page" data-name="welcome">
+  	<div class="navbar">
+			<div class="block block-strong"><b>Willkommen bei der neuen Lunchbox-App der Informatik-AG!</b></div>
+		</div>
+
+		<div class="page-content">
+			<div class="block block-strong">
+				<div class="list no-hairlines no-hairlines-between inset">
+					<ul>
+						<li>
+							<p>Wähle zunächst deinen bevorzugten Standort</p>
+						</li>
+						<li>
+							<label class="item-radio item-content">
+								<input type="radio" name="loc" value="Neubrandenburg" @click=${changeLoc} checked/>
+								<i class="icon icon-radio"></i>
+								<div class="item-inner">
+									<div class="item-title">Neubrandenburg</div>
+								</div>
+							</label>
+						</li>
+						${locs["locations"].map((ll) => $h`
+						<li>
+							<label class="item-radio item-content">
+								<input type="radio" name="loc" value=${ll} @click=${changeLoc}/>
+								<i class="icon icon-radio"></i>
+								<div class="item-inner">
+									<div class="item-title">${ll}</div>
+								</div>
+							</label>
+						</li>
+						`)}
+						<li>
+							<p>Optional kannst du die Farbwahl bestimmen</p>
+						</li>
+						<li>
+							<div class="item-content">
+								<div class="item-inner">
+									<div class="item-title">Dark Mode</div>
+									<div class="item-after">
+										<label class="toggle toggle-init themeToggle">
+											<input type="checkbox" @click=${changeColorTheme} name="toggleTheme" />
+											<span class="toggle-icon"></span>
+										</label>
+									</div>
+								</div>
 							</div>
-						</div>
+						</li> 
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="toolbar toolbar-bottom bg-color-primary">
+				<div class="item-content item-input">
+					<div class="item-inner">
+						<a href="#" @click="${isReady}" class="col button align-self-stretch button-fill link">
+							Fertig
+						</a>
 					</div>
-				</li>
-				<li class="align-top">
-					<div class="item-content item-input">
-						<div class="item-inner">
-							<a href="#" @click="${isReady}" class="popup-close">
-								Fertig
-							</a>
-						</div>
-					</div>
-				</li>
-			</ul>
+				</div>
 		</div>
 	</div>
-
 </template>
 <script>
 	import global from '/js/globals.js';
-	export default async (props) => {
-		await global.initLocation();
-  	let locs = global.getLocations();
+	export default async () => {
+		//await global.initLocation();
+  	//let locs = global.getLocations();
+		let locs = {
+                "locations":[
+                    "Berlin Springpfuhl",
+                    "Neubrandenburg"
+                ]
+            }
+		locs["locations"].splice(locs["locations"].indexOf("Neubrandenburg"))
+		global.setLocation("Neubrandenburg");
 
 		const changeLoc = (e) => {
-      global.setLocation(e.target.value);
-    }
+    	global.setLocation(e.target.value);
+		}
 
     const changeColorTheme = () => {
       if(global.getTheme() == "theme-dark"){
@@ -75,7 +91,7 @@
     }
     const isReady = () => {
       global.saveSettings();
-			//localStorage.setItem("first", "done");
+			localStorage.setItem("first", "done");
       location.reload();
 
     }

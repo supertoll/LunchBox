@@ -31,7 +31,7 @@ function startpage() {
 
 var routes = [{
   path: '/',
-  component: _home["default"]
+  component: startpage()
 }, {
   path: '/about/',
   component: _about["default"]

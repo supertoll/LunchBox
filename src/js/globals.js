@@ -187,6 +187,7 @@ const global = {
             }
             
         });
+        console.log(result);
         return result;
     },
     saveSettings: () => {

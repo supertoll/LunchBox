@@ -242,6 +242,7 @@ var global = {
         });
       }
     });
+    console.log(result);
     return result;
   },
   saveSettings: function saveSettings() {

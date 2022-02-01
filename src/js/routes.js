@@ -20,7 +20,7 @@ function startpage(){
 var routes = [
   {
     path: '/',
-    component: HomePage,
+    component: startpage(),
   },
   {
     path: '/about/',

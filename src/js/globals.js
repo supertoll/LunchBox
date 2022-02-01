@@ -3,6 +3,8 @@
 //const fs = require('fs');
 //import * as https from 'http';
 import Framework7, { request } from 'framework7';
+import "./API";
+import FoodApi from './API';
 var id = 5;
 var locations;
 var theme;
@@ -11,8 +13,19 @@ var offers;
 var providers;
 var settingsStorage = localStorage;
 const webserver = 'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
+const API  = new FoodApi(webserver);
+var date = new Date();
 
 const global = {
+    getDate:()=>{
+        return date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
+    },increaseDate:()=>{
+        date.setDate(date.getDate() + 1);
+    },decreaseDate:()=>{
+        date.setDate(date.getDate() - 1);
+    },getApiDate:()=>{
+        return  date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString();
+    },
     setId: (i) =>{
         id = i;
     },
@@ -35,7 +48,7 @@ const global = {
         }
     },
     getLocations: () =>{
-        return locations;
+        return API.getLocations();
     },
     getTheme: () => {
         return theme;
@@ -167,11 +180,11 @@ const global = {
             ]
         }
     },
-    getOffers: () => {
-        return offers;
+    getOffers: (location=null,provider=null) => {
+        return API.getOffer(global.getApiDate(),location,provider);
     },
     getProviders: () => {
-        return providers;
+        return API.getProvider(location);
     },
     organizeOffers: (o,p) =>{
         let result = [];

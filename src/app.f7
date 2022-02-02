@@ -102,13 +102,6 @@
     let username = '';
     let password = '';
     let comment = '';
-    console.log(localStorage.getItem("first"));
-    if(localStorage.getItem("first") == "done"){
-      await global.initLocation();
-      await global.initProviders();
-      let d = new Date();
-      await global.initOffers(d.getFullYear().toString() + "-" + (d.getMonth() + 1).toString() + "-" + d.getDate().toString());
-    }
 
     global.importSettings();
     let th = global.getTheme();

@@ -107,7 +107,6 @@ export default async (props, { $update }) => {
   var nDay = async () => {
     global.increaseDate();
     thisdate = global.getDate();
-    //await global.initOffers(thisdate.getFullYear().toString() + "-" + (thisdate.getMonth() + 1).toString() + "-" + thisdate.getDate().toString());
     meals = global.getOffers([global.getLocation()]);
     providerlist = global.getProviders();
     providers = global.organizeOffers(meals, providerlist);
@@ -124,23 +123,12 @@ export default async (props, { $update }) => {
   var bDay = async () => {
     global.decreaseDate();
     thisdate = global.getDate();
-    //await global.initOffers(date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString());
     meals = global.getOffers(global.getLocation());
     providerlist = global.getProviders();
     providers = global.organizeOffers(meals, providerlist);
     $update();
   }
-/*
-  const ratingToStars = (r) => {
-    let result = "";
-    result += "#".repeat(Math.trunc(r));
-    if(r % 1 != 0){
-      result += "+";
-    }
-    result += "o".repeat(5- result.length);
-    return result;
-  }
-*/
+
   const ratingToStars = (rating) => {
     let filledStars = 0;
     let halfFilledStars = 0;
@@ -151,7 +139,7 @@ export default async (props, { $update }) => {
     }else{
       filledStars = parseInt(rating.toFixed(1));
       let delta = (rating - filledStars);
-      //<=0.25 ~ kein ster <=0.75 ~ halber stern >0.75 ~stern
+      //<=0.25 ~ kein stern <=0.75 ~ halber stern >0.75 ~stern
       if (delta > (0.75)) {
         filledStars += 1
       }else if(delta > (0.25)){
@@ -159,6 +147,7 @@ export default async (props, { $update }) => {
       }
       emptyStars = 5 - filledStars - halfFilledStars;
     }
+    
     //console.log ({"filledStars" : filledStars,"halfFilledStars": halfFilledStars,"emptyStars":emptyStars});
     return {"filledStars" : filledStars,"halfFilledStars": halfFilledStars,"emptyStars":emptyStars};
   }

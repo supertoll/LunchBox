@@ -9,6 +9,10 @@ exports["default"] = void 0;
 
 var _framework = _interopRequireWildcard(require("framework7"));
 
+var _API = _interopRequireDefault(require("./API"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -26,7 +30,21 @@ var providers;
 var settingsStorage = localStorage;
 var webserver = 'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
 
+var API = new _API["default"](webserver);
+var date = new Date();
 var global = {
+  getDate: function getDate() {
+    return date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
+  },
+  increaseDate: function increaseDate() {
+    date.setDate(date.getDate() + 1);
+  },
+  decreaseDate: function decreaseDate() {
+    date.setDate(date.getDate() - 1);
+  },
+  getApiDate: function getApiDate() {
+    return date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString();
+  },
   setId: function setId(i) {
     id = i;
   },
@@ -65,7 +83,15 @@ var global = {
     }, null, null, [[0, 7]]);
   },
   getLocations: function getLocations() {
-    return locations;
+    var temp = API.getLocations();
+
+    if (temp == "_") {
+      return {
+        "locations": ["Berlin Springpfuhl", "Neubrandenburg"]
+      };
+    } else {
+      return temp;
+    }
   },
   getTheme: function getTheme() {
     return theme;
@@ -220,10 +246,108 @@ var global = {
     }, null, null, [[0, 7]]);
   },
   getOffers: function getOffers() {
-    return offers;
+    var location = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var provider = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var temp = API.getOffer(global.getApiDate(), location, provider);
+
+    if (temp == "_") {
+      return [{
+        "id": 696,
+        "providerId": 3,
+        "name": "Eier",
+        "description": "in süß- saurer Soße mit Kartoffeln, dazu Rohkost",
+        "price": null,
+        "averageRating": 5,
+        "tags": [],
+        "comments": []
+      }, {
+        "id": 697,
+        "providerId": 3,
+        "name": "Hähnchenschnitzel",
+        "description": "mit Mischgemüse und Kartoffeln",
+        "price": null,
+        "averageRating": 2,
+        "tags": [],
+        "comments": []
+      }, {
+        "id": 698,
+        "providerId": 3,
+        "name": "gebratenes Zanderfilet",
+        "description": "mit Kaisergemüse und Püree",
+        "price": null,
+        "averageRating": 1.5,
+        "tags": [],
+        "comments": []
+      }, {
+        "id": 724,
+        "providerId": 10,
+        "name": "mit Backpflaumen gefüllter Schweinebraten,",
+        "description": "dazu Rotkohl und Knödelscheiben",
+        "price": 650,
+        "averageRating": 3.5,
+        "tags": [],
+        "comments": []
+      }, {
+        "id": 728,
+        "providerId": 4,
+        "name": "Pasta „Pomodori“",
+        "description": "frische Tomaten, Parmesan, Olivenöl, Basilikum, Hühnchenbrust, dazu Nudeln",
+        "price": 520,
+        "averageRating": null,
+        "tags": ["Tagessuppe"],
+        "comments": []
+      }, {
+        "id": 733,
+        "providerId": 4,
+        "name": "Präsidentensuppe",
+        "description": "Rinderhack, Tomaten, Sauerkraut, saure Gurken, Tomatenmark, wahlweise + Schmand",
+        "price": 520,
+        "averageRating": null,
+        "tags": [],
+        "comments": []
+      }];
+    } else {
+      return temp;
+    }
   },
   getProviders: function getProviders() {
-    return providers;
+    var temp = API.getProvider(location);
+
+    if (temp == "_") {
+      return [{
+        "id": 1,
+        "name": "Schweinestall",
+        "location": "Neubrandenburg",
+        "url": "https://www.schweinestall-nb.de/mittagstisch-2/"
+      }, {
+        "id": 2,
+        "name": "Hotel am Ring",
+        "location": "Neubrandenburg",
+        "url": "http://www.hotel-am-ring.de/restaurant-rethra.html"
+      }, {
+        "id": 3,
+        "name": "AOK Cafeteria",
+        "location": "Neubrandenburg",
+        "url": "https://www.tfa-bistro.de"
+      }, {
+        "id": 4,
+        "name": "Suppenkulttour",
+        "location": "Neubrandenburg",
+        "url": "https://www.suppenkult.com/wochenplan.html"
+      }, {
+        "id": 8,
+        "name": "Das Krauthof",
+        "location": "Neubrandenburg",
+        "url": "https://www.daskrauthof.de/karte"
+      }, {
+        "id": 10,
+        "name": "Phoenixeum",
+        "location": "Neubrandenburg",
+        "url": "https://www.suppenkult.com/wochenplan.html"
+      }];
+    } else {
+      return temp;
+    }
   },
   organizeOffers: function organizeOffers(o, p) {
     var result = [];

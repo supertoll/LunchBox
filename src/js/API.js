@@ -38,10 +38,16 @@ class FoodApi{
         //console.log(url);
 
         //making the call
-        let xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( method, url, false ); // false for synchronous request
-        xmlHttp.send(  );
-        return JSON.parse(xmlHttp.responseText);   
+        try{
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( method, url, false ); // false for synchronous request
+            xmlHttp.send(  );
+            return JSON.parse(xmlHttp.responseText); 
+        }
+        catch{
+            console.log("Fehler");
+            return "_";
+        }  
     }
     
     /**

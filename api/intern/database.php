@@ -291,7 +291,7 @@ class FoodBD extends Database{
 
     public function setRating(int $rating, int $offerId, int $userId, String $comment = null)
     {
-        if(isset($comment) || $comment == ""){
+        if(isset($comment)){
             $this->executeSQL("INSERT INTO ratings (userId,offerId,rating,comment) VALUES (?,?,?,?)",[$userId,$offerId,$rating,$comment]);
         } else{
             $this->executeSQL("INSERT INTO ratings (userId,offerId,rating) VALUES (?,?,?)",[$userId,$offerId,$rating]);

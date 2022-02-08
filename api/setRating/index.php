@@ -19,7 +19,7 @@ if(!isset($_GET['rating']) || !isset($_GET['offerId']) || !isset($_GET['userId']
     die();
 }else{ 
     $db->connect("lunchboxfooddb");#connect to db
-    if(isset($_GET['comment'])){#checks if comment is also supplyed
+    if(isset($_GET['comment']) && $_GET['comment'] != ""){#checks if comment is also supplyed
         $db->setRating($_GET['rating'],$_GET['offerId'],$_GET['userId'],$_GET['comment']);#create rating with comment
     }else {
         $db->setRating($_GET['rating'],$_GET['offerId'],$_GET['userId']);#create rating without comment

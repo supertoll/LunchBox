@@ -4,7 +4,7 @@ class FoodApi{
      * Adds a simple way to interface with the modifed lunchbox api. The individual API calls are translated in methods of this class.
      * @param baseUrl - Sting of the base url of the api. EG. "lunchboxdev.ddns.net"
      */
-    constructor(baseUrl = "lunchboxdev.ddns.net"){
+    constructor(baseUrl = "http://lunchboxdev.ddns.net"){
         if(baseUrl.slice(-1) != "/"){//checking for a "/" at the end 
             baseUrl += "/";
         }
@@ -35,11 +35,12 @@ class FoodApi{
         }
         
         let url = this.baseUrl+ endPoint+"/index.php"+paramString;//assamble the api url
-        //console.log(url);
+        console.log(url);
 
         //making the call
         let xmlHttp = new XMLHttpRequest();
         xmlHttp.open( method, url, false ); // false for synchronous request
+        xmlHttp.timeout(1*10**3);
         xmlHttp.send(  );
         return JSON.parse(xmlHttp.responseText);   
     }

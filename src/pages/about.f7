@@ -57,6 +57,8 @@
   </div>
 </div>
 </template>
+
+
 <script>
 import global from '../js/globals.js';
 export default async (props, {$f7,$, $on, $update}) => {

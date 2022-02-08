@@ -21,6 +21,8 @@ import App from '../app.f7';
 import global from './globals';
 
 var device = getDevice();
+
+
 var app = new Framework7({
   name: 'Lunchbox', // App name
   theme: 'auto', // Automatic theme detection
@@ -57,3 +59,4 @@ var app = new Framework7({
     },
   },
 });
+

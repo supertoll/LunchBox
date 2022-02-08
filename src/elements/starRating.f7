@@ -1,0 +1,36 @@
+<templete>
+  <div>
+    <p>hi</p>
+    ${Array(filledStars).fill(undefined).map((u,i) => $h`<i class="f7-icons" style="font-size: 18px; color: #FFE900;">star_fill</i>`)}
+    ${Array(halfFilledStars).fill(undefined).map((u,i) => $h`<i class="f7-icons" style="font-size: 18px; color: #FFE900;">star_lefthalf_fill</i>`)}
+    ${Array(emptyStars).fill(undefined).map((u,i) => $h`<i class="f7-icons" style="font-size: 18px; color: #FFE900;">star</i>`)}
+  </div>
+</templete>
+
+<script>
+
+
+  export default (props,context)=>{
+    var halfFilledStars = 0;
+    var emptyStars =0;
+    var filledStars = 5;
+
+/*
+  function ratingToStars(rating){
+    if (rating == null){
+        return;
+      }else{
+        rating = Math.round(2*rating)/2;
+
+        filledStars = parseInt(rating);
+        if(rating - filledStars == 0.5){
+          halfFilledStars = 1
+        }
+        emptyStars = 5- filledStars-halfFilledStars;
+      }
+  }
+*/
+
+    return $render;
+  };
+</script>

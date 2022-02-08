@@ -12,7 +12,8 @@ var location;
 var offers;
 var providers;
 var settingsStorage = localStorage;
-const webserver = 'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
+
+const webserver = 'http://lunchboxdev.ddns.net'; // '/' am Ende ist wichtig!
 const API  = new FoodApi(webserver);
 var date = new Date();
 
@@ -21,10 +22,11 @@ const global = {
         return date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
     },increaseDate:()=>{
         date.setDate(date.getDate() + 1);
+        console.log(global.getDate());
     },decreaseDate:()=>{
         date.setDate(date.getDate() - 1);
     },getApiDate:()=>{
-        return  date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString();
+        return  date.getFullYear().toString() + "-" + String(date.getMonth() + 1).padStart(2,"0") + "-" + date.getDate().toString();
     },
     setId: (i) =>{
         id = i;
@@ -33,22 +35,20 @@ const global = {
         return id;
     },
     initLocation: async () =>{
-        try{
-            var x = await request.get(webserver + 'getLocations/index.php')
-            locations = JSON.parse(x.data)
-        }
-        catch{
-            locations = {
+        locations = {
                 "locations":[
                     "Berlin Springpfuhl",
                     "Neubrandenburg"
                 ]
-            }
-            console.log(locations)
-        }
+            };
     },
     getLocations: () =>{
-        return API.getLocations();
+        try{
+            return API.getLocations();
+        }catch{
+            console.log("api not reachebale");
+            return locations;
+        }
     },
     getTheme: () => {
         return theme;
@@ -63,19 +63,14 @@ const global = {
         location = l;
     },
     initOffers: async (d) =>{
-        try{
-            var x = await request.get(webserver + 'getOffer/?date=' + d + '&location=["' + location + '"]');
-            offers = JSON.parse(x.data);
-        }
-        catch{
-            offers = [
+        offers = [
                 {
                     "id": 696,
                     "providerId": 3,
                     "name": "Eier",
                     "description": "in süß- saurer Soße mit Kartoffeln, dazu Rohkost",
                     "price": null,
-                    "averageRating": 5,
+                    "averageRating": 2.3,
                     "tags": [],
                     "comments": []
                 },
@@ -84,8 +79,8 @@ const global = {
                     "providerId": 3,
                     "name": "Hähnchenschnitzel",
                     "description": "mit Mischgemüse und Kartoffeln",
-                    "price": null,
-                    "averageRating": 2,
+                    "price": 340,
+                    "averageRating": 2.7,
                     "tags": [],
                     "comments": []
                 },
@@ -94,7 +89,7 @@ const global = {
                     "providerId": 3,
                     "name": "gebratenes Zanderfilet",
                     "description": "mit Kaisergemüse und Püree",
-                    "price": null,
+                    "price": 280,
                     "averageRating": 1.5,
                     "tags": [],
                     "comments": []
@@ -127,20 +122,14 @@ const global = {
                     "name": "Präsidentensuppe",
                     "description": "Rinderhack, Tomaten, Sauerkraut, saure Gurken, Tomatenmark, wahlweise + Schmand",
                     "price": 520,
-                    "averageRating": null,
+                    "averageRating": 3.75,
                     "tags": [],
                     "comments": []
                 }
-            ]
-        }
+        ];
     },
     initProviders: async () => {
-        try{
-            var x = await request.get(webserver + 'getProvider/?location=["' + location + '"]');
-            providers = JSON.parse(x.data);
-        }
-        catch{
-            providers = [
+        providers = [
                 {
                     "id": 1,
                     "name": "Schweinestall",
@@ -177,26 +166,35 @@ const global = {
                     "location": "Neubrandenburg",
                     "url": "https://www.suppenkult.com/wochenplan.html"
                 }
-            ]
-        }
+            ];
     },
     getOffers: (location=null,provider=null) => {
-        return API.getOffer(global.getApiDate(),location,provider);
+        try{
+            return API.getOffer(global.getApiDate(),location,provider);
+        }catch{
+            console.log("api not reachebale");
+            return offers;
+        }
     },
     getProviders: () => {
-        return API.getProvider(location);
+        try{
+            return API.getProvider(global.getLocation());
+        }catch{
+            console.log("api not reachebale");
+            return providers;
+        }
     },
-    organizeOffers: (o,p) =>{
+    organizeOffers: (offers,providers) =>{
         let result = [];
-        p.forEach(prov => {
+        providers.forEach(provider => {
             let part = [];
-            o.forEach(off => {
-                if (off.providerId == prov.id){
-                    part.push(off);
+            offers.forEach(offer => {
+                if (offer.providerId == provider.id){
+                    part.push(offer);
                 }
             });
             if (part.length > 0 ){
-                result.push({pp: prov, oo : part})
+                result.push({pp: provider, oo : part});
             }
             
         });
@@ -211,10 +209,10 @@ const global = {
         location = localStorage.getItem("location");
     },
     pushRating: (stars, commentText) => {
-        
+
     }
 
-}
+};
 /*
 global.initLocation();
 global.initOffers();

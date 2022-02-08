@@ -8,6 +8,9 @@ import DetailPage  from '../pages/detail.f7';
 //import RequestAndLoad from '../pages/request-and-load.f7';
 import NotFoundPage from '../pages/404.f7';
 
+//custom elements
+import starRating from "../elements/starRating.f7";
+
 var routes = [
   {
     path: '/',
@@ -26,6 +29,13 @@ var routes = [
     component: DetailPage,
   },
 
+
+  //custom elements
+  {
+    path: '/star-Rating/',
+    componentUrl: "../elements/starRating.f7",
+  },
+  
   /*
   {
     path: '/dynamic-route/blog/:blogId/post/:postId/',

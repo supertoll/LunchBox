@@ -226,6 +226,7 @@ var global = {
   },
   pushRating: function pushRating(stars, commentText) {
     //setRating(offerId,userId,rating,comment=null)
+    console.log(commentText);
     API.setRating(id, global.getUserId(), stars, commentText);
   },
   ratingToStars: function ratingToStars(rating) {
@@ -248,6 +249,11 @@ var global = {
     }
 
     return htmlString;
+  },
+  getMeal: function getMeal(i) {
+    return offers.filter(function (m) {
+      return m.id == i;
+    })[0];
   }
 };
 /*

@@ -1,83 +1,84 @@
 <template>
     
-    <div class="page" data-name="about">
-      <div class="navbar">
-        <div class="navbar-bg"></div>
-        <div class="navbar-inner sliding">
-          <div class="left">
-            <a href="#" class="link back">
-              <i class="icon icon-back"></i>
-              <span class="if-not-md">Back</span>
-            </a>
-          </div>
-          <div class="title">${mealObject.name}</div>
-        </div>
-      </div>
-      <div class="page-content">
-        <div class="block-title">Details</div>
-        <div class="block block-strong">
-          <p>${mealObject.description}</p>
-          <p>${priceView(mealObject.price)}</p>
-          <div class="item-header" innerHTML=${global.ratingToStars(mealObject.averageRating)}></div>
-        </div>
-        <div class="block-title">Comments</div>
-        <div class="block block-strong">
-          <a href="#" class="col button button-raised button-fill popup-open" data-popup="#commentPopup"  >
-            Bewertung hinzufügen
+  <div class="page" data-name="about">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="#" class="link back">
+            <i class="icon icon-back"></i>
+            <span class="if-not-md">Back</span>
           </a>
-          <div class="list">
-            <ul>
-              ${mealObject.comments.map((comment) =>$h`
-                <li>
-                  <div class="item-content">
-                    <div class="item-inner">
-                      <div class="item-title">
-                        <div class="item-header" innerHTML=${global.ratingToStars(comment.rating)}></div>
-                        <div class="item-footer">
-                          <div class="block" >
-                            <p >${comment.comment}</p>
-                          </div>
+        </div>
+        <div class="title">${mealObject.name}</div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="block-title">Details</div>
+      <div class="block block-strong">
+        <p>${mealObject.description}</p>
+        <p>${priceView(mealObject.price)}</p>
+        <div class="item-header" innerHTML=${global.ratingToStars(mealObject.averageRating)}></div>
+      </div>
+      <div class="block-title">Comments</div>
+      <div class="block block-strong">
+        <a href="#" class="col button button-raised button-fill popup-open" data-popup="#commentPopup"  >
+          Bewertung hinzufügen
+        </a>
+        <div class="list">
+          <ul>
+            ${mealObject.comments.map((comment) =>$h`
+              <li>
+                <div class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">
+                      <div class="item-header" innerHTML=${global.ratingToStars(comment.rating)}></div>
+                      <div class="item-footer">
+                        <div class="block" >
+                          <p >${comment.comment}</p>
                         </div>
                       </div>
-                    </div>  
-                  </div>
-                </li>
-              `)}
-            </ul>
-          </div>
+                    </div>
+                  </div>  
+                </div>
+              </li>
+            `)}
+          </ul>
         </div>
       </div>
     </div>
+  </div>
 </template>
 <script>
 import global from "../js/globals.js";
 export default (props, { $f7, $, $f7route, $update, $on }) => {
-  let pK = $f7route.params.id;
-  global.setId(pK);
-  let mealObject = global.getOffers().filter(m => m.id == pK)[0];
-
-  function priceView(rn){
-    if(rn == null){
-      return "--";
-    }
-    return (rn/100).toFixed(2) + ' €';
+let pK = $f7route.params.id;
+global.setId(pK);
+let mealObject = global.getMeal(pK);
+console.log(mealObject.comments);
+function priceView(rn){
+  if(rn == null){
+    return "--";
   }
+  return (rn/100).toFixed(2) + ' €';
+}
 
 
 
-  
-  $('#commentPopup').on('popup:close', function (e) {
-    $update();
-  });
-  
-  $on('pageInit', (e, page) => {
 
-  });
-          
+$('#commentPopup').on('popup:close', function (e) {
+  mealObject = global.getMeal(global.getId());
+  $update();
+});
+
+$on('pageInit', (e, page) => {
+
+});
+        
 
 
-  
 
-  return $render;
+
+return $render;
 };
 </script>

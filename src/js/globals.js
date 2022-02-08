@@ -29,10 +29,10 @@ const global = {
     return  date.getFullYear().toString() + "-" + String(date.getMonth() + 1).padStart(2,"0") + "-" + date.getDate().toString().padStart(2,"0");
   },
   setId: (i) =>{
-      id = i;
+    id = i;
   },
   getId: () =>{
-      return id;
+    return id;
   },
   getLocations: () =>{
         let temp = API.getLocations();
@@ -186,7 +186,7 @@ const global = {
             ]
         }
         else{
-            return temp
+            return temp;
         }
   },
   organizeOffers: (o,p) =>{
@@ -223,6 +223,7 @@ const global = {
   },
   pushRating: (stars, commentText) => {
     //setRating(offerId,userId,rating,comment=null)
+    console.log(commentText);
     API.setRating(id,global.getUserId(),stars,commentText);
   },
   ratingToStars: (rating) =>{
@@ -248,6 +249,9 @@ const global = {
     }
 		return htmlString;
   },
+  getMeal: (i) => {
+    return offers.filter(m => m.id == i)[0];
+  }
 
 }
 /*

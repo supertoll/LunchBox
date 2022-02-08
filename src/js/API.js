@@ -35,7 +35,7 @@ class FoodApi{
         }
         
         let url = this.baseUrl+ endPoint+"/index.php"+paramString;//assamble the api url
-        //console.log(url);
+        console.log(url);
 
         //making the call
         try{
@@ -103,7 +103,7 @@ class FoodApi{
      * @param comment - (optional) is a comment for a offer rating.
      */
     setRating(offerId,userId,rating,comment=null){
-        if (comment == null){
+        if (comment == null || comment == ""){
             this.#callAPI("setRating",{"offerId":offerId,"userId":userId,"rating":rating});
         }else{            
             this.#callAPI("setRating",{"offerId":offerId,"userId":userId,"rating":rating,"comment":comment});

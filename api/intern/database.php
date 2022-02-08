@@ -247,7 +247,7 @@ class FoodBD extends Database{
             #echo var_dump($offer[$id]["tags"])."<br><br>";
 
             #adding comments
-            $offer[$id]["comments"] = $this->executeSQL("SELECT ratings.comment,ratings.rating FROM ratings WHERE ratings.offerId = ?;",[$offer[$id]["id"]]);
+            $offer[$id]["comments"] = $this->executeSQL("SELECT ratings.comment,ratings.rating FROM ratings WHERE ratings.offerId = ? AND ratings.comment != "";",[$offer[$id]["id"]]);
         }
         return $offer;
     }

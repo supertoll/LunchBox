@@ -25,13 +25,16 @@ var id = 5;
 var locations;
 var theme;
 var location;
+var userId = -1; //not initialized
+
 var offers;
 var providers;
 var settingsStorage = localStorage;
 var webserver = 'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
 
 var API = new _API["default"](webserver);
-var date = new Date();
+var date = new Date(); //all 3 initFunctions should be able to be deleted
+
 var global = {
   getDate: function getDate() {
     return date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
@@ -50,37 +53,6 @@ var global = {
   },
   getId: function getId() {
     return id;
-  },
-  initLocation: function initLocation() {
-    var x;
-    return regeneratorRuntime.async(function initLocation$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.prev = 0;
-            _context.next = 3;
-            return regeneratorRuntime.awrap(_framework.request.get(webserver + 'getLocations/index.php'));
-
-          case 3:
-            x = _context.sent;
-            locations = JSON.parse(x.data);
-            _context.next = 11;
-            break;
-
-          case 7:
-            _context.prev = 7;
-            _context.t0 = _context["catch"](0);
-            locations = {
-              "locations": ["Berlin Springpfuhl", "Neubrandenburg"]
-            };
-            console.log(locations);
-
-          case 11:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, null, null, [[0, 7]]);
   },
   getLocations: function getLocations() {
     var temp = API.getLocations();
@@ -105,168 +77,34 @@ var global = {
   setLocation: function setLocation(l) {
     location = l;
   },
-  initOffers: function initOffers(d) {
-    var x;
-    return regeneratorRuntime.async(function initOffers$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
-            return regeneratorRuntime.awrap(_framework.request.get(webserver + 'getOffer/?date=' + d + '&location=["' + location + '"]'));
-
-          case 3:
-            x = _context2.sent;
-            offers = JSON.parse(x.data);
-            _context2.next = 10;
-            break;
-
-          case 7:
-            _context2.prev = 7;
-            _context2.t0 = _context2["catch"](0);
-            offers = [{
-              "id": 696,
-              "providerId": 3,
-              "name": "Eier",
-              "description": "in süß- saurer Soße mit Kartoffeln, dazu Rohkost",
-              "price": null,
-              "averageRating": 5,
-              "tags": [],
-              "comments": []
-            }, {
-              "id": 697,
-              "providerId": 3,
-              "name": "Hähnchenschnitzel",
-              "description": "mit Mischgemüse und Kartoffeln",
-              "price": null,
-              "averageRating": 2,
-              "tags": [],
-              "comments": []
-            }, {
-              "id": 698,
-              "providerId": 3,
-              "name": "gebratenes Zanderfilet",
-              "description": "mit Kaisergemüse und Püree",
-              "price": null,
-              "averageRating": 1.5,
-              "tags": [],
-              "comments": []
-            }, {
-              "id": 724,
-              "providerId": 10,
-              "name": "mit Backpflaumen gefüllter Schweinebraten,",
-              "description": "dazu Rotkohl und Knödelscheiben",
-              "price": 650,
-              "averageRating": 3.5,
-              "tags": [],
-              "comments": []
-            }, {
-              "id": 728,
-              "providerId": 4,
-              "name": "Pasta „Pomodori“",
-              "description": "frische Tomaten, Parmesan, Olivenöl, Basilikum, Hühnchenbrust, dazu Nudeln",
-              "price": 520,
-              "averageRating": null,
-              "tags": ["Tagessuppe"],
-              "comments": []
-            }, {
-              "id": 733,
-              "providerId": 4,
-              "name": "Präsidentensuppe",
-              "description": "Rinderhack, Tomaten, Sauerkraut, saure Gurken, Tomatenmark, wahlweise + Schmand",
-              "price": 520,
-              "averageRating": null,
-              "tags": [],
-              "comments": []
-            }];
-
-          case 10:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, null, null, [[0, 7]]);
-  },
-  initProviders: function initProviders() {
-    var x;
-    return regeneratorRuntime.async(function initProviders$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            _context3.prev = 0;
-            _context3.next = 3;
-            return regeneratorRuntime.awrap(_framework.request.get(webserver + 'getProvider/?location=["' + location + '"]'));
-
-          case 3:
-            x = _context3.sent;
-            providers = JSON.parse(x.data);
-            _context3.next = 10;
-            break;
-
-          case 7:
-            _context3.prev = 7;
-            _context3.t0 = _context3["catch"](0);
-            providers = [{
-              "id": 1,
-              "name": "Schweinestall",
-              "location": "Neubrandenburg",
-              "url": "https://www.schweinestall-nb.de/mittagstisch-2/"
-            }, {
-              "id": 2,
-              "name": "Hotel am Ring",
-              "location": "Neubrandenburg",
-              "url": "http://www.hotel-am-ring.de/restaurant-rethra.html"
-            }, {
-              "id": 3,
-              "name": "AOK Cafeteria",
-              "location": "Neubrandenburg",
-              "url": "https://www.tfa-bistro.de"
-            }, {
-              "id": 4,
-              "name": "Suppenkulttour",
-              "location": "Neubrandenburg",
-              "url": "https://www.suppenkult.com/wochenplan.html"
-            }, {
-              "id": 8,
-              "name": "Das Krauthof",
-              "location": "Neubrandenburg",
-              "url": "https://www.daskrauthof.de/karte"
-            }, {
-              "id": 10,
-              "name": "Phoenixeum",
-              "location": "Neubrandenburg",
-              "url": "https://www.suppenkult.com/wochenplan.html"
-            }];
-
-          case 10:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, null, null, [[0, 7]]);
-  },
   getOffers: function getOffers() {
     var location = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var provider = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    var temp = API.getOffer(global.getApiDate(), location, provider);
+    var temp = API.getOffer(global.getApiDate(), location, provider); //nur debug
 
-    if (temp == "_") {
+    if (temp == "_" || temp == "[]" || temp.length == 0) {
       return [{
-        "id": 696,
-        "providerId": 3,
-        "name": "Eier",
-        "description": "in süß- saurer Soße mit Kartoffeln, dazu Rohkost",
-        "price": null,
-        "averageRating": 5,
+        "id": 171,
+        "providerId": 10,
+        "name": "Senfei",
+        "description": "2 Bio-Eier in Senfsoße, dazu Kartoffeln",
+        "price": 600,
+        "averageRating": "3.0",
         "tags": [],
-        "comments": []
+        "comments": [{
+          "comment": "test2",
+          "rating": 3
+        }, {
+          "comment": "test",
+          "rating": 3
+        }]
       }, {
         "id": 697,
         "providerId": 3,
         "name": "Hähnchenschnitzel",
         "description": "mit Mischgemüse und Kartoffeln",
         "price": null,
-        "averageRating": 2,
+        "averageRating": "2.5",
         "tags": [],
         "comments": []
       }, {
@@ -275,7 +113,7 @@ var global = {
         "name": "gebratenes Zanderfilet",
         "description": "mit Kaisergemüse und Püree",
         "price": null,
-        "averageRating": 1.5,
+        "averageRating": null,
         "tags": [],
         "comments": []
       }, {
@@ -284,7 +122,7 @@ var global = {
         "name": "mit Backpflaumen gefüllter Schweinebraten,",
         "description": "dazu Rotkohl und Knödelscheiben",
         "price": 650,
-        "averageRating": 3.5,
+        "averageRating": null,
         "tags": [],
         "comments": []
       }, {
@@ -307,6 +145,7 @@ var global = {
         "comments": []
       }];
     } else {
+      offers = temp;
       return temp;
     }
   },
@@ -377,7 +216,40 @@ var global = {
     theme = localStorage.getItem("theme");
     location = localStorage.getItem("location");
   },
-  pushRating: function pushRating(stars, commentText) {}
+  getUserId: function getUserId() {
+    if (userId == -1) {
+      userId = API.getUserId();
+    }
+
+    return userId;
+  },
+  pushRating: function pushRating(stars, commentText) {
+    //setRating(offerId,userId,rating,comment=null)
+    API.setRating(id, getUserId, stars, commentText);
+  },
+  ratingToStars: function ratingToStars(rating) {
+    var htmlString = '';
+
+    if (rating == null) {
+      htmlString += '<i class="f7-icons" style="font-size: 18px; color: #FFE900;">star</i>'.repeat(5);
+    } else {
+      rating = Number(rating);
+      var half_star = 0;
+      htmlString += '<i class="f7-icons" style="font-size: 18px; color: #FFE900;">star_fill</i>'.repeat(parseInt(rating.toFixed(0)));
+      var delta = rating - parseInt(rating.toFixed(1)); //<=0.25 ~ kein stern <=0.75 ~ halber stern >0.75 ~stern
+
+      if (delta > 0.75) {
+        htmlString += '<i class="f7-icons" style="font-size: 18px; color: #FFE900;">star_fill</i>';
+      } else if (delta > 0.25) {
+        htmlString += '<i class="f7-icons" style="font-size: 18px; color: #FFE900;">star_lefthalf_fill</i>';
+        half_star = 1;
+      }
+
+      htmlString += '<i class="f7-icons" style="font-size: 18px; color: #FFE900;">star</i>'.repeat(5 - parseInt(rating.toFixed(0)) - half_star);
+    }
+
+    return htmlString;
+  }
 };
 /*
 global.initLocation();

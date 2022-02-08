@@ -13,7 +13,7 @@
           <div class="navbar">
             <div class="navbar-bg"></div>
             <div class="navbar-inner">
-              <div class="title">Add Comment</div>
+              <div class="title">Eine Bewertung abgeben: </div>
               <div class="right">
                 <a href="#" class="link popup-close">Cancel</a>
               </div>
@@ -23,11 +23,30 @@
             <div class="list no-hairlines no-hairlines-beetween inset">
               <ul>
                 <li class="align-top">
+                  <div class="list simple-list">
+                    <ul>
+                      <li>
+                        <div class="item-cell width-auto flex-shrink-0">
+                          <i class="icon f7-icons" >star_filled</i>
+                        </div>
+                        <div class="item-cell flex-shrink-3">
+                          <div class="range-slider range-slider-init" >
+                            
+                          </div>
+                        </div>
+                        <div class="item-cell width-auto flex-shrink-0">
+                          <i class="icon f7-icons" >star</i>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="align-top">
                   <div class="item-content item-input">
                     <div class="item-inner">
                       <!---div class="item-title item-label">---</div--->
                       <div class="item-input-wrap">
-                        <textarea placeholder="Comment goes here..." value=${comment} class="resizable" @input="${updateComment}"></textarea>
+                        <textarea placeholder="Hier Kommentar schreiben..." value=${comment} class="resizable" @input="${updateComment}"></textarea>
                       </div>
                     </div>
                   </div>

@@ -41,11 +41,12 @@ class FoodApi{
         try{
             let xmlHttp = new XMLHttpRequest();
             xmlHttp.open( method, url, false ); // false for synchronous request
+            xmlHttp.timeout(1*10**3);
             xmlHttp.send(  );
             return JSON.parse(xmlHttp.responseText); 
         }
         catch{
-            console.log("Fehler");
+            console.log("API not reachable");
             return "_";
         }  
     }

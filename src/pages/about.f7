@@ -1,70 +1,70 @@
 <template>
-<div class="page" data-name="about">
-  <div class="navbar">
-    <div class="navbar-bg"></div>
-    <div class="navbar-inner sliding">
-      <div class="left">
-        <a href="#" class="link back">
-          <i class="icon icon-back"></i>
-          <span class="if-not-md">Back</span>
-        </a>
+  <div class="page" data-name="about">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="#" class="link back">
+            <i class="icon icon-back"></i>
+            <span class="if-not-md">Back</span>
+          </a>
+        </div>
+        <div class="title">Settings</div>
+        <div class="subtitle">Thank you for downloading our app.</div>
       </div>
-      <div class="title">Settings</div>
-      <div class="subtitle">Thank you for downloading our app.</div>
     </div>
-  </div>
-  <div class="page-content">
-    <div class="block-title">Choose Location</div>
-    <div class="list">
-      <ul>
-        ${locs["locations"].map((ll) => $h`
+    <div class="page-content">
+      <div class="block-title">Choose Location</div>
+      <div class="list">
+        <ul>
+          ${locs["locations"].map((ll) => $h`
+            <li>
+              <label class="item-radio item-content">
+                <input type="radio" name="loc" value=${ll} @click=${changeLoc} id=${ll + suffix}/>
+                <i class="icon icon-radio"></i>
+                <div class="item-inner">
+                  <div class="item-title">${ll}</div>
+                </div>
+              </label>
+            </li>
+          `)}
           <li>
-            <label class="item-radio item-content">
-              <input type="radio" name="loc" value=${ll} @click=${changeLoc} id=${ll + suffix}/>
-              <i class="icon icon-radio"></i>
+            <div class="item-content">
               <div class="item-inner">
-                <div class="item-title">${ll}</div>
-              </div>
-            </label>
-          </li>
-        `)}
-        <li>
-          <div class="item-content">
-            <div class="item-inner">
-              <div class="item-title">Dark Mode</div>
-              <div class="item-after">
-                <label class="toggle toggle-init themeToggle">
-                  <input type="checkbox" @click=${changeColorTheme} name="toggleTheme" />
-                  <span class="toggle-icon"></span>
-                </label>
+                <div class="item-title">Dark Mode</div>
+                <div class="item-after">
+                  <label class="toggle toggle-init themeToggle">
+                    <input type="checkbox" @click=${changeColorTheme} name="toggleTheme" />
+                    <span class="toggle-icon"></span>
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
-        </li>
-        
-      </ul>
-    </div>
-    <div class="toggle">
-
-    </div>
-<div class="block block-strong">
-      <p>Dies ist die offizielle App der Info-AG von data experts</p> 
-      <p>Alle Rechte enthält Markus</p>
-    </div>
-<div class="block">
-	<p> E-Mail : informatik-ag@data-experts.de</p>
-	<p> Webseite data experts : <a href="https://www.data-experts.de"> Link zur Webseite</a>
-	<p> Github : <a href="https://github.com/supertoll/LunchBox"> Link zum Github</a>
-<div class="block block-strong">
-      <p>Ein großes Dankeschön an alle Entwickler der Info-AG :)</p>
-    </div>
+          </li>
+          
+        </ul>
+      </div>
+      <div class="toggle">
+  
+      </div>
+  		<div class="block block-strong">
+  	    <p>Dies ist die offizielle App der Info-AG von data experts</p> 
+  	    <p>Alle Rechte enthält Markus</p>
+  	  </div>
+  		<div class="block">
+  	    <p> E-Mail : informatik-ag@data-experts.de</p>
+  	    <p> Webseite data experts : <a href="https://www.data-experts.de"> Link zur Webseite</a></p>
+  	    <p> Github : <a href="https://github.com/supertoll/LunchBox"> Link zum Github</a></p>
+  	    <div class="block block-strong">
+  	      <p>Ein großes Dankeschön an alle Entwickler der Info-AG :)</p>
+				</div>
+  	  </div>
+  	</div>
   </div>
-</div>
 </template>
 <script>
 import global from '../js/globals.js';
-export default async (props, {$f7,$, $on, $update}) => {
-  await global.initLocation();
+export default (props, {$f7,$, $on, $update}) => {
   let locs = global.getLocations();
   const suffix = "box";
 

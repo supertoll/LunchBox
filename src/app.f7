@@ -22,23 +22,61 @@
           <div class="page-content">
             <div class="list no-hairlines no-hairlines-beetween inset">
               <ul>
-                <li class="align-top">
-                  <div class="list simple-list">
-                    <ul>
-                      <li>
-                        <div class="item-cell width-auto flex-shrink-0">
-                          <i class="icon f7-icons" >star_filled</i>
-                        </div>
-                        <div class="item-cell flex-shrink-3">
-                          <div class="range-slider range-slider-init" >
-                            
-                          </div>
-                        </div>
-                        <div class="item-cell width-auto flex-shrink-0">
-                          <i class="icon f7-icons" >star</i>
-                        </div>
-                      </li>
-                    </ul>
+                <li>
+                  <div class="row">
+                    <button class="col-20 button button-round" value="1" @click=${setStars}>
+                      ${
+                        (stars >= 1) && ($h`<i class="icon f7-icons">star_filled</i>`)
+                      }
+                      ${
+                        (!stars >= 1) &&(
+                          $h`<i class="icon f7-icons">star</i>`
+                        )
+                      } 
+                  
+                    </button> 
+                    <button class="col-20 button button-round" value="2" @click=${setStars}>
+                      ${
+                        (stars >= 2) && ($h`<i class="icon f7-icons">star_filled</i>`)
+                      }
+                      ${
+                        !(stars >= 2) && ( $h`<i class="icon f7-icons">star</i>`)
+                      } 
+                      
+                    </button> 
+                    <button class="col-20 button button-round" value="3" @click=${setStars}>
+                      ${
+                        (stars >= 3) && ($h`<i class="icon f7-icons">star_filled</i>`)
+                      }
+                      ${
+                        !(stars >= 3) &&(
+                          $h`<i class="icon f7-icons">star</i>`
+                        )
+                      } 
+                  
+                    </button> 
+                    <button class="col-20 button button-round" value="4" @click=${setStars}>
+                      ${
+                        (stars >= 4) && ($h`<i class="icon f7-icons">star_filled</i>`)
+                      }
+                      ${
+                        !(stars >= 4) &&(
+                          $h`<i class="icon f7-icons">star</i>`
+                        )
+                      } 
+                  
+                    </button> 
+                    <button class="col-20 button button-round" value="5" @click=${setStars}>
+                      ${
+                        (stars >= 5) && ($h`<i class="icon f7-icons">star_filled</i>`)
+                      }
+                      ${
+                        !(stars >= 5) &&(
+                          $h`<i class="icon f7-icons">star</i>`
+                        )
+                      } 
+                  
+                    </button> 
                   </div>
                 </li>
                 <li class="align-top">
@@ -121,6 +159,7 @@
     let username = '';
     let password = '';
     let comment = '';
+    let stars = 1;
 
     global.importSettings();
     let th = global.getTheme();
@@ -150,11 +189,26 @@
       let mealObject = global.getOffers().filter(m => m.id == global.getId())[0];
       mealObject.comments.push(comment);
       console.log(comment);
-      global.pushRating(5,comment);
+      global.pushRating(stars,comment);
       comment = "";
+      stars = 1;
       $update();
     }
-    
+
+    const setStars = (e) => {
+
+      
+      if(e.target.parentElement.value == undefined){
+        console.log(e.target.value)
+        stars = e.target.value;
+      }
+      else{
+        console.log(e.target.parentElement.value);
+        stars = e.target.parentElement.value;
+      }
+      
+      $update();
+    }
 
 
 

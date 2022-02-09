@@ -61,13 +61,12 @@
                                 ${"\tid: " + meal.id}
                                 <!-- for dev only --> 
                                 <div class= "item-footer">
-
-                                    <div style="display: inline;" innerHTML=${global.ratingToStars(meal.averageRating)}></div>
-                                    ${(meal.comments.length > 0) && ($h`
-                                      <i class="icon material-icons md-only">person
-                                        <span class="badge">${meal.comments.length}</span>
-                                      </i>
-                                    `)}
+                                  <div style="display: inline;" innerHTML=${global.ratingToStars(meal.averageRating)}></div>
+                                  ${(meal.comments.length > 0) && ($h`
+                                    <i class="icon material-icons md-only">person
+                                      <span class="badge">${meal.comments.length}</span>
+                                    </i>
+                                  `)}
                                 </div>
                               </div>
                               <div class="item-after">${priceView(meal.price)}</div>

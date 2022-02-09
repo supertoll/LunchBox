@@ -66,7 +66,7 @@ const global = {
         if(temp == "_" || temp == "[]" || temp.length == 0){
           temp =  [
 							{
-									"id": 171,
+									"id": -171,
 									"providerId": 10,
 									"name": "Senfei",
 									"description": "2 Bio-Eier in Senfsoße, dazu Kartoffeln",
@@ -85,7 +85,7 @@ const global = {
 									]
 							},
 							{
-									"id": 697,
+									"id": -697,
 									"providerId": 3,
 									"name": "Hähnchenschnitzel",
 									"description": "mit Mischgemüse und Kartoffeln",
@@ -95,7 +95,7 @@ const global = {
 									"comments": []
 							},
 							{
-									"id": 698,
+									"id": -698,
 									"providerId": 3,
 									"name": "gebratenes Zanderfilet",
 									"description": "mit Kaisergemüse und Püree",
@@ -105,7 +105,7 @@ const global = {
 									"comments": []
 							},
 							{
-									"id": 724,
+									"id": -724,
 									"providerId": 10,
 									"name": "mit Backpflaumen gefüllter Schweinebraten,",
 									"description": "dazu Rotkohl und Knödelscheiben",
@@ -115,7 +115,7 @@ const global = {
 									"comments": []
 							},
 							{
-									"id": 728,
+									"id": -728,
 									"providerId": 4,
 									"name": "Pasta „Pomodori“",
 									"description": "frische Tomaten, Parmesan, Olivenöl, Basilikum, Hühnchenbrust, dazu Nudeln",
@@ -127,7 +127,7 @@ const global = {
 									"comments": []
 							},
 							{
-									"id": 733,
+									"id": -733,
 									"providerId": 4,
 									"name": "Präsidentensuppe",
 									"description": "Rinderhack, Tomaten, Sauerkraut, saure Gurken, Tomatenmark, wahlweise + Schmand",
@@ -142,12 +142,11 @@ const global = {
         return temp;
   },
   getOfferById: (id) =>{
-    let temp = API.getOfferById(id).offer;
-    console.log(temp);
-    if(temp == "_"){
-      temp = global.getMeal(id);//ToDO: filter offers
+    let temp = API.getOfferById(id);
+    if(temp == "_" || temp.offer.comments == false){
+      return global.getMeal(id);//ToDO: filter offers
     }
-    return temp;
+    return temp.offer;
   },
   getProviders: () => {
         let temp =  API.getProvider(location);

@@ -70,7 +70,7 @@ function priceView(rn){
 $('#commentPopup').on('popup:close', function (e) {
   console.log("closed popup");
   mealObject = global.getOfferById(global.getId());
-  console.log(mealObject);
+  //console.log(mealObject);
   $update();
 });
 

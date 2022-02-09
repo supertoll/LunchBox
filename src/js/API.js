@@ -95,6 +95,10 @@ class FoodApi{
         }
     }
 
+    getOfferById(id){
+        return this.#callAPI("getOfferById",{"id":id});
+    }
+
     /**
      * sets a rating for a offer
      * @param offerId - is the id of a offer, is used to connect a rating to a offer.

@@ -143,6 +143,14 @@ const global = {
           return temp;
         }
   },
+  getOfferById: (id) =>{
+    let temp = API.getOfferById(id);
+    if(temp == "__"){
+      //ToDO: filter offers
+    }
+    return temp;
+    
+  },
   getProviders: () => {
         let temp =  API.getProvider(location);
         if(temp == "_"){

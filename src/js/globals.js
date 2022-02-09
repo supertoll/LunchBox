@@ -146,10 +146,9 @@ const global = {
   getOfferById: (id) =>{
     let temp = API.getOfferById(id);
     if(temp == "__"){
-      //ToDO: filter offers
+      temp = getMeal(id);//ToDO: filter offers
     }
     return temp;
-    
   },
   getProviders: () => {
         let temp =  API.getProvider(location);

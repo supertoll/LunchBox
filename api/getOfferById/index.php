@@ -21,7 +21,7 @@ if(!isset($_GET['id'])){#checking if date is set.. (needed)
 }else{ 
     #echo var_dump($_GET['date']);
     $db->connect("lunchboxfooddb");#connect to db
-    $offer = $db->getOfferById($_GET['id']);
+    $offer = $db->getOfferById((int)$_GET['id']);
     $db->disconnect();#disconnect db
 
     #respond

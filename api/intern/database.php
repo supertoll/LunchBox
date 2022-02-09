@@ -254,7 +254,7 @@ class FoodBD extends Database{
     public function getOfferById(int $id )
     {
         #getting the offer
-        $offer = $this->executeSQL("SELECT offer.id, offer.providerId, offer.name, offer.description, offer.price, offer.averageRating FROM offer WHERE offer.id = ?;",[$id]);#geting relervant food
+        $offer = $this->executeSQL("SELECT offer.id, offer.providerId, offer.name, offer.description, offer.price, offer.averageRating FROM offer WHERE offer.id = ?;",[$id])[0];#geting relervant food
         #echo var_dump($offer)."<br><br>";
                 
         $offer["averageRating"] = isset($offer["averageRating"]) ? floatval($offer["averageRating"]) : null;

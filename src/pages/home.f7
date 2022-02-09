@@ -50,12 +50,24 @@
                             <!--div class="item-media"><i class="icon icon-f7"></i></div-->
                             <div class="item-inner">
                               <div class="item-title">
-                                <div class="item-header">${meal.tags}</div>
+                                <div class="item-header">
+                                  ${meal.tags.map((tag)=> $h`
+                                    <span class="badge">${tag}</span>
+                                    `)}
+
+                                </div>
                                 ${meal.name + " " + meal.description }
                                 <!-- for dev only -->
                                 ${"\tid: " + meal.id}
                                 <!-- for dev only --> 
-                                <div class= "item-footer" innerHTML=${global.ratingToStars(meal.averageRating)}>
+                                <div class= "item-footer">
+
+                                    <div style="display: inline;" innerHTML=${global.ratingToStars(meal.averageRating)}></div>
+                                    ${(meal.comments.length > 0) && ($h`
+                                      <i class="icon material-icons md-only">person
+                                        <span class="badge">${meal.comments.length}</span>
+                                      </i>
+                                    `)}
                                 </div>
                               </div>
                               <div class="item-after">${priceView(meal.price)}</div>
@@ -87,7 +99,6 @@ export default async (props, { $update }) => {
   let meals = global.getOffers();
   let providerlist = global.getProviders();
   let providers = global.organizeOffers(meals, providerlist);
-  global.setLocation("Neubrandenburg"); 
   //Date function for header
   //function to change data with date missing
   //event for next/back missing

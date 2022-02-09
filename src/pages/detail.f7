@@ -32,14 +32,12 @@
                 <div class="item-content">
                   <div class="item-inner">
                     <div class="item-title">
-                      <div class="item-header" innerHTML=${global.ratingToStars(comment.rating)}></div>
-                      <div class="item-footer">
-                        <div class="block" >
-                          <p >${comment.comment}</p>
-                        </div>
+                      <div class="item-header" innerHTML=${global.ratingToStars(comment.rating)}></div>  
+                      <div class="" >
+                        <p style="font-size: 14px;">${comment.comment}</p>
                       </div>
-                    </div>
-                  </div>  
+                    </div>  
+                  </div>
                 </div>
               </li>
             `)}

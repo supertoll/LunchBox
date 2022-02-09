@@ -251,6 +251,30 @@ class FoodBD extends Database{
         }
         return $offer;
     }
+    public function getOfferById(int $id )
+    {
+        #getting the offer
+        $offer = $this->executeSQL("SELECT offer.id, offer.providerId, offer.name, offer.description, offer.price, offer.averageRating FROM offer WHERE offer.id = ?;",[$id])[ß];#geting relervant food
+        #echo var_dump($offer)."<br><br>";
+                
+        $offer["averageRating"] = isset($offer[$id]["averageRating"]) ? floatval($offer[$id]["averageRating"]) : null;
+
+        #adding tags
+        $offer["tags"] = array();
+        $tags = $this->executeSQL("SELECT tags.tag FROM offer2tags JOIN tags ON offer2tags.tagId = tags.id WHERE offer2tags.offerId = ?;",[$food["id"]]);
+        if($tags[0]["tag"] != ""){#tag not empty
+            $offer["tags"] = array();
+            foreach ($tags as $tag) {#only appends the values
+                $offer["tags"] = array_merge($offer["tags"], array($tag["tag"]));
+            }
+        }
+            #echo var_dump($offer[$id]["tags"])."<br><br>";
+
+            #adding comments
+        $offer["comments"] = $this->executeSQL("SELECT ratings.comment,ratings.rating FROM ratings WHERE ratings.offerId = ? AND NOT ratings.comment = '';",[$offer["id"]]);
+        }
+        return {"offer":$offer};
+    }
 
     public function getUserId()
     {   

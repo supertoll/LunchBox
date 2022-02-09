@@ -64,7 +64,7 @@ const global = {
         let temp = API.getOffer(global.getApiDate(),location,provider);
 				//nur debug
         if(temp == "_" || temp == "[]" || temp.length == 0){
-            return [
+          temp =  [
 							{
 									"id": 171,
 									"providerId": 10,
@@ -138,15 +138,14 @@ const global = {
 							}
 					];
         }
-        else{
-          offers = temp;
-          return temp;
-        }
+        offers = temp;
+        return temp;
   },
   getOfferById: (id) =>{
-    let temp = API.getOfferById(id);
-    if(temp == "__"){
-      temp = getMeal(id);//ToDO: filter offers
+    let temp = API.getOfferById(id).offer;
+    console.log(temp);
+    if(temp == "_"){
+      temp = global.getMeal(id);//ToDO: filter offers
     }
     return temp;
   },
@@ -230,7 +229,7 @@ const global = {
   },
   pushRating: (stars, commentText) => {
     //setRating(offerId,userId,rating,comment=null)
-    console.log(commentText);
+    //console.log(commentText);
     API.setRating(id,global.getUserId(),stars,commentText);
   },
   ratingToStars: (rating) =>{

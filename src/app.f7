@@ -125,7 +125,7 @@
       if(comment == ""){
         comment =null;
       }
-      console.log(comment);
+      //console.log(comment);
       global.pushRating(stars,comment);
       comment = null;
       stars = 1;

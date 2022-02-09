@@ -35,7 +35,7 @@ class FoodApi{
         }
         
         let url = this.baseUrl+ endPoint+"/index.php"+paramString;//assamble the api url
-        console.log(url);
+        //console.log(url);
 
         //making the call
         try{
@@ -44,9 +44,9 @@ class FoodApi{
             xmlHttp.send(  );
             return JSON.parse(xmlHttp.responseText); 
         }
-        catch(e){
+        catch{
             console.log("API not reachable");
-            console.log(e);
+            //console.log(e);
             return "_";
         }  
     }
@@ -95,6 +95,10 @@ class FoodApi{
         }
     }
 
+    /**
+     * requesting only one specific offer
+     * @param id - is the id of the offer requested 
+     */
     getOfferById(id){
         return this.#callAPI("getOfferById",{"id":id});
     }

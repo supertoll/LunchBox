@@ -17,7 +17,14 @@
       <div class="block-title">Details</div>
       <div class="block block-strong">
         <p>${mealObject.description}</p>
-        <p>${priceView(mealObject.price)}</p>
+        <div>
+          <div >
+            <p style="display: inline;">${priceView(mealObject.price)}</p>
+            ${mealObject.tags.map((tag)=> $h`
+              <span style="float: right;" class="badge">${tag}</span>
+              `)}
+          </div>
+        </div>
         <div class="item-header" innerHTML=${global.ratingToStars(mealObject.averageRating)}></div>
       </div>
       <div class="block-title">Comments</div>

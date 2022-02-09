@@ -272,7 +272,7 @@ class FoodBD extends Database{
 
             #adding comments
         $offer["comments"] = $this->executeSQL("SELECT ratings.comment,ratings.rating FROM ratings WHERE ratings.offerId = ? AND NOT ratings.comment = '';",[$offer["id"]]);
-        }
+        
         return {"offer":$offer};
     }
 

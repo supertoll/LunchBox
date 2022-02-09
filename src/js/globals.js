@@ -26,13 +26,13 @@ const global = {
   },decreaseDate:()=>{
     date.setDate(date.getDate() - 1);
   },getApiDate:()=>{
-    return  date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString();
+    return  date.getFullYear().toString() + "-" + String(date.getMonth() + 1).padStart(2,"0") + "-" + date.getDate().toString().padStart(2,"0");
   },
   setId: (i) =>{
-      id = i;
+    id = i;
   },
   getId: () =>{
-      return id;
+    return id;
   },
   getLocations: () =>{
         let temp = API.getLocations();
@@ -71,15 +71,15 @@ const global = {
 									"name": "Senfei",
 									"description": "2 Bio-Eier in Senfsoße, dazu Kartoffeln",
 									"price": 600,
-									"averageRating": "3.0",
+									"averageRating": 3.0,
 									"tags": [],
 									"comments": [
 											{
-													"comment": "test2",
+													"comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit",
 													"rating": 3
 											},
 											{
-													"comment": "test",
+													"comment": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident",
 													"rating": 3
 											}
 									]
@@ -89,8 +89,8 @@ const global = {
 									"providerId": 3,
 									"name": "Hähnchenschnitzel",
 									"description": "mit Mischgemüse und Kartoffeln",
-									"price": null,
-									"averageRating": "2.5",
+									"price": 300,
+									"averageRating": 2.5,
 									"tags": [],
 									"comments": []
 							},
@@ -99,7 +99,7 @@ const global = {
 									"providerId": 3,
 									"name": "gebratenes Zanderfilet",
 									"description": "mit Kaisergemüse und Püree",
-									"price": null,
+									"price": 200,
 									"averageRating": null,
 									"tags": [],
 									"comments": []
@@ -110,7 +110,7 @@ const global = {
 									"name": "mit Backpflaumen gefüllter Schweinebraten,",
 									"description": "dazu Rotkohl und Knödelscheiben",
 									"price": 650,
-									"averageRating": null,
+									"averageRating": 2.5,
 									"tags": [],
 									"comments": []
 							},
@@ -120,7 +120,7 @@ const global = {
 									"name": "Pasta „Pomodori“",
 									"description": "frische Tomaten, Parmesan, Olivenöl, Basilikum, Hühnchenbrust, dazu Nudeln",
 									"price": 520,
-									"averageRating": null,
+									"averageRating": 4,
 									"tags": [
 											"Tagessuppe"
 									],
@@ -194,7 +194,7 @@ const global = {
             ]
         }
         else{
-            return temp
+            return temp;
         }
   },
   organizeOffers: (o,p) =>{
@@ -211,7 +211,7 @@ const global = {
             }
             
         });
-        console.log(result);
+        //console.log(result);
         return result;
   },
   saveSettings: () => {
@@ -224,38 +224,42 @@ const global = {
   },
   getUserId: () => {
         if(userId == -1){
-            userId = API.getUserId();
+            userId = API.getUserId().id;
         }
+        //console.log(userId);
         return userId;
   },
   pushRating: (stars, commentText) => {
     //setRating(offerId,userId,rating,comment=null)
-    API.setRating(id,getUserId,stars,commentText);
+    console.log(commentText);
+    API.setRating(id,global.getUserId(),stars,commentText);
   },
   ratingToStars: (rating) =>{
     let htmlString = '';
 
     if (rating == null){
-      htmlString += '<i class="f7-icons" style="font-size: 18px; color: #FFE900;">star</i>'.repeat(5);
+
     }
 		else{
-			rating = Number(rating);
-			let half_star = 0
-			htmlString += '<i class="f7-icons" style="font-size: 18px; color: #FFE900;">star_fill</i>'.repeat(parseInt(rating.toFixed(0)));
-      let delta = (rating - parseInt(rating.toFixed(1)));
-      //<=0.25 ~ kein stern <=0.75 ~ halber stern >0.75 ~stern
-      if (delta > (0.75)) {
-				htmlString += '<i class="f7-icons" style="font-size: 18px; color: #FFE900;">star_fill</i>';
+
+			rating = Math.round(2*rating)/2;
+      //console.log(rating);
+			let filledStars = parseInt(rating);
+      //console.log(filledStars);
+      let halfStar = 0;
+
+			htmlString += '<i class="f7-icons" style="font-size: 18px; color: #007755;">star_fill</i>'.repeat(filledStars);
+			if(rating-filledStars == 0.5){
+				htmlString += '<i class="f7-icons" style="font-size: 18px; color: #007755;">star_lefthalf_fill</i>';
+				halfStar = 1;
       }
-			else if(delta > (0.25)){
-				htmlString += '<i class="f7-icons" style="font-size: 18px; color: #FFE900;">star_lefthalf_fill</i>';
-				half_star = 1;
-      }
-			
-			htmlString += '<i class="f7-icons" style="font-size: 18px; color: #FFE900;">star</i>'.repeat(5 - parseInt(rating.toFixed(0)) - half_star);
+			htmlString += '<i class="f7-icons" style="font-size: 18px; color: #007755;">star</i>'.repeat(5 - filledStars - halfStar);
     }
 		return htmlString;
   },
+  getMeal: (i) => {
+    return offers.filter(m => m.id == i)[0];
+  }
 
 }
 /*

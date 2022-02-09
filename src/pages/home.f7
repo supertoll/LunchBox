@@ -27,7 +27,7 @@
       <p></p>
       <div class="row block">
         <div href="#" @click=${bDay} style="height: 7.75em;" class="col-25 button button-round button-fill"><i class="f7-icons">arrow_left</i></div>
-        <div class="col-50 block inset text-align-center" style="font-size: 2em;" >01.02.2022</div>
+        <div class="col-50 block inset text-align-center" style="font-size: 2em;" >${global.getDate()}</div>
         <div href="#"  @click=${nDay} style="height: 7.75em;" class="col-25 button button-round button-fill"><i class="f7-icons">arrow_right</i></div>
       </div>
       <div class="block block-strong"> 
@@ -89,15 +89,12 @@ export default async (props, { $update }) => {
   let providers = global.organizeOffers(meals, providerlist);
   global.setLocation("Neubrandenburg"); 
   //Date function for header
-  let thisdate = global.getDate();
   //function to change data with date missing
   //event for next/back missing
   var nDay = async () => {
     global.increaseDate();
-    thisdate = global.getDate();
     meals = global.getOffers([global.getLocation()]);
-    providerlist = global.getProviders();
-    providers = global.organizeOffers(meals, providerlist);
+    providers = global.organizeOffers(meals,  global.getProviders());
     $update();
   }
 
@@ -110,10 +107,8 @@ export default async (props, { $update }) => {
 
   const bDay = async () => {
     global.decreaseDate();
-    thisdate = global.getDate();
     meals = global.getOffers(global.getLocation());
-    providerlist = global.getProviders();
-    providers = global.organizeOffers(meals, providerlist);
+    providers = global.organizeOffers(meals, global.getProviders());
     $update();
   }
 

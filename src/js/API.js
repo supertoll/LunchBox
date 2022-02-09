@@ -35,18 +35,18 @@ class FoodApi{
         }
         
         let url = this.baseUrl+ endPoint+"/index.php"+paramString;//assamble the api url
-        //console.log(url);
+        console.log(url);
 
         //making the call
         try{
             let xmlHttp = new XMLHttpRequest();
             xmlHttp.open( method, url, false ); // false for synchronous request
-            xmlHttp.timeout(1*10**3);
             xmlHttp.send(  );
             return JSON.parse(xmlHttp.responseText); 
         }
-        catch{
+        catch(e){
             console.log("API not reachable");
+            console.log(e);
             return "_";
         }  
     }
@@ -107,7 +107,7 @@ class FoodApi{
      * @param comment - (optional) is a comment for a offer rating.
      */
     setRating(offerId,userId,rating,comment=null){
-        if (comment == null){
+        if (comment == null || comment == ""){
             this.#callAPI("setRating",{"offerId":offerId,"userId":userId,"rating":rating});
         }else{            
             this.#callAPI("setRating",{"offerId":offerId,"userId":userId,"rating":rating,"comment":comment});

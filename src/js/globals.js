@@ -253,6 +253,9 @@ const global = {
 			htmlString += '<i class="f7-icons" style="font-size: 18px; color: #007755;">star</i>'.repeat(5 - filledStars - halfStar);
     }
 		return htmlString;
+  },createTag:(tag)=>{
+    let color = {"Tagessuppe":"#ff3814","vegetarisch":"#167716","vegan":"#19e519"};
+    return '<span style=\"--f7-badge-bg-color: '+color[tag]+';\" class=\"badge\">'+tag+'</span>';
   },
   getMeal: (i) => {
     return offers.filter(m => m.id == i)[0];

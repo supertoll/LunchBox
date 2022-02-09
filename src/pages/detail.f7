@@ -21,7 +21,7 @@
           <div >
             <p style="display: inline;">${priceView(mealObject.price)}</p>
             ${mealObject.tags.map((tag)=> $h`
-              <span style="float: right;" class="badge">${tag}</span>
+              <div style="display: inline; float: right;" innerHTML=${global.createTag(tag)}></div>
               `)}
           </div>
         </div>

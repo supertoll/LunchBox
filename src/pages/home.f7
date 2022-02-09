@@ -52,7 +52,7 @@
                               <div class="item-title">
                                 <div class="item-header">
                                   ${meal.tags.map((tag)=> $h`
-                                    <span class="badge">${tag}</span>
+                                    <div style="display: inline;" innerHTML=${global.createTag(tag)}></div>
                                     `)}
 
                                 </div>
@@ -63,8 +63,11 @@
                                 <div class= "item-footer">
                                   <div style="display: inline;" innerHTML=${global.ratingToStars(meal.averageRating)}></div>
                                   ${(meal.comments.length > 0) && ($h`
+                                    <i class="icon f7-icons if-not-md">person_circle_fill
+                                      <span style="--f7-badge-bg-color: #007755" class="badge">${meal.comments.length}</span>
+                                    </i>
                                     <i class="icon material-icons md-only">person
-                                      <span class="badge">${meal.comments.length}</span>
+                                      <span style="--f7-badge-bg-color: #007755" class="badge">${meal.comments.length}</span>
                                     </i>
                                   `)}
                                 </div>

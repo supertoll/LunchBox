@@ -10,7 +10,7 @@ ___
 >"getUserId" gibt eine ID zurück und ist eine GET Methode. Die ID wird zur Identifizierung des Nutzers genutzt. Die ID wird zum Kommentieren benötigt. Die Funktion benötigt keine weiteren Parameter.
 >
 ```
-http://127.0.0.1/api/getUserId
+http://lunchboxdev.ddns.net/getUserId
 ```
 output:
 ```
@@ -24,7 +24,7 @@ output:
 >Gibt die Orte, für die es Essensanbieter gibt, in einem array zurück.
 >
 ```
-http://127.0.0.1/api/getLocations
+http://lunchboxdev.ddns.net/getLocations
 ```
 output:
 ```JSON
@@ -45,10 +45,10 @@ ___
 >"locations" ist ein optionales Argument. Es ist ein array im JSON Format. Durch die Angabe eines Ortes werden nur für den Ort spezifische Essensanbieter zurückgegeben. 
 >
 ```
-http://127.0.0.1/api/getProvider?location=[{locations}]
+http://lunchboxdev.ddns.net/getProvider?location=[{locations}]
 ```
 ```
-http://127.0.0.1/api/getProvider?location=["Neubrandenburg"]
+http://lunchboxdev.ddns.net/getProvider?location=["Neubrandenburg"]
 ```
 output:
 ```JSON
@@ -102,10 +102,10 @@ ___
 >"date" ist ein nötiges Argument, das in jedem Fall übergeben werden muss. Das Format entspricht **{jjjj}-{mm}-{dd}**. Durch "date" werden nur Essensangebote für das entsprechende Datum zurückgegeben.
 >
 ```
-http://127.0.0.1/api/getOffer/?date={jjjj}-{mm}-{dd}
+http://lunchboxdev.ddns.net/getOffer/?date={jjjj}-{mm}-{dd}
 ```
 ```
-http://127.0.0.1/api/getOffer/?date=2021-12-7
+http://lunchboxdev.ddns.net/getOffer/?date=2021-12-7
 ```
 output:
 ```Json
@@ -187,10 +187,10 @@ output:
 >"location" ist ein optionales Argument. Durch "location" werden nur nach der entsprechenden "location" gefilterte Essensangebote zurückgegeben.
 >
 ```
-http://127.0.0.1/api/getOffer/?date=2021-12-7&location=[{location}]
+http://lunchboxdev.ddns.net/getOffer/?date=2021-12-7&location=[{location}]
 ```
 ```
-http://127.0.0.1/api/getOffer/?date=2021-12-6&location=["Berlin Springpfuhl"]
+http://lunchboxdev.ddns.net/getOffer/?date=2021-12-6&location=["Berlin Springpfuhl"]
 ```
 output:
 ```JSON
@@ -222,10 +222,10 @@ output:
 >"provider" ist ein optionales Argument. Es erhält ein array mit Essensanbieter ID's im JSON Format **[n\*{0-9}]**. Mit "provider" werden nur Essensangebote von den entsprechenden Essensanbietern angezeigt.
 >
 ```
-http://127.0.0.1/api/getOffer/?date=2021-12-7&provider=[{id}]
+http://lunchboxdev.ddns.net/getOffer/?date=2021-12-7&provider=[{id}]
 ```
 ```
-http://127.0.0.1/api/getOffer/?date=2021-12-7&provider=[1,2,3]
+http://lunchboxdev.ddns.net/getOffer/?date=2021-12-7&provider=[1,2,3]
 ```
 output:
 ```JSON
@@ -272,7 +272,41 @@ output:
 }
 ]
 ```
-
+### getOfferById:
+___
+#### Beschreibung:
+>Giebt nur ein spezifisches Gericht zurück.
+>
+#### ARGS:
+##### id:
+>Ist die id nach der gefiltert wird.
+>
+```
+http://lunchboxdev.ddns.net/getOfferById/?id={id}
+```
+```
+http://lunchboxdev.ddns.net/getOfferById/?id={46}
+```
+output:
+``` JSON
+{
+    "offer": {
+        "id": 46,
+        "providerId": 10,
+        "name": "saftiger Hackbraten mit Schinken umwickelt",
+        "description": "dazu Speckbohnen und Salzkartoffeln",
+        "price": 650,
+        "averageRating": null,
+        "tags": [],
+        "comments": [
+            {
+                "comment": "toll",
+                "rating": 1
+            }
+        ]
+    }
+}
+```
 ### setRating:
 ___
 #### Beschreibung:
@@ -283,38 +317,38 @@ ___
 >"offerId" ist ein benötigtes Argument. Es dient der Zuordnung zu einem Gericht.
 >
 ```
-http://127.0.0.1/api/setRating?offerId={id}
+http://lunchboxdev.ddns.net/setRating?offerId={id}
 ```
 ```
-http://127.0.0.1/api/setRating?offerId=3
+http://lunchboxdev.ddns.net/setRating?offerId=3
 ```
 ##### userId:
 >"offerId" ist ein benötigtes Argument. Es dient der Identifikation eines Nutzers.
 >
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId={id}
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId={id}
 ```
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId=1
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId=1
 ```
 
 ##### rating:
 >"rating" ist ein benötigtes Argument. Es muss eine Zahl zwischen 1 und 5 sein.
 >
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId=1&rating={id}
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId=1&rating={id}
 ```
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId=1&rating=3
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId=1&rating=3
 ```
 ##### comment:
 >"comment" ist ein optionales Argument. Es fügt der Bewertung des Gerichtes einen Kommentar in Textform hinzu. 
 >
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId=1&rating=3&comment={comment}
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId=1&rating=3&comment={comment}
 ```
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId=1&rating=3&comment=Das Essen war supertoll! Kann ich nur weiterempfhlen.
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId=1&rating=3&comment=Das Essen war supertoll! Kann ich nur weiterempfhlen.
 ```
 ### updateRating:
 ___
@@ -326,38 +360,38 @@ ___
 >"offerId" ist ein benötigtes Argument. Es dient der Zuordnung zu einem Gericht.
 >
 ```
-http://127.0.0.1/api/setRating?offerId={id}
+http://lunchboxdev.ddns.net/setRating?offerId={id}
 ```
 ```
-http://127.0.0.1/api/setRating?offerId=3
+http://lunchboxdev.ddns.net/setRating?offerId=3
 ```
 ##### userId:
 >"offerId" ist ein benötigtes Argument. Es dient der Identifikation eines Nutzers.
 >
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId={id}
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId={id}
 ```
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId=1
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId=1
 ```
 
 ##### rating:
 >"rating" ist ein optionales Argument. Es muss eine Zahl zwischen 1 und 5 sein. Dabei wird dann der Wert der Bewertung aktualisiert.
 >
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId=1&rating={id}
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId=1&rating={id}
 ```
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId=1&rating=3
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId=1&rating=3
 ```
 ##### comment:
 >"comment" ist ein optionales Argument. Es aktualiesiert den Kommentar der Bewertung.
 >
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId=1&comment={comment}
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId=1&comment={comment}
 ```
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId=1&comment=Das Essen war supertoll!
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId=1&comment=Das Essen war supertoll!
 ```
 ### delRating:
 ___
@@ -369,17 +403,17 @@ ___
 >"offerId" ist ein benötigtes Argument. Es dient der Zuordnung zu einem Gericht.
 >
 ```
-http://127.0.0.1/api/setRating?offerId={id}
+http://lunchboxdev.ddns.net/setRating?offerId={id}
 ```
 ```
-http://127.0.0.1/api/setRating?offerId=3
+http://lunchboxdev.ddns.net/setRating?offerId=3
 ```
 ##### userId:
 >"offerId" ist ein benötigtes Argument. Es dient der Identifikation eines Nutzers.
 >
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId={id}
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId={id}
 ```
 ```
-http://127.0.0.1/api/setRating?offerId=3&userId=1
+http://lunchboxdev.ddns.net/setRating?offerId=3&userId=1
 ```

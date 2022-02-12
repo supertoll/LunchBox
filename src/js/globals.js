@@ -101,7 +101,9 @@ const global = {
 									"description": "mit Kaisergemüse und Püree",
 									"price": 200,
 									"averageRating": null,
-									"tags": [],
+									"tags": [
+                    "vegan"
+                  ],
 									"comments": []
 							},
 							{
@@ -133,7 +135,9 @@ const global = {
 									"description": "Rinderhack, Tomaten, Sauerkraut, saure Gurken, Tomatenmark, wahlweise + Schmand",
 									"price": 520,
 									"averageRating": null,
-									"tags": [],
+									"tags": [
+                    "Testtag"
+                  ],
 									"comments": []
 							}
 					];
@@ -254,8 +258,16 @@ const global = {
     }
 		return htmlString;
   },createTag:(tag)=>{
-    let color = {"Tagessuppe":"#ff3814","vegetarisch":"#167716","vegan":"#19e519"};
-    return '<span style=\"--f7-badge-bg-color: '+color[tag]+';\" class=\"badge\">'+tag+'</span>';
+    const tagToColor = (tag) =>{
+      let color = {"Tagessuppe":"#ff3814","vegetarisch":"#167716","vegan":"#19e519"};
+      if (Object.keys(color).includes(tag)){
+        return 'style=\"--f7-badge-bg-color: '+color[tag]+';\"';
+      }else{
+        return "";//uses default
+      }
+    }
+    //console.log('<span style=\"--f7-badge-bg-color: '+tagToColor(tag)+';\" class=\"badge\">'+tag+'</span>');
+    return '<span '+tagToColor(tag)+' class=\"badge\">'+tag+'</span>';
   },
   getMeal: (i) => {
     return offers.filter(m => m.id == i)[0];

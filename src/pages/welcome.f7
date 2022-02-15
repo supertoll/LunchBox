@@ -47,6 +47,9 @@
 								</div>
 							</div>
 						</li> 
+						<li>
+							<p><b><u>Disclaimer</u></b>: Jegliche Angebote und Preise sind <b>ohne Gewähr</b>.</p>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -65,9 +68,11 @@
 </template>
 <script>
 	import global from '/js/globals.js';
-	export default async () => {
+	export default async (props, { $f7, $, $app, $update, $on }) => {
 		//await global.initLocation();
   	//let locs = global.getLocations();
+	global.setDarkTheme(false);
+    global.saveSettings();
 		let locs = {
                 "locations":[
                     "Berlin Springpfuhl",
@@ -82,12 +87,13 @@
 		}
 
     const changeColorTheme = () => {
-      if(global.getTheme() == "theme-dark"){
-        global.setTheme("");
-      }
-      else{
-        global.setTheme("theme-dark");
-      }
+      $('body').toggleClass("theme-dark");
+    
+      console.log(global.getDarkTheme());
+      global.setDarkTheme(Boolean(global.getDarkTheme() ^ true))
+      console.log(global.getDarkTheme());
+
+      global.saveSettings();
     }
     const isReady = () => {
       global.saveSettings();

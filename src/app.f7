@@ -1,6 +1,6 @@
 
 <template>
-  <div id="app" class=${th}>
+  <div id="app">
 
     <!-- Your main view, should have "view-main" class -->
     <div class="view view-main view-init safe-areas" data-url="/"></div>
@@ -112,9 +112,13 @@
   export default async (props, { $f7, $, $app, $update, $on }) => {
     let comment = null;
     let stars = 1;
-
     global.importSettings();
-    let th = global.getTheme();
+    console.log("<app>")
+    console.log(global.getDarkTheme())
+    console.log("</app>")
+    if(global.getDarkTheme()){
+      $('body').toggleClass("theme-dark");
+    }
 
     const updateComment = (e) => {
       comment = e.target.value;

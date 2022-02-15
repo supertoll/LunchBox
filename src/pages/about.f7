@@ -9,12 +9,11 @@
             <span class="if-not-md">Back</span>
           </a>
         </div>
-        <div class="title">Settings</div>
-        <div class="subtitle">Thank you for downloading our app.</div>
+        <div class="text-align-center">Einstellungen</div>
       </div>
     </div>
     <div class="page-content">
-      <div class="block-title">Choose Location</div>
+      <div class="block-title">Standortwahl</div>
       <div class="list">
         <ul>
           ${locs["locations"].map((ll) => $h`
@@ -76,10 +75,10 @@ export default (props, {$f7,$,$app, $on, $update, $darkTheme}) => {
     location.reload();
   };
 
-  let changeColorTheme = () => {
-    $darkTheme ^= true;
-    console.log(app.darkTheme);
-    $update();
+  let changeColorTheme = () => {  
+    $('body').toggleClass("theme-dark");
+    global.setDarkTheme(Boolean(! global.getDarkTheme()))
+    global.saveSettings();
     //if(global.getTheme() == "theme-dark"){
     //  global.setTheme("");
     //  console.log(global.getTheme());
@@ -94,7 +93,7 @@ export default (props, {$f7,$,$app, $on, $update, $darkTheme}) => {
     ////$('id="app"').update();
   };
   $on('pageInit', (e, page) => {
-    if(global.getTheme() == "theme-dark"){
+    if(global.getDarkTheme()){
     $('[name="toggleTheme"]').prop('checked', true);
     }
     $('[id="' + global.getLocation() + 'box"]').prop('checked', true);

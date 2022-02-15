@@ -7,8 +7,8 @@ import "./API";
 import FoodApi from './API';
 var id = 5;
 var locations;
-var theme;
-var location;
+var darkTheme;
+var location = "Neubrandenburg";
 var userId = -1; //not initialized
 var offers;
 var providers;
@@ -48,17 +48,17 @@ const global = {
       return temp
     }
   },
-  getTheme: () => {
-    return theme;
+  getDarkTheme: () => {
+    return darkTheme;
   },
-  setTheme: (t) => {
-        theme = t;
+  setDarkTheme: (t) => {
+    darkTheme = t;
   },
   getLocation: () =>{
-        return location;
+    return location;
   },
   setLocation: (l) => {
-        location = l;
+    location = l;
   },
   getOffers: (location=null,provider=null) => {
         let temp = API.getOffer(global.getApiDate(),[global.getLocation()],provider);
@@ -217,11 +217,14 @@ const global = {
     return result;
   },
   saveSettings: () => {
-    localStorage.setItem("theme", theme);
+    console.log("saveing")
+    localStorage.setItem("darkTheme", darkTheme);
     localStorage.setItem("location", location);
   },
   importSettings: () => {
-    theme = localStorage.getItem("theme");
+    console.log(localStorage.getItem("darkTheme"));
+    darkTheme = localStorage.getItem("darkTheme") == "true";
+    console.log(typeof darkTheme);
     location = localStorage.getItem("location");
   },
   getUserId: () => {

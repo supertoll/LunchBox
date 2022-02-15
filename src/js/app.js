@@ -23,9 +23,7 @@ import global from './globals';
 var device = getDevice();
 var app = new Framework7({
   name: 'Lunchbox', // App name
-  theme: 'auto', // Automatic theme detection
-  autoDarkTheme: true, // Automatic DarkMode Detection
-  darkTheme: false,
+  theme: 'auto', // Automatic theme detection (iOS/Android/Web)
   el: '#app', // App root element
   component: App, // App main component
   id: 'de.lunchbox', // App bundle ID

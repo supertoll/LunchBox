@@ -90,7 +90,7 @@ const global = {
 									"name": "Hähnchenschnitzel",
 									"description": "mit Mischgemüse und Kartoffeln",
 									"price": 300,
-									"averageRating": 2.5,
+									"averageRating": null,
 									"tags": [],
 									"comments": []
 							},
@@ -100,11 +100,17 @@ const global = {
 									"name": "gebratenes Zanderfilet",
 									"description": "mit Kaisergemüse und Püree",
 									"price": 200,
-									"averageRating": null,
+									"averageRating": 4,
 									"tags": [
-                    "vegan"
+                    "vegan",
+                    "vegetarisch"
                   ],
-									"comments": []
+									"comments": [
+                    {
+                      "comment":"toll",
+                      "rating":4
+                    }
+                  ]
 							},
 							{
 									"id": -724,

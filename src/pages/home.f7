@@ -5,16 +5,16 @@
     <!-- Toolbar-->
     <div class="toolbar toolbar-top">
       <div class="toolbar-inner">
-        <div class="button" >
+        <div class="button-raised" >
           <a href="/form/" innerHTML=${box_icon} >
           </a>
         </div>
         <div class="title-large" style="font-size: 1.5em;">
           Lunchbox
         </div>
-        <div class="button">
+        <div class="button" >
           <a href="/about/" >
-            <i class="f7-icons">gear</i>
+            <i class="f7-icons center">gear</i>
           </a>
         </div>
       </div>
@@ -61,7 +61,7 @@
                                 ${"\tid: " + meal.id}
                                 <!-- for dev only --> 
                                 <div class= "item-footer">
-                                  <div style="display: inline;" innerHTML=${global.ratingToStars(meal.averageRating)}></div>
+                                  <div style="display: inline; margin-right: 4px;" innerHTML=${global.ratingToStars(meal.averageRating)}></div>
                                   ${(meal.comments.length > 0) && ($h`
                                     <i class="icon f7-icons" style="font-size: 18px; color: #007755;">chat_bubble_text
                                       <span style="--f7-badge-bg-color: #007755; --f7-badge-size: 14px;" class="badge">${meal.comments.length}</span>

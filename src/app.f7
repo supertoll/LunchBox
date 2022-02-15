@@ -113,9 +113,6 @@
     let comment = null;
     let stars = 1;
     global.importSettings();
-    console.log("<app>")
-    console.log(global.getDarkTheme())
-    console.log("</app>")
     if(global.getDarkTheme()){
       $('body').toggleClass("theme-dark");
     }

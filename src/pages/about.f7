@@ -2,16 +2,21 @@
   <div class="page" data-name="about">
     <div class="navbar">
       <div class="navbar-bg"></div>
-      <div class="navbar-inner sliding">
-        <div class="left">
-          <a href="#" class="link back">
+      <div class="navbar-inner navbar-inner-centered-title sliding">
+        <div class="left" >
+          <a href="#" class="link back"> 
             <i class="icon icon-back"></i>
             <span class="if-not-md">Back</span>
           </a>
         </div>
-        <div class="text-align-center">Einstellungen</div>
+        <div class="title" style="padding-bottom: 2px;">Einstellungen</div>
       </div>
     </div>
+
+
+
+    
+    
     <div class="page-content">
       <div class="block-title">Standortwahl</div>
       <div class="list">

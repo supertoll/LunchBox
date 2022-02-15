@@ -222,9 +222,7 @@ const global = {
     localStorage.setItem("location", location);
   },
   importSettings: () => {
-    console.log(localStorage.getItem("darkTheme"));
     darkTheme = localStorage.getItem("darkTheme") == "true";
-    console.log(typeof darkTheme);
     location = localStorage.getItem("location");
   },
   getUserId: () => {
@@ -265,13 +263,13 @@ const global = {
     const tagToColor = (tag) =>{
       let color = {"Tagessuppe":"#ff3814","vegetarisch":"#167716","vegan":"#19e519"};
       if (Object.keys(color).includes(tag)){
-        return 'style=\"--f7-badge-bg-color: '+color[tag]+';\"';
+        return color[tag];
       }else{
-        return "";//uses default
+        return "#8e8e93";//uses default
       }
     }
     //console.log('<span style=\"--f7-badge-bg-color: '+tagToColor(tag)+';\" class=\"badge\">'+tag+'</span>');
-    return '<span '+tagToColor(tag)+' class=\"badge\">'+tag+'</span>';
+    return '<span '+'style=\"--f7-badge-bg-color: '+tagToColor(tag)+'; margin-right: 4px;\" class=\"badge\">'+tag+'</span>';
   },
   getMeal: (i) => {
     return offers.filter(m => m.id == i)[0];

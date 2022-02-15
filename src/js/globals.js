@@ -61,12 +61,12 @@ const global = {
         location = l;
   },
   getOffers: (location=null,provider=null) => {
-        let temp = API.getOffer(global.getApiDate(),location,provider);
+        let temp = API.getOffer(global.getApiDate(),[global.getLocation()],provider);
 				//nur debug
         if(temp == "_" || temp == "[]" || temp.length == 0){
             temp = [
 							{
-									"id": 171,
+									"id": -171,
 									"providerId": 10,
 									"name": "Senfei",
 									"description": "2 Bio-Eier in Senfsoße, dazu Kartoffeln",
@@ -85,27 +85,35 @@ const global = {
 									]
 							},
 							{
-									"id": 697,
+									"id": -697,
 									"providerId": 3,
 									"name": "Hähnchenschnitzel",
 									"description": "mit Mischgemüse und Kartoffeln",
 									"price": 300,
-									"averageRating": 2.5,
-									"tags": [],
-									"comments": []
-							},
-							{
-									"id": 698,
-									"providerId": 3,
-									"name": "gebratenes Zanderfilet",
-									"description": "mit Kaisergemüse und Püree",
-									"price": 200,
 									"averageRating": null,
 									"tags": [],
 									"comments": []
 							},
 							{
-									"id": 724,
+									"id": -698,
+									"providerId": 3,
+									"name": "gebratenes Zanderfilet",
+									"description": "mit Kaisergemüse und Püree",
+									"price": 200,
+									"averageRating": 4,
+									"tags": [
+                    "vegan",
+                    "vegetarisch"
+                  ],
+									"comments": [
+                    {
+                      "comment":"toll",
+                      "rating":4
+                    }
+                  ]
+							},
+							{
+									"id": -724,
 									"providerId": 10,
 									"name": "mit Backpflaumen gefüllter Schweinebraten,",
 									"description": "dazu Rotkohl und Knödelscheiben",
@@ -115,7 +123,7 @@ const global = {
 									"comments": []
 							},
 							{
-									"id": 728,
+									"id": -728,
 									"providerId": 4,
 									"name": "Pasta „Pomodori“",
 									"description": "frische Tomaten, Parmesan, Olivenöl, Basilikum, Hühnchenbrust, dazu Nudeln",
@@ -127,13 +135,15 @@ const global = {
 									"comments": []
 							},
 							{
-									"id": 733,
+									"id": -733,
 									"providerId": 4,
 									"name": "Präsidentensuppe",
 									"description": "Rinderhack, Tomaten, Sauerkraut, saure Gurken, Tomatenmark, wahlweise + Schmand",
 									"price": 520,
 									"averageRating": null,
-									"tags": [],
+									"tags": [
+                    "Testtag"
+                  ],
 									"comments": []
 							}
 					];
@@ -223,7 +233,7 @@ const global = {
   },
   pushRating: (stars, commentText) => {
     //setRating(offerId,userId,rating,comment=null)
-    console.log(commentText);
+    //console.log(commentText);
     API.setRating(id,global.getUserId(),stars,commentText);
   },
   ratingToStars: (rating) =>{
@@ -248,6 +258,17 @@ const global = {
 			htmlString += '<i class="f7-icons" style="font-size: 18px; color: #007755;">star</i>'.repeat(5 - filledStars - halfStar);
     }
 		return htmlString;
+  },createTag:(tag)=>{
+    const tagToColor = (tag) =>{
+      let color = {"Tagessuppe":"#ff3814","vegetarisch":"#167716","vegan":"#19e519"};
+      if (Object.keys(color).includes(tag)){
+        return 'style=\"--f7-badge-bg-color: '+color[tag]+';\"';
+      }else{
+        return "";//uses default
+      }
+    }
+    //console.log('<span style=\"--f7-badge-bg-color: '+tagToColor(tag)+';\" class=\"badge\">'+tag+'</span>');
+    return '<span '+tagToColor(tag)+' class=\"badge\">'+tag+'</span>';
   },
   getMeal: (i) => {
     return offers.filter(m => m.id == i)[0];

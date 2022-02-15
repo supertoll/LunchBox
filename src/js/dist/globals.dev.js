@@ -80,11 +80,11 @@ var global = {
   getOffers: function getOffers() {
     var location = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var provider = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    var temp = API.getOffer(global.getApiDate(), location, provider); //nur debug
+    var temp = API.getOffer(global.getApiDate(), [global.getLocation()], provider); //nur debug
 
     if (temp == "_" || temp == "[]" || temp.length == 0) {
       temp = [{
-        "id": 171,
+        "id": -171,
         "providerId": 10,
         "name": "Senfei",
         "description": "2 Bio-Eier in Senfsoße, dazu Kartoffeln",
@@ -99,25 +99,28 @@ var global = {
           "rating": 3
         }]
       }, {
-        "id": 697,
+        "id": -697,
         "providerId": 3,
         "name": "Hähnchenschnitzel",
         "description": "mit Mischgemüse und Kartoffeln",
         "price": 300,
-        "averageRating": 2.5,
-        "tags": [],
-        "comments": []
-      }, {
-        "id": 698,
-        "providerId": 3,
-        "name": "gebratenes Zanderfilet",
-        "description": "mit Kaisergemüse und Püree",
-        "price": 200,
         "averageRating": null,
         "tags": [],
         "comments": []
       }, {
-        "id": 724,
+        "id": -698,
+        "providerId": 3,
+        "name": "gebratenes Zanderfilet",
+        "description": "mit Kaisergemüse und Püree",
+        "price": 200,
+        "averageRating": 4,
+        "tags": ["vegan", "vegetarisch"],
+        "comments": [{
+          "comment": "toll",
+          "rating": 4
+        }]
+      }, {
+        "id": -724,
         "providerId": 10,
         "name": "mit Backpflaumen gefüllter Schweinebraten,",
         "description": "dazu Rotkohl und Knödelscheiben",
@@ -126,7 +129,7 @@ var global = {
         "tags": [],
         "comments": []
       }, {
-        "id": 728,
+        "id": -728,
         "providerId": 4,
         "name": "Pasta „Pomodori“",
         "description": "frische Tomaten, Parmesan, Olivenöl, Basilikum, Hühnchenbrust, dazu Nudeln",
@@ -135,13 +138,13 @@ var global = {
         "tags": ["Tagessuppe"],
         "comments": []
       }, {
-        "id": 733,
+        "id": -733,
         "providerId": 4,
         "name": "Präsidentensuppe",
         "description": "Rinderhack, Tomaten, Sauerkraut, saure Gurken, Tomatenmark, wahlweise + Schmand",
         "price": 520,
         "averageRating": null,
-        "tags": [],
+        "tags": ["Testtag"],
         "comments": []
       }];
     }
@@ -226,7 +229,7 @@ var global = {
   },
   pushRating: function pushRating(stars, commentText) {
     //setRating(offerId,userId,rating,comment=null)
-    console.log(commentText);
+    //console.log(commentText);
     API.setRating(id, global.getUserId(), stars, commentText);
   },
   ratingToStars: function ratingToStars(rating) {
@@ -249,6 +252,24 @@ var global = {
     }
 
     return htmlString;
+  },
+  createTag: function createTag(tag) {
+    var tagToColor = function tagToColor(tag) {
+      var color = {
+        "Tagessuppe": "#ff3814",
+        "vegetarisch": "#167716",
+        "vegan": "#19e519"
+      };
+
+      if (Object.keys(color).includes(tag)) {
+        return 'style=\"--f7-badge-bg-color: ' + color[tag] + ';\"';
+      } else {
+        return ""; //uses default
+      }
+    }; //console.log('<span style=\"--f7-badge-bg-color: '+tagToColor(tag)+';\" class=\"badge\">'+tag+'</span>');
+
+
+    return '<span ' + tagToColor(tag) + ' class=\"badge\">' + tag + '</span>';
   },
   getMeal: function getMeal(i) {
     return offers.filter(function (m) {

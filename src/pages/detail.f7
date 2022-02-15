@@ -17,7 +17,14 @@
       <div class="block-title">Details</div>
       <div class="block block-strong">
         <p>${mealObject.description}</p>
-        <p>${priceView(mealObject.price)}</p>
+        <div>
+          <div >
+            <p style="display: inline;">${priceView(mealObject.price)}</p>
+            ${mealObject.tags.map((tag)=> $h`
+              <div style="display: inline; float: right;" innerHTML=${global.createTag(tag)}></div>
+              `)}
+          </div>
+        </div>
         <div class="item-header" innerHTML=${global.ratingToStars(mealObject.averageRating)}></div>
       </div>
       <div class="block-title">Comments</div>
@@ -32,14 +39,12 @@
                 <div class="item-content">
                   <div class="item-inner">
                     <div class="item-title">
-                      <div class="item-header" innerHTML=${global.ratingToStars(comment.rating)}></div>
-                      <div class="item-footer">
-                        <div class="block" >
-                          <p >${comment.comment}</p>
-                        </div>
+                      <div class="item-header" innerHTML=${global.ratingToStars(comment.rating)}></div>  
+                      <div class="" >
+                        <p style="font-size: 14px;">${comment.comment}</p>
                       </div>
-                    </div>
-                  </div>  
+                    </div>  
+                  </div>
                 </div>
               </li>
             `)}
@@ -55,7 +60,8 @@ export default (props, { $f7, $, $f7route, $update, $on }) => {
 let pK = $f7route.params.id;
 global.setId(pK);
 let mealObject = global.getMeal(pK);
-console.log(mealObject.comments);
+console.log(mealObject);
+
 function priceView(rn){
   if(rn == null){
     return "--";
@@ -67,7 +73,9 @@ function priceView(rn){
 
 
 $('#commentPopup').on('popup:close', function (e) {
-  mealObject = global.getMeal(global.getId());
+  console.log("closed popup");
+  mealObject = global.getOfferById(global.getId());
+  //console.log(mealObject);
   $update();
 });
 

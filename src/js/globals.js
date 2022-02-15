@@ -61,7 +61,7 @@ const global = {
         location = l;
   },
   getOffers: (location=null,provider=null) => {
-        let temp = API.getOffer(global.getApiDate(),location,provider);
+        let temp = API.getOffer(global.getApiDate(),[global.getLocation()],provider);
 				//nur debug
         if(temp == "_" || temp == "[]" || temp.length == 0){
           temp =  [
@@ -159,7 +159,7 @@ const global = {
     return temp.offer;
   },
   getProviders: () => {
-        let temp =  API.getProvider(location);
+        let temp =  API.getProvider([global.getLocation()]);
         if(temp == "_"){
             return [
                 {

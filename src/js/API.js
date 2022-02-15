@@ -35,7 +35,7 @@ class FoodApi{
         }
         
         let url = this.baseUrl+ endPoint+"/index.php"+paramString;//assamble the api url
-        console.log(url);
+        //console.log(url);
 
         //making the call
         try{

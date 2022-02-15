@@ -63,11 +63,8 @@
                                 <div class= "item-footer">
                                   <div style="display: inline;" innerHTML=${global.ratingToStars(meal.averageRating)}></div>
                                   ${(meal.comments.length > 0) && ($h`
-                                    <i class="icon f7-icons if-not-md" style="font-size: 18px; color: #007755;">chat_bubble_text
-                                      <span style="--f7-badge-bg-color: #007755" class="badge">${meal.comments.length}</span>
-                                    </i>
-                                    <i class="icon material-icons md-only">chat
-                                      <span style="--f7-badge-bg-color: #007755; " class="badge">${meal.comments.length}</span>
+                                    <i class="icon f7-icons" style="font-size: 18px; color: #007755;">chat_bubble_text
+                                      <span style="--f7-badge-bg-color: #007755; --f7-badge-size: 14px;" class="badge">${meal.comments.length}</span>
                                     </i>
                                   `)}
                                 </div>

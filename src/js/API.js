@@ -46,7 +46,7 @@ class FoodApi{
         }
         catch(e){
             console.log("API not reachable");
-            console.log(e);
+            //console.log(e);
             return "_";
         }  
     }

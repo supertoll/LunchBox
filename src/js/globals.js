@@ -35,21 +35,21 @@ const global = {
     return id;
   },
   getLocations: () =>{
-        let temp = API.getLocations();
-        if(temp == "_"){
-            return {
-                "locations":[
-                    "Berlin Springpfuhl",
-                    "Neubrandenburg"
-                ]
-            };
-        }
-        else{
-            return temp
-        }
+    let temp = API.getLocations();
+    if(temp == "_"){
+      return {
+        "locations":[
+          "Berlin Springpfuhl",
+          "Neubrandenburg"
+        ]
+      };
+    }
+    else{
+      return temp
+    }
   },
   getTheme: () => {
-        return theme;
+    return theme;
   },
   setTheme: (t) => {
         theme = t;
@@ -64,7 +64,7 @@ const global = {
         let temp = API.getOffer(global.getApiDate(),location,provider);
 				//nur debug
         if(temp == "_" || temp == "[]" || temp.length == 0){
-            return [
+            temp = [
 							{
 									"id": 171,
 									"providerId": 10,
@@ -138,88 +138,88 @@ const global = {
 							}
 					];
         }
-        else{
-          offers = temp;
-          return temp;
-        }
+        
+        offers = temp;
+        return temp;
+        
   },
   getProviders: () => {
-        let temp =  API.getProvider(location);
-        if(temp == "_"){
-            return [
-                {
-                    "id": 1,
-                    "name": "Schweinestall",
-                    "location": "Neubrandenburg",
-                    "url": "https://www.schweinestall-nb.de/mittagstisch-2/"
-                },
-                {
-                    "id": 2,
-                    "name": "Hotel am Ring",
-                    "location": "Neubrandenburg",
-                    "url": "http://www.hotel-am-ring.de/restaurant-rethra.html"
-                },
-                {
-                    "id": 3,
-                    "name": "AOK Cafeteria",
-                    "location": "Neubrandenburg",
-                    "url": "https://www.tfa-bistro.de"
-                },
-                {
-                    "id": 4,
-                    "name": "Suppenkulttour",
-                    "location": "Neubrandenburg",
-                    "url": "https://www.suppenkult.com/wochenplan.html"
-                },
-                {
-                    "id": 8,
-                    "name": "Das Krauthof",
-                    "location": "Neubrandenburg",
-                    "url": "https://www.daskrauthof.de/karte"
-                },
-                {
-                    "id": 10,
-                    "name": "Phoenixeum",
-                    "location": "Neubrandenburg",
-                    "url": "https://www.suppenkult.com/wochenplan.html"
-                }
-            ]
+    let temp =  API.getProvider(location);
+    if(temp == "_"){
+      return [
+        {
+          "id": 1,
+          "name": "Schweinestall",
+          "location": "Neubrandenburg",
+          "url": "https://www.schweinestall-nb.de/mittagstisch-2/"
+        },
+        {
+          "id": 2,
+          "name": "Hotel am Ring",
+          "location": "Neubrandenburg",
+          "url": "http://www.hotel-am-ring.de/restaurant-rethra.html"
+        },
+        {
+          "id": 3,
+          "name": "AOK Cafeteria",
+          "location": "Neubrandenburg",
+          "url": "https://www.tfa-bistro.de"
+        },
+        {
+          "id": 4,
+          "name": "Suppenkulttour",
+          "location": "Neubrandenburg",
+          "url": "https://www.suppenkult.com/wochenplan.html"
+        },
+        {
+          "id": 8,
+          "name": "Das Krauthof",
+          "location": "Neubrandenburg",
+          "url": "https://www.daskrauthof.de/karte"
+        },
+        {
+          "id": 10,
+          "name": "Phoenixeum",
+          "location": "Neubrandenburg",
+          "url": "https://www.suppenkult.com/wochenplan.html"
         }
-        else{
-            return temp;
-        }
+      ]
+    }
+    else{
+        return temp;
+    }
   },
   organizeOffers: (o,p) =>{
-        let result = [];
-        p.forEach(prov => {
-            let part = [];
-            o.forEach(off => {
-                if (off.providerId == prov.id){
-                    part.push(off);
-                }
-            });
-            if (part.length > 0 ){
-                result.push({pp: prov, oo : part})
-            }
-            
-        });
-        //console.log(result);
-        return result;
+    let result = [];
+    p.forEach(prov => {
+      let part = [];
+      o.forEach(off => {
+        if (off.providerId == prov.id){
+          part.push(off);
+        }
+      });
+      if (part.length > 0 ){
+        result.push({pp: prov, oo : part})
+      }
+        
+    });
+    //console.log(result);
+    return result;
   },
   saveSettings: () => {
-        localStorage.setItem("theme", theme);
-        localStorage.setItem("location", location);
+    localStorage.setItem("theme", theme);
+    localStorage.setItem("location", location);
   },
   importSettings: () => {
-        theme = localStorage.getItem("theme");
-        location = localStorage.getItem("location");
+    theme = localStorage.getItem("theme");
+    location = localStorage.getItem("location");
   },
   getUserId: () => {
-        if(userId == -1){
-            userId = API.getUserId().id;
-        }
-        //console.log(userId);
-        return userId;
+    if(userId == -1){
+      userId = API.getUserId().id;
+    }
+    //console.log(userId);
+    return userId;
   },
   pushRating: (stars, commentText) => {
     //setRating(offerId,userId,rating,comment=null)
@@ -252,7 +252,6 @@ const global = {
   getMeal: (i) => {
     return offers.filter(m => m.id == i)[0];
   }
-
 }
 /*
 global.initLocation();

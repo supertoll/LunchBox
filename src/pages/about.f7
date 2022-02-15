@@ -52,11 +52,11 @@
   	    <p>Alle Rechte enthält Markus</p>
   	  </div>
   		<div class="block">
-  	    <p> E-Mail : informatik-ag@data-experts.de</p>
-  	    <p> Webseite data experts : <a href="https://www.data-experts.de"> Link zur Webseite</a></p>
-  	    <p> Github : <a href="https://github.com/supertoll/LunchBox"> Link zum Github</a></p>
+  	    <p> <i class="icon f7-icons">envelope</i> <a href="mailto:informatik-ag@data-experts.de">informatik-ag@data-experts.de</a></p>
+  	    <p> <i class="icon f7-icons">globe</i> <a href="https://www.data-experts.de">data-experts.de</a></p>
+  	    <p> <i class="icon f7-icons">logo_github</i> <a href="https://github.com/supertoll/LunchBox">Zum Code</a></p>
   	    <div class="block block-strong">
-  	      <p>Ein großes Dankeschön an alle Entwickler der Info-AG :)</p>
+  	      <p>Ein großes Dankeschön an alle Entwickler der Info-AG <i class="icon f7-icons">face_smiling</i></p>
 				</div>
   	  </div>
   	</div>
@@ -64,7 +64,8 @@
 </template>
 <script>
 import global from '../js/globals.js';
-export default (props, {$f7,$, $on, $update}) => {
+export default (props, {$f7,$,$app, $on, $update, $darkTheme}) => {
+  console.log(app.darkTheme);
   let locs = global.getLocations();
   const suffix = "box";
 
@@ -76,18 +77,21 @@ export default (props, {$f7,$, $on, $update}) => {
   };
 
   let changeColorTheme = () => {
-    if(global.getTheme() == "theme-dark"){
-      global.setTheme("");
-      console.log(global.getTheme());
-    }
-    else{
-      global.setTheme("theme-dark");
-      console.log(global.getTheme());
-    }
-    global.saveSettings();
-    location.reload();
-    console.log("changed");
-    //$('id="app"').update();
+    $darkTheme ^= true;
+    console.log(app.darkTheme);
+    $update();
+    //if(global.getTheme() == "theme-dark"){
+    //  global.setTheme("");
+    //  console.log(global.getTheme());
+    //}
+    //else{
+    //  global.setTheme("theme-dark");
+    //  console.log(global.getTheme());
+    //}
+    //global.saveSettings();
+    //location.reload();
+    //console.log("changed");
+    ////$('id="app"').update();
   };
   $on('pageInit', (e, page) => {
     if(global.getTheme() == "theme-dark"){

@@ -83,7 +83,7 @@ var global = {
     var temp = API.getOffer(global.getApiDate(), location, provider); //nur debug
 
     if (temp == "_" || temp == "[]" || temp.length == 0) {
-      return [{
+      temp = [{
         "id": 171,
         "providerId": 10,
         "name": "Senfei",
@@ -144,10 +144,10 @@ var global = {
         "tags": [],
         "comments": []
       }];
-    } else {
-      offers = temp;
-      return temp;
     }
+
+    offers = temp;
+    return temp;
   },
   getProviders: function getProviders() {
     var temp = API.getProvider(location);

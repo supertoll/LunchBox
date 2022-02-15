@@ -24,6 +24,8 @@ var device = getDevice();
 var app = new Framework7({
   name: 'Lunchbox', // App name
   theme: 'auto', // Automatic theme detection
+  autoDarkTheme: true, // Automatic DarkMode Detection
+  darkTheme: false,
   el: '#app', // App root element
   component: App, // App main component
   id: 'de.lunchbox', // App bundle ID

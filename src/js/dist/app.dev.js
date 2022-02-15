@@ -40,6 +40,9 @@ var app = new _bundle["default"]({
   // App name
   theme: 'auto',
   // Automatic theme detection
+  autoDarkTheme: true,
+  // Automatic DarkMode Detection
+  darkTheme: false,
   el: '#app',
   // App root element
   component: _app2["default"],

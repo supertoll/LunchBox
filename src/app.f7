@@ -15,7 +15,7 @@
             <div class="navbar-inner">
               <div class="title">Eine Bewertung abgeben: </div>
               <div class="right">
-                <a href="#" class="link popup-close">Cancel</a>
+                <a href="#" class="link popup-close"><i class="icon f7-icons">xmark</i></a>
               </div>
             </div>
           </div>

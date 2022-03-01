@@ -5,15 +5,25 @@
     <!-- Toolbar-->
     <div class="toolbar toolbar-top">
       <div class="toolbar-inner">
+<<<<<<< HEAD
         <div class="left">
           <a class="link sortable-toggle" href="#" data-sortable=".sortable" innerHTML=${box_icon} >
+=======
+        <div class="link" >
+          <a href="/form/" innerHTML=${box_icon} >
+>>>>>>> e5d309c20856978bf4eacd6798e20ed8c0211a9c
           </a>
         </div>
         <div class="title-large" style="font-size: 1.5em;">
           Lunchbox
         </div>
+<<<<<<< HEAD
         <div class="right" >
           <a href="/about/" class="link" >
+=======
+        <div class="link" >
+          <a href="/about/" >
+>>>>>>> e5d309c20856978bf4eacd6798e20ed8c0211a9c
             <i class="f7-icons center">gear</i>
           </a>
         </div>

@@ -77,7 +77,7 @@ export default (props, {$f7,$,$app, $on, $update, $darkTheme}) => {
     global.setLocation(e.target.value);
     //console.log(e.target.value);
     global.saveSettings();
-    location.reload();
+    
   };
 
   let changeColorTheme = () => {  

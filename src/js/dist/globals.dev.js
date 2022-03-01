@@ -23,8 +23,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 //import * as https from 'http';
 var id = 5;
 var locations;
-var theme;
-var location;
+var darkTheme;
+var location = "Neubrandenburg";
 var userId = -1; //not initialized
 
 var offers;
@@ -65,11 +65,11 @@ var global = {
       return temp;
     }
   },
-  getTheme: function getTheme() {
-    return theme;
+  getDarkTheme: function getDarkTheme() {
+    return darkTheme;
   },
-  setTheme: function setTheme(t) {
-    theme = t;
+  setDarkTheme: function setDarkTheme(t) {
+    darkTheme = t;
   },
   getLocation: function getLocation() {
     return location;
@@ -212,11 +212,12 @@ var global = {
     return result;
   },
   saveSettings: function saveSettings() {
-    localStorage.setItem("theme", theme);
+    console.log("saveing");
+    localStorage.setItem("darkTheme", darkTheme);
     localStorage.setItem("location", location);
   },
   importSettings: function importSettings() {
-    theme = localStorage.getItem("theme");
+    darkTheme = localStorage.getItem("darkTheme") == "true";
     location = localStorage.getItem("location");
   },
   getUserId: function getUserId() {
@@ -262,14 +263,14 @@ var global = {
       };
 
       if (Object.keys(color).includes(tag)) {
-        return 'style=\"--f7-badge-bg-color: ' + color[tag] + ';\"';
+        return color[tag];
       } else {
-        return ""; //uses default
+        return "#8e8e93"; //uses default
       }
     }; //console.log('<span style=\"--f7-badge-bg-color: '+tagToColor(tag)+';\" class=\"badge\">'+tag+'</span>');
 
 
-    return '<span ' + tagToColor(tag) + ' class=\"badge\">' + tag + '</span>';
+    return '<span ' + 'style=\"--f7-badge-bg-color: ' + tagToColor(tag) + '; margin-right: 4px;\" class=\"badge\">' + tag + '</span>';
   },
   getMeal: function getMeal(i) {
     return offers.filter(function (m) {

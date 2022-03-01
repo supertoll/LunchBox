@@ -20,6 +20,7 @@ var date = new Date();
 //all 3 initFunctions should be able to be deleted
 const global = {
   getDate:()=>{
+  
     return date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
   },increaseDate:()=>{
     date.setDate(date.getDate() + 1);
@@ -75,12 +76,12 @@ const global = {
 									"tags": [],
 									"comments": [
 											{
-													"comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit",
-													"rating": 3
+												"comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit",
+												"rating": 3
 											},
 											{
-													"comment": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident",
-													"rating": 3
+												"comment": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident",
+												"rating": 3
 											}
 									]
 							},
@@ -135,16 +136,16 @@ const global = {
 									"comments": []
 							},
 							{
-									"id": -733,
-									"providerId": 4,
-									"name": "Präsidentensuppe",
-									"description": "Rinderhack, Tomaten, Sauerkraut, saure Gurken, Tomatenmark, wahlweise + Schmand",
-									"price": 520,
-									"averageRating": null,
-									"tags": [
-                    "Testtag"
-                  ],
-									"comments": []
+								"id": -733,
+								"providerId": 4,
+								"name": "Präsidentensuppe",
+								"description": "Rinderhack, Tomaten, Sauerkraut, saure Gurken, Tomatenmark, wahlweise + Schmand",
+								"price": 520,
+								"averageRating": null,
+								"tags": [
+                  "Testtag"
+                ],
+								"comments": []
 							}
 					];
         }

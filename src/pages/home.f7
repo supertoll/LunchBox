@@ -5,15 +5,15 @@
     <!-- Toolbar-->
     <div class="toolbar toolbar-top">
       <div class="toolbar-inner">
-        <div class="button-raised" >
-          <a href="/form/" innerHTML=${box_icon} >
+        <div class="left">
+          <a class="link sortable-toggle" href="#" data-sortable=".sortable" innerHTML=${box_icon} >
           </a>
         </div>
         <div class="title-large" style="font-size: 1.5em;">
           Lunchbox
         </div>
-        <div class="button" >
-          <a href="/about/" >
+        <div class="right" >
+          <a href="/about/" class="link" >
             <i class="f7-icons center">gear</i>
           </a>
         </div>
@@ -32,7 +32,7 @@
       </div>
       <div class="block block-strong"> 
         <p>${loc}</p>       
-        <div class="list accordion-opposite">
+        <div class="list accordion-opposite sortable sortable-tap-hold">
           <ul id="foodlist">
             ${providers.map((provider) => $h`
               <li class="accordion-item accordion-item-opened">
@@ -77,6 +77,7 @@
                     </ul>
                   </div>
                 </div>
+                <div class="sortable-handler"></div>
               </li>
             `)}
           </ul>
@@ -90,7 +91,7 @@
 <script>
 import global from '../js/globals.js';
 //import getStars from "../elements/rating.js"
-export default async (props, { $update }) => {
+export default async (props, { $update, $on }) => {
   //example data:
   //will be replaced by a databaseconnection
   const detail = "/detail/";
@@ -112,7 +113,7 @@ export default async (props, { $update }) => {
     if(rn == null){
       return "";
     }
-    return (rn/100).toFixed(2) + ' €   ';
+    return (rn/100).toFixed(2) + '€';
   }
 
   const bDay = async () => {
@@ -121,6 +122,10 @@ export default async (props, { $update }) => {
     providers = global.organizeOffers(meals, global.getProviders());
     $update();
   }
+
+  $on('sortableSort', function (listEl, indexes) {
+    console.log(indexes);
+  });
 
   
 

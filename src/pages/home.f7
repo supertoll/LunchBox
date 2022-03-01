@@ -26,9 +26,9 @@
     <div class="page-content">
       <p></p>
       <div class="row block">
-        <div href="#" @click=${bDay} style="height: 7.75em;" class="col-25 button button-round button-fill"><i class="f7-icons">arrow_left</i></div>
-        <div class="col-50 block inset text-align-center" style="font-size: 2em;" >${global.getDate()}</div>
-        <div href="#"  @click=${nDay} style="height: 7.75em;" class="col-25 button button-round button-fill"><i class="f7-icons">arrow_right</i></div>
+        <div href="#" @click=${bDay} style="height: 7.75em;" class="col-30 button button-round link"><i class="f7-icons" style="font-size: 6em" >arrow_left</i></div>
+        <div class="col-40 text-align-center" style="font-size: 2em;" innerHTML=${global.getFancyDate()} ></div>
+        <div href="#"  @click=${nDay} style="height: 7.75em;" class="col-30 button button-round link"><i class="f7-icons" style="font-size: 6em">arrow_right</i></div>
       </div>
       <div class="block block-strong"> 
         <p>${loc}</p>       

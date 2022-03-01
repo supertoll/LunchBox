@@ -152,8 +152,17 @@ var global = {
     offers = temp;
     return temp;
   },
+  getOfferById: function getOfferById(id) {
+    var temp = API.getOfferById(id).offer;
+
+    if (temp == "_") {
+      return getMeal(id);
+    } else {
+      return temp;
+    }
+  },
   getProviders: function getProviders() {
-    var temp = API.getProvider(location);
+    var temp = API.getProvider([global.getLocation()]);
 
     if (temp == "_") {
       return [{
@@ -276,6 +285,15 @@ var global = {
     return offers.filter(function (m) {
       return m.id == i;
     })[0];
+  },
+  getFancyDate: function getFancyDate() {
+    var options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+    return date.toLocaleDateString('de-DE', options).replace(', ', '</br>');
   }
 };
 /*

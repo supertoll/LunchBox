@@ -281,7 +281,12 @@ const global = {
   },
   getMeal: (i) => {
     return offers.filter(m => m.id == i)[0];
-  }
+  },
+  getFancyDate: () => {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('de-DE', options).replace(', ', '</br>');
+  },
+
 }
 /*
 global.initLocation();

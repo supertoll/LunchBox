@@ -6,7 +6,7 @@
     <div class="toolbar toolbar-top">
       <div class="toolbar-inner">
         <div class="left">
-          <a class="link" href="#"innerHTML=${box_icon} >
+          <a class="link" href="#" innerHTML=${box_icon} >
           </a>
         </div>
         <div class="title-large" style="font-size: 1.5em;">
@@ -96,6 +96,7 @@ export default async (props, { $update, $on }) => {
   //will be replaced by a databaseconnection
   const detail = "/detail/";
   let loc = global.getLocation()
+  console.log("Location: "+ loc);
   let meals = global.getOffers();
   let providerlist = global.getProviders();
   let providers = global.organizeOffers(meals, providerlist);
@@ -126,6 +127,15 @@ export default async (props, { $update, $on }) => {
   $on('sortableSort', function (listEl, indexes) {
     console.log(indexes);
   });
+  
+  $on('page:reinit', () =>{
+    loc = global.getLocation()
+    console.log("Location: "+ loc);
+    meals = global.getOffers();
+    providerlist = global.getProviders();
+    providers = global.organizeOffers(meals, providerlist);
+    $update();
+  })
 
   
 

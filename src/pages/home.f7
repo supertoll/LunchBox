@@ -5,14 +5,14 @@
     <!-- Toolbar-->
     <div class="toolbar toolbar-top">
       <div class="toolbar-inner">
-        <div class="button-raised" >
+        <div class="link" >
           <a href="/form/" innerHTML=${box_icon} >
           </a>
         </div>
         <div class="title-large" style="font-size: 1.5em;">
           Lunchbox
         </div>
-        <div class="button" >
+        <div class="link" >
           <a href="/about/" >
             <i class="f7-icons center">gear</i>
           </a>

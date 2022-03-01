@@ -123,14 +123,16 @@
     }
 
     const addComment = () => {
-      console.log("set comment: " + comment);
+      
       if(comment == ""){
         comment =null;
       }
       global.pushRating(stars,comment);
       comment = null;
       stars = 1;
-      $update();
+      
+      console.log("set comment: ");
+      //$update();
     }
 
     const setStars = (e) => {
@@ -166,6 +168,7 @@
     }
     $on('pageInit', (e, page) => {
     });
+
 
     return $render;
   }

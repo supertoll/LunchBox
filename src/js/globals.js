@@ -12,6 +12,7 @@ var location = "Neubrandenburg";
 var userId = -1; //not initialized
 var offers;
 var providers;
+var providerCustomOrder = [];
 var settingsStorage = localStorage;
 const webserver = 'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
 const API  = new FoodApi(webserver);
@@ -285,8 +286,22 @@ const global = {
   getFancyDate: () => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return date.toLocaleDateString('de-DE', options).replace(', ', '</br>');
+  },getProviderCustomOrder: ()=>{
+    return providerCustomOrder;
+  },setProviderCustomOrder:(order)=>{
+    providerCustomOrder = order;
   },
+  changeCustomOrder:(id,place)=>{    
+    //console.log("or",providerCustomOrder)
+    let origin = providerCustomOrder.indexOf(id);
+    providerCustomOrder.splice(origin,origin -1);
+    let a = providerCustomOrder.splice(0,place);
+    let b = providerCustomOrder;
+    a.push(id);
 
+    providerCustomOrder = a.concat(b);
+    //console.log("fi",providerCustomOrder)
+  }
 }
 /*
 global.initLocation();

@@ -100,9 +100,9 @@ export default async (props, { $update, $on }) => {
   let meals = global.getOffers();
   let providerlist = global.getProviders();
   let providers = global.organizeOffers(meals, providerlist);
-  //Date function for header
-  //function to change data with date missing
-  //event for next/back missing
+
+  global.changeCustomOrder(3,4)
+
   var nDay = async () => {
     global.increaseDate();
     meals = global.getOffers([global.getLocation()]);

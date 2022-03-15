@@ -13,6 +13,7 @@ var userId = -1; //not initialized
 var offers;
 var providers;
 var providerCustomOrder = [];
+var providerEllapsed = {};
 var settingsStorage = localStorage;
 const webserver = 'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
 const API  = new FoodApi(webserver);
@@ -162,8 +163,8 @@ const global = {
       return temp;
     }
   },
-  getProviders: () => {
-    let temp =  API.getProvider([global.getLocation()]);
+  getProviders: (loc = [global.getLocation()] ) => {
+    let temp =  API.getProvider(loc);
     if(temp == "_"){
       return [
         {
@@ -208,17 +209,18 @@ const global = {
         return temp;
     }
   },
-  organizeOffers: (o,p) =>{
+  organizeOffers: (offers,providers) =>{
     let result = [];
-    p.forEach(prov => {
+    providers.forEach(provider => {
       let part = [];
-      o.forEach(off => {
-        if (off.providerId == prov.id){
-          part.push(off);
+      offers.forEach(offer => {
+        if (offer.providerId == provider.id){
+          part.push(offer);
         }
       });
       if (part.length > 0 ){
-        result.push({pp: prov, oo : part})
+        //result[providerCustomOrder.indexOf(provider.id)] = {pp: provider, oo : part}
+        result.push({pp: provider, oo : part})
       }
         
     });
@@ -294,13 +296,32 @@ const global = {
   changeCustomOrder:(id,place)=>{    
     //console.log("or",providerCustomOrder)
     let origin = providerCustomOrder.indexOf(id);
-    providerCustomOrder.splice(origin,origin -1);
+    //console.log("o",origin)
+    if(origin == 0){
+      providerCustomOrder.shift();
+    }else{
+      providerCustomOrder.splice(origin,origin);
+    }
+    //console.log("r",providerCustomOrder);
     let a = providerCustomOrder.splice(0,place);
+    //console.log("a",a)
+    //console.log("b",providerCustomOrder);
     let b = providerCustomOrder;
     a.push(id);
 
     providerCustomOrder = a.concat(b);
-    //console.log("fi",providerCustomOrder)
+    
+    global.setCustomOrderS(providerCustomOrder);
+  },
+  setCustomOrderS:(order)=>{
+    providerCustomOrder = order;
+    console.log(providerCustomOrder);
+    localStorage.setItem("customOrder", JSON.stringify(order));
+  },importCustomOrderS:()=>{
+    providerCustomOrder = JSON.parse(localStorage.getItem("customOrder"));
+    console.log(providerCustomOrder);
+  },getCustomOrder:()=>{
+    return providerCustomOrder;
   }
 }
 /*

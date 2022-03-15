@@ -73,18 +73,30 @@
   	//let locs = global.getLocations();
 	global.setDarkTheme(false);
     global.saveSettings();
-		let locs = {
-                "locations":[
-                    "Berlin Springpfuhl",
-                    "Neubrandenburg"
-                ]
-            }
-		locs["locations"].splice(locs["locations"].indexOf("Neubrandenburg"))
-		global.setLocation("Neubrandenburg");
+	
 
-		const changeLoc = (e) => {
-    	global.setLocation(e.target.value);
-		}
+
+	let locs = {
+            "locations":[
+                "Berlin Springpfuhl",
+                "Neubrandenburg"
+            ]
+        }
+	locs["locations"].splice(locs["locations"].indexOf("Neubrandenburg"))
+	global.setLocation("Neubrandenburg");
+
+	let order = [];
+	global.getProviders(null).forEach(provider => {
+		console.log(provider.id);
+		order.push(provider.id)
+	});
+	console.log(order);
+	global.setCustomOrderS(order);
+
+
+	const changeLoc = (e) => {
+	global.setLocation(e.target.value);
+	}
 
     const changeColorTheme = () => {
       $('body').toggleClass("theme-dark");

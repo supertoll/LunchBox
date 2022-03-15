@@ -32,6 +32,14 @@ var app = new Framework7({
   // App routes
   routes: routes,
 
+  //enables moveble lists
+  
+  sortable: {
+    moveElements: true
+  },
+  touch: {
+    tapHold: true,
+  },
 
   // Input settings
   input: {

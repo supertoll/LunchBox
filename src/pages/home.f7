@@ -31,9 +31,11 @@
         <div href="#"  @click=${nDay} style="height: 7.75em;" class="col-30 button button-round link"><i class="f7-icons" style="font-size: 6em">arrow_right</i></div>
       </div>
       <div class="block block-strong"> 
-        <p>${loc}</p>       
-        <div class="list accordion-opposite sortable sortable-tap-hold">
-          <ul id="foodlist">
+        <p>${loc}</p> 
+        <div class="right"><a class="link sortable-toggle" data-sortable=".sortable">Toggle</a></div>      
+        <div class="list sortable accordion">
+          <div class="list sortable sortable-tap-hold">
+            <ul>
             ${providers.map((provider) => $h`
               <li class="accordion-item accordion-item-opened">
                 <a href="" class="item-link item-content">
@@ -81,6 +83,7 @@
               </li>
             `)}
           </ul>
+          </div>
         </div>
 
       </div>
@@ -96,12 +99,15 @@ export default async (props, { $update, $on }) => {
   //will be replaced by a databaseconnection
   const detail = "/detail/";
   let loc = global.getLocation()
-  console.log("Location: "+ loc);
   let meals = global.getOffers();
   let providerlist = global.getProviders();
   let providers = global.organizeOffers(meals, providerlist);
 
-  global.changeCustomOrder(3,4)
+  global.importCustomOrderS();
+  console.log(global.getCustomOrder());
+  global.changeCustomOrder(1,0)
+  console.log(global.getCustomOrder());
+  
 
   var nDay = async () => {
     global.increaseDate();
@@ -124,7 +130,13 @@ export default async (props, { $update, $on }) => {
     $update();
   }
 
-  $on('sortableSort', function (listEl, indexes) {
+  $on('sortableSort',  (listEl, indexes)=> {
+    console.log(indexes);
+  });
+  $on('sortableMove',  (listEl, indexes)=> {
+    console.log(indexes);
+  });
+  $on('taphold',  (listEl, indexes)=> {
     console.log(indexes);
   });
   

@@ -98,15 +98,14 @@ export default async (props, { $update, $on }) => {
   //example data:
   //will be replaced by a databaseconnection
   const detail = "/detail/";
+  
+  global.importCustomOrderS();
+
   let loc = global.getLocation()
   let meals = global.getOffers();
   let providerlist = global.getProviders();
   let providers = global.organizeOffers(meals, providerlist);
 
-  global.importCustomOrderS();
-  console.log(global.getCustomOrder());
-  global.changeCustomOrder(1,0)
-  console.log(global.getCustomOrder());
   
 
   var nDay = async () => {
@@ -131,13 +130,16 @@ export default async (props, { $update, $on }) => {
   }
 
   $on('sortableSort',  (listEl, indexes)=> {
-    console.log(indexes);
+    console.log("a",indexes);
+    //console.log(providers[indexes.from].pp.id,providers[indexes.to].pp.id)
+    global.changeCustomOrder(providers[indexes.from].pp.id,providers[indexes.to].pp.id);
+    console.log(global.getCustomOrder());
   });
   $on('sortableMove',  (listEl, indexes)=> {
-    console.log(indexes);
+    console.log("b",indexes);
   });
   $on('taphold',  (listEl, indexes)=> {
-    console.log(indexes);
+    console.log("c",indexes);
   });
   
   $on('page:reinit', () =>{

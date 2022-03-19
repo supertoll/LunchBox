@@ -210,7 +210,7 @@ const global = {
     }
   },
   organizeOffers: (offers,providers) =>{
-    let result = [];
+    let temp = [];
     providers.forEach(provider => {
       let part = [];
       offers.forEach(offer => {
@@ -219,11 +219,22 @@ const global = {
         }
       });
       if (part.length > 0 ){
-        //result[providerCustomOrder.indexOf(provider.id)] = {pp: provider, oo : part}
-        result.push({pp: provider, oo : part})
+        //temp[providerCustomOrder.indexOf(provider.id)] = {pp: provider, oo : part}
+        temp.push({pp: provider, oo : part})
       }
         
     });
+    //console.log(temp);
+
+    //sorting
+    let result = [];
+    providerCustomOrder.forEach(id=>{
+      let r = temp.filter(o => o.pp.id == id)[0];
+      if(! (typeof r === 'undefined')){
+        result.push(r)
+      }
+    })
+
     //console.log(result);
     return result;
   },
@@ -293,29 +304,29 @@ const global = {
   },setProviderCustomOrder:(order)=>{
     providerCustomOrder = order;
   },
-  changeCustomOrder:(id,place)=>{    
-    //console.log("or",providerCustomOrder)
-    let origin = providerCustomOrder.indexOf(id);
-    //console.log("o",origin)
-    if(origin == 0){
-      providerCustomOrder.shift();
-    }else{
-      providerCustomOrder.splice(origin,origin);
-    }
-    //console.log("r",providerCustomOrder);
-    let a = providerCustomOrder.splice(0,place);
-    //console.log("a",a)
-    //console.log("b",providerCustomOrder);
-    let b = providerCustomOrder;
-    a.push(id);
+  changeCustomOrder:(idFrom,idTo)=>{
+    let from = providerCustomOrder.indexOf(idFrom);
+    let to = providerCustomOrder.indexOf(idTo);
+    //console.log(from,to);
 
-    providerCustomOrder = a.concat(b);
-    
+    //'REMOVE'
+    let a = providerCustomOrder.splice(0,from+1);
+    a.pop();
+    providerCustomOrder = a.concat(providerCustomOrder);
+    //console.log("removed",providerCustomOrder);
+
+    //place id
+    a = providerCustomOrder.splice(0,to);
+    a.push(idFrom);
+    let b = providerCustomOrder;
+    //onsole.log("added",providerCustomOrder);
+
+    providerCustomOrder = a.concat(b);    
     global.setCustomOrderS(providerCustomOrder);
   },
   setCustomOrderS:(order)=>{
     providerCustomOrder = order;
-    console.log(providerCustomOrder);
+    //console.log(providerCustomOrder);
     localStorage.setItem("customOrder", JSON.stringify(order));
   },importCustomOrderS:()=>{
     providerCustomOrder = JSON.parse(localStorage.getItem("customOrder"));

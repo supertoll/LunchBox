@@ -32,12 +32,12 @@
       </div>
       <div class="block block-strong"> 
         <p>${loc}</p> 
-        <div class="right"><a class="link sortable-toggle" data-sortable=".sortable">Toggle</a></div>      
-        <div class="list sortable accordion">
+    
+        <div class="list accordion">
           <div class="list sortable sortable-tap-hold">
             <ul>
             ${providers.map((provider) => $h`
-              <li class="accordion-item accordion-item-opened">
+              <li id="providerElement" class="accordion-item accordion-item-opened">
                 <a href="" class="item-link item-content">
                   <div class="item-inner">
                     <div class="item-title text-color-primary" >${provider.pp.name}</div>
@@ -106,8 +106,6 @@ export default async (props, { $update, $on }) => {
   let providerlist = global.getProviders();
   let providers = global.organizeOffers(meals, providerlist);
 
-  
-
   var nDay = async () => {
     global.increaseDate();
     meals = global.getOffers([global.getLocation()]);
@@ -134,14 +132,15 @@ export default async (props, { $update, $on }) => {
     //console.log(providers[indexes.from].pp.id,providers[indexes.to].pp.id)
     global.changeCustomOrder(providers[indexes.from].pp.id,providers[indexes.to].pp.id);
     console.log(global.getCustomOrder());
+    // unfolad all providers
   });
   $on('sortableMove',  (listEl, indexes)=> {
-    console.log("b",indexes);
+    //collaps all providers
+    console.log("b",indexes,listEl);
   });
   $on('taphold',  (listEl, indexes)=> {
-    console.log("c",indexes);
+    console.log("c",indexes,listEl);
   });
-  
   $on('page:reinit', () =>{
     loc = global.getLocation()
     console.log("Location: "+ loc);
@@ -151,7 +150,7 @@ export default async (props, { $update, $on }) => {
     $update();
   })
 
-  
+   
 
   const box_icon = '<i class="f7-icons">cube_box</i>';
 

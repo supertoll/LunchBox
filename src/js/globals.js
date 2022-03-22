@@ -291,7 +291,7 @@ const global = {
       }
     }
     //console.log('<span style=\"--f7-badge-bg-color: '+tagToColor(tag)+';\" class=\"badge\">'+tag+'</span>');
-    return '<span '+'style=\"--f7-badge-bg-color: '+tagToColor(tag)+'; margin-right: 4px;\" class=\"badge\">'+tag+'</span>';
+    return '<span style=\"--f7-badge-bg-color: '+tagToColor(tag)+'; margin-right: 4px;\" class=\"badge\">'+tag+'</span>';
   },
   getMeal: (i) => {
     return offers.filter(m => m.id == i)[0];

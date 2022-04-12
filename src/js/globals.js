@@ -13,7 +13,7 @@ var userId = -1; //not initialized
 var offers;
 var providers;
 var providerCustomOrder = [];
-var providerEllapsed = {};
+var providerCollapsed = [];
 var settingsStorage = localStorage;
 const webserver = 'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
 const API  = new FoodApi(webserver);
@@ -21,6 +21,19 @@ var date = new Date();
 
 //all 3 initFunctions should be able to be deleted
 const global = {
+  addProviderCollapsed:(id)=>{
+    if(providerCollapsed.find(id) == -1){
+      providerCollapsed.push(id);
+    }
+    global.saveSettings();
+  },removeProviderCollapsed:(id)=>{
+    let a = providerCollapsed.splice(0,providerCollapsed.find(id)+1);
+    a.pop();
+    providerCollapsed = a.concat(providerCollapsed);
+    global.saveSettings();
+  },getProviderCollapsed:()=>{
+    return providerCollapsed;
+  },  
   getDate:()=>{
   
     return date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
@@ -242,10 +255,12 @@ const global = {
     console.log("saveing")
     localStorage.setItem("darkTheme", darkTheme);
     localStorage.setItem("location", location);
+    localStorage.setItem("providerCollapsed",providerCollapsed);
   },
   importSettings: () => {
     darkTheme = localStorage.getItem("darkTheme") == "true";
     location = localStorage.getItem("location");
+    providerCollapsed = localStorage.getItem("providerCollapsed");
   },
   getUserId: () => {
     if(userId == -1){

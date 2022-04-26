@@ -71,19 +71,20 @@
 	export default async (props, { $f7, $, $app, $update, $on }) => {
 		//await global.initLocation();
   	//let locs = global.getLocations();
-	global.setDarkTheme(false);
-    global.saveSettings();
+	  global.setDarkTheme(false);
+	  
+	  global.setProviderCollapsed([1,2,3,4,5,6,7,8,9]);//[]
+	  global.saveSettings();
 	
-
-
 	let locs = {
-            "locations":[
-                "Berlin Springpfuhl",
-                "Neubrandenburg"
-            ]
-        }
+		"locations":[
+			"Berlin Springpfuhl",
+			"Neubrandenburg"
+		]
+	}
 	locs["locations"].splice(locs["locations"].indexOf("Neubrandenburg"))
 	global.setLocation("Neubrandenburg");
+
 
 	let order = [];
 	global.getProviders(null).forEach(provider => {

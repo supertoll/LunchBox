@@ -15,7 +15,7 @@ var providers;
 var providerCustomOrder = [];
 var providerCollapsed = [];
 var settingsStorage = localStorage;
-const webserver = 'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
+const webserver = "http://192.168.2.202";//'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
 const API  = new FoodApi(webserver);
 var date = new Date();
 
@@ -33,7 +33,9 @@ const global = {
     global.saveSettings();
   },getProviderCollapsed:()=>{
     return providerCollapsed;
-  },  
+  },setProviderCollapsed:(p)=>{
+    providerCollapsed = p;
+  } ,
   getDate:()=>{
   
     return date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
@@ -255,12 +257,12 @@ const global = {
     console.log("saveing")
     localStorage.setItem("darkTheme", darkTheme);
     localStorage.setItem("location", location);
-    localStorage.setItem("providerCollapsed",providerCollapsed);
+    localStorage.setItem("providerCollapsed",JSON.stringify(providerCollapsed));
   },
   importSettings: () => {
     darkTheme = localStorage.getItem("darkTheme") == "true";
     location = localStorage.getItem("location");
-    providerCollapsed = localStorage.getItem("providerCollapsed");
+    providerCollapsed = JSON.parse(localStorage.getItem("providerCollapsed"));
   },
   getUserId: () => {
     if(userId == -1){

@@ -112,6 +112,7 @@
   export default async (props, { $f7, $, $app, $update, $on }) => {
     let comment = null;
     let stars = 1;
+    
     global.importSettings();
     if(global.getDarkTheme()){
       $('body').toggleClass("theme-dark");

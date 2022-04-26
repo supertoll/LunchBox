@@ -32,12 +32,12 @@
       </div>
       <div class="block block-strong"> 
         <p>${loc}</p> 
-    
+
         <div class="list accordion">
           <div class="list sortable sortable-tap-hold">
             <ul>
             ${providers.map((provider) => $h`
-              <li id="providerElement" #ToDo=${provider.id} class="accordion-item accordion-item-opened">
+              <li id="providerElement" providerId="${provider.pp.id}" class="accordion-item accordion-item-opened">
                 <a href="" class="item-link item-content">
                   <div class="item-inner">
                     <div class="item-title text-color-primary" >${provider.pp.name}</div>
@@ -101,16 +101,34 @@ export default async (props, { $, $update, $on, $app }) => {
   const detail = "/detail/";
   
   global.importCustomOrderS();
+  global.importSettings();
 
   let loc = global.getLocation()
   let meals = global.getOffers();
   let providerlist = global.getProviders();
   let providers = global.organizeOffers(meals, providerlist);
+  $update();
+  
+  collaps();
+  
+  function collaps(){
+    console.log(global.getProviderCollapsed(),providers);
+    for(let i = 0; i < providers.length; i++){
+      let id = providers[i].pp.id;
 
-  for(let i = 0; i < global.getProviderCollapsed().length; i++){
-    let id = global.getProviderCollapsed()[i];
-    $('#'+ id).toggleClass("accordion-item-opened");
-    $('#' + id).toggleClass("accordion-item-closed");
+      if(id in global.getProviderCollapsed()){
+        console.log($('[providerId = "'+id+'"]'),"closed",id);
+        $('[providerId = "'+id+'"]').removeClass("accordion-item-opened");
+        $('[providerId = "'+id+'"]').trigger("accordion:close");
+        $('[providerId = "'+id+'"]').addClass("accordion-item-closed");
+      }else{
+        console.log($('[providerId = "'+id+'"]'),"opend",id);
+        $('[providerId = "'+id+'"]').removeClass("accordion-item-closed");
+        $('[providerId = "'+id+'"]').trigger("accordion:open");
+        $('[providerId = "'+id+'"]').addClass("accordion-item-opend");
+      }
+    }
+    $update();   
   }
   
   const nDay = async () => {
@@ -118,6 +136,7 @@ export default async (props, { $, $update, $on, $app }) => {
     meals = global.getOffers([global.getLocation()]);
     providers = global.organizeOffers(meals,  global.getProviders());
     $update();
+    collaps();
   }
 
   function priceView(rn){
@@ -132,6 +151,7 @@ export default async (props, { $, $update, $on, $app }) => {
     meals = global.getOffers(global.getLocation());
     providers = global.organizeOffers(meals, global.getProviders());
     $update();
+    collaps();
   }
 
   $on('accordion:beforeclose',(listEl, indexes)=> {
@@ -146,7 +166,7 @@ export default async (props, { $, $update, $on, $app }) => {
     // unfolad all providers
    
     $('#providerElement').toggleClass("accordion-item-opened");
-    $('#providerElement').toggleClass("accordion-item-closed");
+    //$('#providerElement').toggleClass("accordion-item-closed");
   });
   $on('sortableMove',  (listEl, indexes)=> {
     //collaps all providers
@@ -158,7 +178,7 @@ export default async (props, { $, $update, $on, $app }) => {
     //$("#app").accordionClose("#providerElement");
     $('#providerElement').trigger('accordion:close');
     $('#providerElement').toggleClass("accordion-item-opened");
-    $('#providerElement').toggleClass("accordion-item-closed");
+    //$('#providerElement').toggleClass("accordion-item-closed");
     //$app.accordion.close("#providerElement");
     console.log("c",indexes,listEl);
   });
@@ -172,7 +192,7 @@ export default async (props, { $, $update, $on, $app }) => {
   })
 
   const box_icon = '<i class="f7-icons">cube_box</i>';
-
+  
   return $render;
 }
 </script>

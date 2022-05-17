@@ -44,7 +44,7 @@ const global = {
   },decreaseDate:()=>{
     date.setDate(date.getDate() - 1);
   },getApiDate:()=>{
-    return  date.getFullYear().toString() + "-" + String(date.getMonth() + 1).padStart(2,"0") + "-" + date.getDate().toString().padStart(2,"0");
+    return date.getFullYear().toString() + "-" + String(date.getMonth() + 1).padStart(2,"0") + "-" + date.getDate().toString().padStart(2,"0");
   },
   setId: (i) =>{
     id = i;

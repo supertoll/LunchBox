@@ -108,8 +108,8 @@ export default async (props, { $, $update, $on, $app }) => {
   let providerlist = global.getProviders();
   let providers = global.organizeOffers(meals, providerlist);
   $update();
-  
   collaps();
+  
   
   function collaps(){
     console.log(global.getProviderCollapsed(),providers);
@@ -130,6 +130,8 @@ export default async (props, { $, $update, $on, $app }) => {
     }
     $update();   
   }
+
+  
   
   const nDay = async () => {
     global.increaseDate();

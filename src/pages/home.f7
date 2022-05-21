@@ -31,16 +31,16 @@
         <div href="#"  @click=${nDay} style="height: 7.75em;" class="col-30 button button-round link"><i class="f7-icons" style="font-size: 6em">arrow_right</i></div>
       </div>
       <div class="block block-strong"> 
-        <p>${loc}</p> 
+        <p>${global.getLocation()}</p> 
 
         <div class="list accordion">
           <div class="list sortable sortable-tap-hold">
             <ul>
             ${providers.map((provider) => $h`
-              <li id="providerElement" providerId="${provider.pp.id}" class="accordion-item accordion-item-opened">
+              <li id="providerElement" providerId="${provider.pp.id}" class="accordion-item">
                 <a href="" class="item-link item-content">
                   <div class="item-inner">
-                    <div class="item-title text-color-primary" >${provider.pp.name}</div>
+                    <div class="item-title text-color-primary" >${provider.pp.name}: ${provider.pp.p}</div>
                   </div>
                 </a>
                 <div class="accordion-item-content">
@@ -103,32 +103,32 @@ export default async (props, { $, $update, $on, $app }) => {
   global.importCustomOrderS();
   global.importSettings();
 
-  let loc = global.getLocation()
-  let meals = global.getOffers();
-  let providerlist = global.getProviders();
-  let providers = global.organizeOffers(meals, providerlist);
-  $update();
-  collaps();
+
+  let meals = global.getOffers([global.getLocation()]);
+  let providers = global.organizeOffers(meals, global.getProviders());
+
+
   
   
   function collaps(){
+    
     console.log(global.getProviderCollapsed(),providers);
     for(let i = 0; i < providers.length; i++){
       let id = providers[i].pp.id;
+      let li = $(`li[providerId=\"${id}\"]`)
 
-      if(id in global.getProviderCollapsed()){
-        console.log($('[providerId = "'+id+'"]'),"closed",id);
-        $('[providerId = "'+id+'"]').removeClass("accordion-item-opened");
-        $('[providerId = "'+id+'"]').trigger("accordion:close");
-        $('[providerId = "'+id+'"]').addClass("accordion-item-closed");
+      if(global.getProviderCollapsed().includes(id)){
+        console.log(li,"closed",id);
+        li.removeClass("accordion-item-opened");
+        li.addClass("accordion-item-closed");
+
       }else{
-        console.log($('[providerId = "'+id+'"]'),"opend",id);
-        $('[providerId = "'+id+'"]').removeClass("accordion-item-closed");
-        $('[providerId = "'+id+'"]').trigger("accordion:open");
-        $('[providerId = "'+id+'"]').addClass("accordion-item-opend");
+        console.log(li,"opened",id);
+        li.removeClass("accordion-item-closed");
+        li.addClass("accordion-item-opened");
       }
     }
-    $update();   
+    //$update();   
   }
 
   
@@ -139,6 +139,7 @@ export default async (props, { $, $update, $on, $app }) => {
     providers = global.organizeOffers(meals,  global.getProviders());
     $update();
     collaps();
+    $update();
   }
 
   function priceView(rn){
@@ -150,47 +151,52 @@ export default async (props, { $, $update, $on, $app }) => {
 
   const bDay = async () => {
     global.decreaseDate();
-    meals = global.getOffers(global.getLocation());
+    meals = global.getOffers([global.getLocation()]);
     providers = global.organizeOffers(meals, global.getProviders());
     $update();
     collaps();
+    $update();
   }
 
   $on('accordion:beforeclose',(listEl, indexes)=> {
-    console.log(listEl);
+    let id = parseInt(listEl.target.attributes[1].value);
+    console.log("adding" + id);
+    global.addProviderCollapsed(id);
+  });
+  $on('accordion:beforeopen',(listEl, indexes)=> {
+    let id = parseInt(listEl.target.attributes[1].value);
+    console.log("removing" + id);
+    global.removeProviderCollapsed(id);
   });
   
   $on('sortableSort',  (listEl, indexes)=> {
     console.log("a",indexes);
+    console.log(global.getCustomOrder());
     //console.log(providers[indexes.from].pp.id,providers[indexes.to].pp.id)
     global.changeCustomOrder(providers[indexes.from].pp.id,providers[indexes.to].pp.id);
-    console.log(global.getCustomOrder());
+    collaps();
     // unfolad all providers
    
-    $('#providerElement').toggleClass("accordion-item-opened");
     //$('#providerElement').toggleClass("accordion-item-closed");
   });
-  $on('sortableMove',  (listEl, indexes)=> {
-    //collaps all providers
-    console.log("b",indexes,listEl);
 
-
-  });
   $on('taphold',  (listEl, indexes)=> {
-    //$("#app").accordionClose("#providerElement");
-    $('#providerElement').trigger('accordion:close');
-    $('#providerElement').toggleClass("accordion-item-opened");
-    //$('#providerElement').toggleClass("accordion-item-closed");
-    //$app.accordion.close("#providerElement");
+    //$('#providerElement').trigger('accordion:close');
+    $('#providerElement').removeClass("accordion-item-opened");
+    $('#providerElement').addClass("accordion-item-closed");
+
     console.log("c",indexes,listEl);
   });
   $on('page:reinit', () =>{
-    loc = global.getLocation()
-    console.log("Location: "+ loc);
-    meals = global.getOffers();
-    providerlist = global.getProviders();
-    providers = global.organizeOffers(meals, providerlist);
-    $update();
+    console.log("Location: "+ global.getLocation());
+    meals = global.getOffers([global.getLocation()]);
+    providers = global.organizeOffers(meals, global.getProviders());;
+    collaps();
+  })
+
+  $on("page:init",()=>{
+    console.log("laoded");
+    collaps();
   })
 
   const box_icon = '<i class="f7-icons">cube_box</i>';

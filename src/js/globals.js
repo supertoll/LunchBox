@@ -22,15 +22,19 @@ var date = new Date();
 //all 3 initFunctions should be able to be deleted
 const global = {
   addProviderCollapsed:(id)=>{
-    if(providerCollapsed.find(id) == -1){
+    if(providerCollapsed.indexOf(id) == -1){
       providerCollapsed.push(id);
     }
     global.saveSettings();
+    console.log(global.getProviderCollapsed());
+
   },removeProviderCollapsed:(id)=>{
-    let a = providerCollapsed.splice(0,providerCollapsed.find(id)+1);
+    let a = providerCollapsed.splice(0,providerCollapsed.indexOf(id)+1);
     a.pop();
     providerCollapsed = a.concat(providerCollapsed);
     global.saveSettings();
+    console.log(global.getProviderCollapsed());
+
   },getProviderCollapsed:()=>{
     return providerCollapsed;
   },setProviderCollapsed:(p)=>{

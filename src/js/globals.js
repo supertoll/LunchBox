@@ -15,7 +15,7 @@ var providers;
 var providerCustomOrder = [];
 var providerCollapsed = [];
 var settingsStorage = localStorage;
-const webserver = "http://192.168.2.202";//'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
+const webserver = "http://lunchboxdev.ddns.net/";//'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
 const API  = new FoodApi(webserver);
 var date = new Date();
 

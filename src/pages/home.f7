@@ -132,10 +132,6 @@ export default async (props, { $, $update, $on, $app }) => {
     //$update();   
   }
 
-  function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
   const nDay = async () => {
     global.increaseDate();
     meals = global.getOffers([global.getLocation()]);

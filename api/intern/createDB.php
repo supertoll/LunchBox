@@ -44,9 +44,9 @@ function fillFoodDB(Database $db){
 }
 
 $db = new FoodBD("localhost","lunchboxuser","");
-$db->connect();
-$db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
-$db->disconnect();
+#$db->connect();
+#$db->executeSQLFromFile("./../DB/createLunchBoxFoodDB.sql");
+#$db->disconnect();
 $db->connect("lunchboxfooddb");
 fillfoodDB($db);
 $db->disconnect();

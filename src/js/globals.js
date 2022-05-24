@@ -100,7 +100,8 @@ const global = {
   },
   getOffers: (location=null,provider=null) => {
         let temp = API.getOffer(global.getApiDate(),[global.getLocation()],provider);
-				//nur debug
+				/*
+        //nur debug
         if(temp == "_" || temp == "[]" || temp.length == 0){
             temp = [
 							{
@@ -186,7 +187,7 @@ const global = {
 							}
 					];
         }
-        
+        */
         offers = temp;
         return temp;
         

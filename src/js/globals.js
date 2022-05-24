@@ -43,11 +43,27 @@ const global = {
   getDate:()=>{
   
     return date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
-  },increaseDate:()=>{
-    date.setDate(date.getDate() + 1);
-  },decreaseDate:()=>{
-    date.setDate(date.getDate() - 1);
-  },getApiDate:()=>{
+  },
+
+  increaseDate:()=>{
+    var freitag = 5;
+    if (date.getDay() == freitag) {
+      date.setDate(date.getDate() + 3);
+    } else {
+      date.setDate(date.getDate() + 1);
+    }
+  },
+
+  decreaseDate:()=>{
+    var montag = 1;
+    if (date.getDay() == montag) {
+      date.setDate(date.getDate() - 3);
+    } else {
+      date.setDate(date.getDate() - 1);
+    }
+  },
+	
+  getApiDate:()=>{
     return date.getFullYear().toString() + "-" + String(date.getMonth() + 1).padStart(2,"0") + "-" + date.getDate().toString().padStart(2,"0");
   },
   setId: (i) =>{

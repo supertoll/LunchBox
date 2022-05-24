@@ -110,20 +110,21 @@ export default async (props, { $, $update, $on, $app }) => {
 
   
   
-  function collaps(){
-    
+  async function collaps(){
+    await $update();
+
     console.log(global.getProviderCollapsed(),providers);
     for(let i = 0; i < providers.length; i++){
       let id = providers[i].pp.id;
       let li = $(`li[providerId=\"${id}\"]`)
 
       if(global.getProviderCollapsed().includes(id)){
-        console.log(li,"closed",id);
+        console.log(li,"closed",id,providers[i].pp.name);
         li.removeClass("accordion-item-opened");
         li.addClass("accordion-item-closed");
 
       }else{
-        console.log(li,"opened",id);
+        console.log(li,"opened",id,providers[i].pp.name);
         li.removeClass("accordion-item-closed");
         li.addClass("accordion-item-opened");
       }
@@ -131,15 +132,16 @@ export default async (props, { $, $update, $on, $app }) => {
     //$update();   
   }
 
-  
-  
+  function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   const nDay = async () => {
     global.increaseDate();
     meals = global.getOffers([global.getLocation()]);
     providers = global.organizeOffers(meals,  global.getProviders());
-    $update();
+    
     collaps();
-    $update();
   }
 
   function priceView(rn){
@@ -153,9 +155,7 @@ export default async (props, { $, $update, $on, $app }) => {
     global.decreaseDate();
     meals = global.getOffers([global.getLocation()]);
     providers = global.organizeOffers(meals, global.getProviders());
-    $update();
     collaps();
-    $update();
   }
 
   $on('accordion:beforeclose',(listEl, indexes)=> {

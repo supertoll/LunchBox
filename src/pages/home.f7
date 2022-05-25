@@ -37,7 +37,7 @@
           <div class="list sortable sortable-tap-hold">
             <ul>
             ${providers.length === 0 && $h`
-              <p style="font-size: 18;">Sorry für diesen Tag liegen uns <b>kein Essensdaten</b> vor.</p>
+              <p style="font-size: 18;">Sorry für diesen Tag liegen uns <b>kein Essensdaten</b> vor 😥.</p>
               `}
             ${providers.map((provider) => $h`
               <li id="providerElement" providerId="${provider.pp.id}" class="accordion-item">

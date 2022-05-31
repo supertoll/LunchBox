@@ -342,11 +342,16 @@ class FoodBD extends Database{
     }
 
     public function delOldOffer(String $oldestDate){
-        $ids = $this->executeSQL("SELECT offer.id FROM offer WHERE offer.date < ?",[$oldestDate]);
-        if(count($ids) > 0){
-            $this->executeSQL("DELETE FROM offer2tags WHERE offer2tags.offerId in (".str_repeat("?,",count($ids) -1)."?)",ids);
-            $this->executeSQL("DELETE FROM ratings WHERE ratings.offerId in (".str_repeat("?,",count($ids) -1)."?)",ids)
-            $this->executeSQL("DELETE FROM offer WHERE offer.id in (".str_repeat("?,",count($ids) -1)."?)",ids)
+        $ids_ = $this->executeSQL("SELECT offer.id FROM offer WHERE offer.date < ?",[$oldestDate]);
+        if(count($ids_) > 0){
+            $ids = array();
+            foreach ($ids_ as $_key => $id){
+                array_push($ids,$id["id"]);
+            }
+            echo(var_dump($ids));
+            $this->executeSQL("DELETE FROM offer2tags WHERE offer2tags.offerId in (".str_repeat("?,",count($ids) -1)."?)",$ids);
+            $this->executeSQL("DELETE FROM ratings WHERE ratings.offerId in (".str_repeat("?,",count($ids) -1)."?)",$ids);
+            $this->executeSQL("DELETE FROM offer WHERE offer.id in (".str_repeat("?,",count($ids) -1)."?)",$ids);
         }
     }
 

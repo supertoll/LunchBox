@@ -6,5 +6,7 @@ $db->connect("lunchboxfooddb");
 // current day date("Y-m-d");
 $db->delOldOffer(date("Y-m-d",strtotime("-14 day")));
 
+fillFoodDB($db);
+
 $db->disconnect();
 ?>

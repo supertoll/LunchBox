@@ -1,12 +1,13 @@
 <?php
 include "./database.php";
-
+#connecting db
 $db = new FoodBD("localhost","lunchboxuser","");
 $db->connect("lunchboxfooddb");
-// current day date("Y-m-d");
-$db->delOldOffer(date("Y-m-d",strtotime("-14 day")));
-
-fillFoodDB($db);
+#date from 2 weeks ago
+$date2WeeksAgo = date("Y-m-d",strtotime("-14 day"));
+#del old data and load new
+$db->delOldOffer($date2WeeksAgo );
+fillFoodDB($db,$date2WeeksAgo );
 
 $db->disconnect();
-?>
+?> 

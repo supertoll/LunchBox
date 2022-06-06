@@ -344,25 +344,22 @@ class FoodBD extends Database{
     public function delOldOffer(String $oldestDate){
         $ids_ = $this->executeSQL("SELECT offer.id FROM offer WHERE offer.date < ?",[$oldestDate]);
         if(count($ids_) > 0){
+            //creating pure array of ids
             $ids = array();
             foreach ($ids_ as $_key => $id){
                 array_push($ids,$id["id"]);
             }
-            echo(var_dump($ids));
+            //echo(var_dump($ids));
+            //del
             $this->executeSQL("DELETE FROM offer2tags WHERE offer2tags.offerId in (".str_repeat("?,",count($ids) -1)."?)",$ids);
             $this->executeSQL("DELETE FROM ratings WHERE ratings.offerId in (".str_repeat("?,",count($ids) -1)."?)",$ids);
             $this->executeSQL("DELETE FROM offer WHERE offer.id in (".str_repeat("?,",count($ids) -1)."?)",$ids);
         }
     }
 
-    #del
-    public function dropDB()
-    {
-        $this->executeSQL("DROP DATABASE lunchboxfooddb;");
-    }
 }
 
-function fillFoodDB(Database $db){
+function fillFoodDB(Database $db,String $oldestDate = null){
     # adding provider
     #echo "<br><br><br><p>".var_dump(getProvider())."<p>";
     foreach (getProvider() as $provider) {
@@ -372,6 +369,10 @@ function fillFoodDB(Database $db){
     }
     #adding tags and adding offer
     foreach (getOffer() as $offer){
+        if(isset($oldestDate) and $offer.day < $oldestDate){//too old offer -> skip
+            continue;
+        }
+
         $offer = (array) $offer;
         
         if(!in_array("price",array_keys($offer))){

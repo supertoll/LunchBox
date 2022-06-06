@@ -369,7 +369,7 @@ function fillFoodDB(Database $db,String $oldestDate = null){
     }
     #adding tags and adding offer
     foreach (getOffer() as $offer){
-        if(isset($oldestDate) and $offer.day < $oldestDate){//too old offer -> skip
+        if(isset($oldestDate) and $offer["day"] < $oldestDate){//too old offer -> skip
             continue;
         }
 

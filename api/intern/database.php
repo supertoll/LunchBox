@@ -369,12 +369,12 @@ function fillFoodDB(Database $db,String $oldestDate = null){
     }
     #adding tags and adding offer
     foreach (getOffer() as $offer){
+        $offer = (array) $offer;
+
         if(isset($oldestDate) and $offer["day"] < $oldestDate){//too old offer -> skip
             continue;
         }
 
-        $offer = (array) $offer;
-        
         if(!in_array("price",array_keys($offer))){
             #echo "<br> offer without price ". var_dump($offer);
             $offer["price"] = null;

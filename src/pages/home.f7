@@ -34,7 +34,9 @@
         <p>${global.getLocation()}</p> 
 
         <div class="list accordion">
-          <div class="list sortable sortable-tap-hold">
+          <div class="list sortable sortable-tap-hold" style="-moz-user-select: none;
+          -webkit-user-select: none;
+          user-select: none;">
             <ul>
             ${providers.length === 0 && $h`
               <p style="font-size: 18;">Sorry für diesen Tag liegen uns <b>kein Essensdaten</b> vor 😥.</p>

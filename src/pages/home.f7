@@ -34,9 +34,7 @@
         <p>${global.getLocation()}</p> 
 
         <div class="list accordion">
-          <div class="list sortable sortable-tap-hold" style="-moz-user-select: none;
-          -webkit-user-select: none;
-          user-select: none;">
+          <div class="list sortable sortable-tap-hold" style="-moz-user-select: none; -webkit-user-select: none; user-select: none;">
             <ul>
             ${providers.length === 0 && $h`
               <p style="font-size: 18;">Sorry für diesen Tag liegen uns <b>kein Essensdaten</b> vor 😥.</p>
@@ -188,6 +186,9 @@ export default async (props, { $, $update, $on, $app }) => {
 
     console.log("c",indexes,listEl);
   });
+
+
+
   $on('page:reinit', () =>{
     console.log("Location: "+ global.getLocation());
     meals = global.getOffers([global.getLocation()]);

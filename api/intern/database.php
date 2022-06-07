@@ -185,6 +185,14 @@ class FoodBD extends Database{
 
     public function addOffer(string $id = null,int $providerId,string $name,string $description,string $date,int $averageRating = null,$price = null)
     {
+        #checking if food is alred in db for a day
+        #since id's are changing
+        $_id = $this->executeSQL("SELECT id FROM offer WHERE offer.date = ? AND offer.name = ? AND offer.description = ?;",[$date,$name,$description])
+        if(count($_id)>0){
+            this->executeSQL("UPDATE offer SET offer.id = ?;",[$id]);
+            return;
+        }
+        
         #dynamicaly generating the values that are beeing set by the querry
         $values = (isset($id) ? "id," : "")."providerId,name,description,date".(isset($averageRating) ? ",averageRating" : "").(isset($price) ? ",price" : "");
         #echo $values;
@@ -195,7 +203,6 @@ class FoodBD extends Database{
                 $param = array_merge($param,array($p));
             }
         }
-
         #echo var_dump($param);
         #generating the querry
         $this->executeSQL("INSERT INTO offer ($values) VALUES (".str_repeat("?,",count($param) -1)."?)",$param);

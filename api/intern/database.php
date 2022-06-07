@@ -189,7 +189,7 @@ class FoodBD extends Database{
         #since id's are changing
         $_id = $this->executeSQL("SELECT id FROM offer WHERE offer.date = ? AND offer.name = ? AND offer.description = ?;",[$date,$name,$description]);
         if(count($_id)>0){
-            this->executeSQL("UPDATE offer SET offer.id = ?;",[$id]);
+            $this->executeSQL("UPDATE offer SET offer.id = ?;",[$id]);
             return;
         }
         

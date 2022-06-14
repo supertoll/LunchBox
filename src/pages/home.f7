@@ -6,7 +6,7 @@
     <div class="toolbar toolbar-top">
       <div class="toolbar-inner">
         <div class="left">
-			    <i class="icon f7-icons" style="font-size: 28px; color: #007755; padding: 0px 12px">cube_box</i>
+	   <i class="icon f7-icons" style="font-size: 28px; color: #007755; padding: 0px 12px">cube_box</i>
         </div>
         <div class="title-large" style="font-size: 1.5em;">
           Lunchbox
@@ -19,15 +19,13 @@
       </div>
     </div>
 
-
-
     <!-- Scrollable page content-->
     <div class="page-content">
       <p></p>
       <div class="row block">
         <div href="#" @click=${bDay} style="height: 7.75em;" class="col-30 button button-round link"><i class="f7-icons" style="font-size: 6em" >arrow_left</i></div>
         <div class="col-40 text-align-center" style="font-size: 2em;" innerHTML=${global.getFancyDate()} ></div>
-        <div href="#"  @click=${nDay} style="height: 7.75em;" class="col-30 button button-round link"><i class="f7-icons" style="font-size: 6em">arrow_right</i></div>
+        <div href="#" @click=${nDay} style="height: 7.75em;" class="col-30 button button-round link"><i class="f7-icons" style="font-size: 6em">arrow_right</i></div>
       </div>
       <div class="block block-strong"> 
         <p>${global.getLocation()}</p> 
@@ -36,7 +34,7 @@
           <div class="list sortable sortable-tap-hold" style="-moz-user-select: none; -webkit-user-select: none; user-select: none;">
             <ul>
             ${providers.length === 0 && $h`
-              <p style="font-size: 18;">Sorry für diesen Tag liegen uns <b>kein Essensdaten</b> vor 😥.</p>
+              <p style="font-size: 18;">Sorry, für diesen Tag liegen uns <b>keine Essensdaten</b> vor 😥</p>
               `}
             ${providers.map((provider) => $h`
               <li id="providerElement" providerId="${provider.pp.id}" class="accordion-item">
@@ -136,7 +134,7 @@ export default async (props, { $, $update, $on, $app }) => {
   const nDay = async () => {
     global.increaseDate();
     meals = global.getOffers([global.getLocation()]);
-    providers = global.organizeOffers(meals,  global.getProviders());
+    providers = global.organizeOffers(meals, global.getProviders());
     
     collaps();
   }
@@ -172,12 +170,12 @@ export default async (props, { $, $update, $on, $app }) => {
     //console.log(providers[indexes.from].pp.id,providers[indexes.to].pp.id)
     global.changeCustomOrder(providers[indexes.from].pp.id,providers[indexes.to].pp.id);
     collaps();
-    // unfolad all providers
+    // unfold all providers
    
     //$('#providerElement').toggleClass("accordion-item-closed");
   });
 
-  $on('taphold',  (listEl, indexes)=> {
+  $on('taphold', (listEl, indexes) => {
     //$('#providerElement').trigger('accordion:close');
     $('#providerElement').removeClass("accordion-item-opened");
     $('#providerElement').addClass("accordion-item-closed");
@@ -185,17 +183,15 @@ export default async (props, { $, $update, $on, $app }) => {
     console.log("c",indexes,listEl);
   });
 
-
-
-  $on('page:reinit', () =>{
+  $on('page:reinit', () => {
     console.log("Location: "+ global.getLocation());
     meals = global.getOffers([global.getLocation()]);
     providers = global.organizeOffers(meals, global.getProviders());;
     collaps();
   })
 
-  $on("page:init",()=>{
-    console.log("laoded");
+  $on("page:init",() => {
+    console.log("loaded");
     collaps();
   })
   

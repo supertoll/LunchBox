@@ -62,9 +62,8 @@
 
                                 </div>
                                 ${meal.name + " " + meal.description }
-                                <!-- for dev only -->
-                                ${"\tid: " + meal.id}
-                                <!-- for dev only --> 
+                                <!-- for dev only 
+                                ${"\tid: " + meal.id} --> 
                                 <div class= "item-footer">
                                   <div style="display: inline; margin-right: 4px;" innerHTML=${global.ratingToStars(meal.averageRating)}></div>
                                   ${(meal.comments.length > 0) && ($h`

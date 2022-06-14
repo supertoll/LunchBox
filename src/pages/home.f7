@@ -6,8 +6,7 @@
     <div class="toolbar toolbar-top">
       <div class="toolbar-inner">
         <div class="left">
-          <a class="link" href="#" innerHTML=${box_icon} >
-          </a>
+			    <i class="icon f7-icons" style="font-size: 28px; color: #007755; padding: 0px 12px">cube_box</i>
         </div>
         <div class="title-large" style="font-size: 1.5em;">
           Lunchbox
@@ -199,8 +198,6 @@ export default async (props, { $, $update, $on, $app }) => {
     console.log("laoded");
     collaps();
   })
-
-  const box_icon = '<i class="f7-icons">cube_box</i>';
   
   return $render;
 }

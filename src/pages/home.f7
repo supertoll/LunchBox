@@ -1,208 +1,205 @@
 <template>
-  
-  <div class="page" data-name="home">
+	<div class="page" data-name="home">
 
-    <!-- Toolbar-->
-    <div class="toolbar toolbar-top">
-      <div class="toolbar-inner">
-        <div class="left">
-          <a class="link" href="#" innerHTML=${box_icon} >
-          </a>
-        </div>
-        <div class="title-large" style="font-size: 1.5em;">
-          Lunchbox
-        </div>
-        <div class="right" >
-          <a href="/about/" class="link" >
-            <i class="f7-icons center">gear</i>
-          </a>
-        </div>
-      </div>
-    </div>
-
+		<!-- Toolbar-->
+		<div class="toolbar toolbar-top">
+			<div class="toolbar-inner">
+				<div class="left">
+					<a class="link" href="#" innerHTML=${box_icon} >
+					</a>
+				</div>
+				<div class="title-large" style="font-size: 1.5em;">
+					Lunchbox
+				</div>
+				<div class="right" >
+					<a href="/about/" class="link" >
+						<i class="f7-icons center">gear</i>
+					</a>
+				</div>
+			</div>
+		</div>
 
 
-    <!-- Scrollable page content-->
-    <div class="page-content">
-      <p></p>
-      <div class="row block">
-        <div href="#" @click=${bDay} style="height: 7.75em;" class="col-30 button button-round link"><i class="f7-icons" style="font-size: 6em" >arrow_left</i></div>
-        <div class="col-40 text-align-center" style="font-size: 2em;" innerHTML=${global.getFancyDate()} ></div>
-        <div href="#"  @click=${nDay} style="height: 7.75em;" class="col-30 button button-round link"><i class="f7-icons" style="font-size: 6em">arrow_right</i></div>
-      </div>
-      <div class="block block-strong"> 
-        <p>${global.getLocation()}</p> 
 
-        <div class="list accordion">
-          <div class="list sortable sortable-tap-hold" style="-moz-user-select: none; -webkit-user-select: none; user-select: none;">
-            <ul>
-            ${providers.length === 0 && $h`
-              <p style="font-size: 18;">Sorry für diesen Tag liegen uns <b>kein Essensdaten</b> vor 😥.</p>
-              `}
-            ${providers.map((provider) => $h`
-              <li id="providerElement" providerId="${provider.pp.id}" class="accordion-item">
-                <a href="" class="item-link item-content">
-                  <div class="item-inner">
-                    <div class="item-title text-color-primary" >${provider.pp.name}: ${provider.pp.p}</div>
-                  </div>
-                </a>
-                <div class="accordion-item-content">
-                  <div class="list ">
-                    <ul>
-                      ${provider.oo.map((meal) => $h`
-                        <li>
-                          <a href=${detail + meal.id} class="item-link item-content" data-transition="f7-cover">
-                            <!--div class="item-media"><i class="icon icon-f7"></i></div-->
-                            <div class="item-inner">
-                              <div class="item-title">
-                                <div class="item-header">
-                                  ${meal.tags.map((tag)=> $h`
-                                    <div style="display: inline;" innerHTML=${global.createTag(tag)}></div>
-                                    `)}
+		<!-- Scrollable page content-->
+		<div class="page-content">
+			<p></p>
+			<div class="row block">
+				<div href="#" @click=${bDay} style="height: 7.75em;" class="col-30 button button-round link"><i class="f7-icons" style="font-size: 6em" >arrow_left</i></div>
+				<div class="col-40 text-align-center" style="font-size: 2em;" innerHTML=${global.getFancyDate()} ></div>
+				<div href="#"	@click=${nDay} style="height: 7.75em;" class="col-30 button button-round link"><i class="f7-icons" style="font-size: 6em">arrow_right</i></div>
+			</div>
+			<div class="block block-strong"> 
+				<p>${global.getLocation()}</p> 
 
-                                </div>
-                                ${meal.name + " " + meal.description }
-                                <!-- for dev only -->
-                                ${"\tid: " + meal.id}
-                                <!-- for dev only --> 
-                                <div class= "item-footer">
-                                  <div style="display: inline; margin-right: 4px;" innerHTML=${global.ratingToStars(meal.averageRating)}></div>
-                                  ${(meal.comments.length > 0) && ($h`
-                                    <i class="icon f7-icons" style="font-size: 18px; color: #007755;">chat_bubble_text
-                                      <span style="--f7-badge-bg-color: #007755; --f7-badge-size: 14px;" class="badge">${meal.comments.length}</span>
-                                    </i>
-                                  `)}
-                                </div>
-                              </div>
-                              <div class="item-after">${priceView(meal.price)}</div>
-                            </div>
-                          </a>
-                        </li>
-                      `)}
-                    </ul>
-                  </div>
-                </div>
-                <div class="sortable-handler"></div>
-              </li>
-            `)}
-          </ul>
-          </div>
-        </div>
+				<div class="list accordion">
+					<div class="list sortable sortable-tap-hold" style="-moz-user-select: none; -webkit-user-select: none; user-select: none;">
+						<ul>
+						${providers.length === 0 && $h`
+							<p style="font-size: 18;">Sorry für diesen Tag liegen uns <b>kein Essensdaten</b> vor 😥.</p>
+							`}
+						${providers.map((provider) => $h`
+							<li id="providerElement" providerId="${provider.pp.id}" class="accordion-item">
+								<a href="" class="item-link item-content">
+									<div class="item-inner">
+										<div class="item-title text-color-primary" >${provider.pp.name}: ${provider.pp.p}</div>
+									</div>
+								</a>
+								<div class="accordion-item-content">
+									<div class="list ">
+										<ul>
+											${provider.oo.map((meal) => $h`
+												<li>
+													<a href=${detail + meal.id} class="item-link item-content" data-transition="f7-cover">
+														<!--div class="item-media"><i class="icon icon-f7"></i></div-->
+														<div class="item-inner">
+															<div class="item-title">
+																<div class="item-header">
+																	${meal.tags.map((tag)=> $h`
+																		<div style="display: inline;" innerHTML=${global.createTag(tag)}></div>
+																	`)}
 
-      </div>
+																</div>
+																${meal.name + " " + meal.description }
+																<!-- for dev only -->
+																${"\tid: " + meal.id}
+																<!-- for dev only --> 
+																<div class= "item-footer">
+																	<div style="display: inline; margin-right: 4px;" innerHTML=${global.ratingToStars(meal.averageRating)}></div>
+																	${(meal.comments.length > 0) && ($h`
+																		<i class="icon f7-icons" style="font-size: 18px; color: #007755;">chat_bubble_text
+																			<span style="--f7-badge-bg-color: #007755; --f7-badge-size: 14px;" class="badge">${meal.comments.length}</span>
+																		</i>
+																	`)}
+																</div>
+															</div>
+															<div class="item-after">${priceView(meal.price)}</div>
+														</div>
+													</a>
+												</li>
+											`)}
+										</ul>
+									</div>
+								</div>
+								<div class="sortable-handler"></div>
+							</li>
+						`)}
+					</ul>
+					</div>
+				</div>
 
-    </div>
-  </div>
+			</div>
+
+		</div>
+	</div>
 </template>
 <script>
 import global from '../js/globals.js';
 import accordion from 'framework7/bundle';
 //import getStars from "../elements/rating.js"
 export default async (props, { $, $update, $on, $app }) => {
-  //example data:
-  //will be replaced by a databaseconnection
-  const detail = "/detail/";
-  
-  global.importCustomOrderS();
-  global.importSettings();
+	//example data:
+	//will be replaced by a databaseconnection
+	const detail = "/detail/";
+	
+	global.importCustomOrderS();
+	global.importSettings();
 
 
-  let meals = global.getOffers([global.getLocation()]);
-  let providers = global.organizeOffers(meals, global.getProviders());
+	let meals = global.getOffers([global.getLocation()]);
+	let providers = global.organizeOffers(meals, global.getProviders());
 
 
-  
-  
-  async function collaps(){
-    await $update();
+	async function collaps(){
+		await $update();
 
-    console.log(global.getProviderCollapsed(),providers);
-    for(let i = 0; i < providers.length; i++){
-      let id = providers[i].pp.id;
-      let li = $(`li[providerId=\"${id}\"]`)
+		console.log(global.getProviderCollapsed(),providers);
+		for(let i = 0; i < providers.length; i++){
+			let id = providers[i].pp.id;
+			let li = $(`li[providerId=\"${id}\"]`)
 
-      if(global.getProviderCollapsed().includes(id)){
-        console.log(li,"closed",id,providers[i].pp.name);
-        li.removeClass("accordion-item-opened");
-        li.addClass("accordion-item-closed");
+			if(global.getProviderCollapsed().includes(id)){
+				console.log(li,"closed",id,providers[i].pp.name);
+				li.removeClass("accordion-item-opened");
+				li.addClass("accordion-item-closed");
 
-      }else{
-        console.log(li,"opened",id,providers[i].pp.name);
-        li.removeClass("accordion-item-closed");
-        li.addClass("accordion-item-opened");
-      }
-    }
-    //$update();   
-  }
+			}else{
+				console.log(li,"opened",id,providers[i].pp.name);
+				li.removeClass("accordion-item-closed");
+				li.addClass("accordion-item-opened");
+			}
+		}
+		//$update(); 
+	}
 
-  const nDay = async () => {
-    global.increaseDate();
-    meals = global.getOffers([global.getLocation()]);
-    providers = global.organizeOffers(meals,  global.getProviders());
-    
-    collaps();
-  }
+	const nDay = async () => {
+		global.increaseDate();
+		meals = global.getOffers([global.getLocation()]);
+		providers = global.organizeOffers(meals, global.getProviders());
+		
+		collaps();
+	}
 
-  function priceView(rn){
-    if(rn == null){
-      return "";
-    }
-    return (rn/100).toFixed(2) + '€';
-  }
+	function priceView(rn){
+		if(rn == null){
+			return "";
+		}
+		return (rn/100).toFixed(2) + '€';
+	}
 
-  const bDay = async () => {
-    global.decreaseDate();
-    meals = global.getOffers([global.getLocation()]);
-    providers = global.organizeOffers(meals, global.getProviders());
-    collaps();
-  }
+	const bDay = async () => {
+		global.decreaseDate();
+		meals = global.getOffers([global.getLocation()]);
+		providers = global.organizeOffers(meals, global.getProviders());
+		collaps();
+	}
 
-  $on('accordion:beforeclose',(listEl, indexes)=> {
-    let id = parseInt(listEl.target.attributes[1].value);
-    console.log("adding" + id);
-    global.addProviderCollapsed(id);
-  });
-  $on('accordion:beforeopen',(listEl, indexes)=> {
-    let id = parseInt(listEl.target.attributes[1].value);
-    console.log("removing" + id);
-    global.removeProviderCollapsed(id);
-  });
-  
-  $on('sortableSort',  (listEl, indexes)=> {
-    console.log("a",indexes);
-    console.log(global.getCustomOrder());
-    //console.log(providers[indexes.from].pp.id,providers[indexes.to].pp.id)
-    global.changeCustomOrder(providers[indexes.from].pp.id,providers[indexes.to].pp.id);
-    collaps();
-    // unfolad all providers
-   
-    //$('#providerElement').toggleClass("accordion-item-closed");
-  });
+	$on('accordion:beforeclose',(listEl, indexes)=> {
+		let id = parseInt(listEl.target.attributes[1].value);
+		console.log("adding" + id);
+		global.addProviderCollapsed(id);
+	});
+	$on('accordion:beforeopen',(listEl, indexes)=> {
+		let id = parseInt(listEl.target.attributes[1].value);
+		console.log("removing" + id);
+		global.removeProviderCollapsed(id);
+	});
+	
+	$on('sortableSort', (listEl, indexes)=> {
+		console.log("a",indexes);
+		console.log(global.getCustomOrder());
+		//console.log(providers[indexes.from].pp.id,providers[indexes.to].pp.id)
+		global.changeCustomOrder(providers[indexes.from].pp.id,providers[indexes.to].pp.id);
+		collaps();
+		// unfolad all providers
+	 
+		//$('#providerElement').toggleClass("accordion-item-closed");
+	});
 
-  $on('taphold',  (listEl, indexes)=> {
-    //$('#providerElement').trigger('accordion:close');
-    $('#providerElement').removeClass("accordion-item-opened");
-    $('#providerElement').addClass("accordion-item-closed");
+	$on('taphold', (listEl, indexes)=> {
+		//$('#providerElement').trigger('accordion:close');
+		$('#providerElement').removeClass("accordion-item-opened");
+		$('#providerElement').addClass("accordion-item-closed");
 
-    console.log("c",indexes,listEl);
-  });
+		console.log("c",indexes,listEl);
+	});
 
 
 
-  $on('page:reinit', () =>{
-    console.log("Location: "+ global.getLocation());
-    meals = global.getOffers([global.getLocation()]);
-    providers = global.organizeOffers(meals, global.getProviders());;
-    collaps();
-  })
+	$on('page:reinit', () =>{
+		console.log("Location: "+ global.getLocation());
+		meals = global.getOffers([global.getLocation()]);
+		providers = global.organizeOffers(meals, global.getProviders());;
+		collaps();
+	})
 
-  $on("page:init",()=>{
-    console.log("laoded");
-    collaps();
-  })
+	$on("page:init",()=>{
+		console.log("laoded");
+		collaps();
+	})
 
-  const box_icon = '<i class="f7-icons">cube_box</i>';
-  
-  return $render;
+	const box_icon = '<i class="f7-icons">cube_box</i>';
+	
+	return $render;
 }
 </script>

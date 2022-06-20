@@ -1,9 +1,12 @@
 <template>
-	<div  class="page" data-name="welcome">
-  	<div class="navbar">
+	<div class="page" data-name="welcome">
+		
+		<!--Heading-->
+		<div class="navbar">
 			<div class="block block-strong"><b>Willkommen bei der neuen Lunchbox-App der Informatik-AG!</b></div>
 		</div>
 
+		<!--Page Content-->
 		<div class="page-content">
 			<div class="block block-strong">
 				<div class="list no-hairlines no-hairlines-between inset">
@@ -70,11 +73,11 @@
 	import global from '/js/globals.js';
 	export default async (props, { $f7, $, $app, $update, $on }) => {
 		//await global.initLocation();
-  	//let locs = global.getLocations();
-	  global.setDarkTheme(false);
-	  
-	  global.setProviderCollapsed([1,2,3,4,5,6,7,8,9]);//[]
-	  global.saveSettings();
+		//let locs = global.getLocations();
+		global.setDarkTheme(false);
+		
+		global.setProviderCollapsed([1,2,3,4,5,6,7,8,9]);//[]
+		global.saveSettings();
 	
 	let locs = {
 		"locations":[
@@ -99,21 +102,21 @@
 	global.setLocation(e.target.value);
 	}
 
-    const changeColorTheme = () => {
-      $('body').toggleClass("theme-dark");
-    
-      console.log(global.getDarkTheme());
-      global.setDarkTheme(Boolean(global.getDarkTheme() ^ true))
-      console.log(global.getDarkTheme());
+		const changeColorTheme = () => {
+			$('body').toggleClass("theme-dark");
+		
+			console.log(global.getDarkTheme());
+			global.setDarkTheme(Boolean(global.getDarkTheme() ^ true))
+			console.log(global.getDarkTheme());
 
-      global.saveSettings();
-    }
-    const isReady = () => {
-      global.saveSettings();
+			global.saveSettings();
+		}
+		const isReady = () => {
+			global.saveSettings();
 			localStorage.setItem("first", "done");
-      location.reload();
+			location.reload();
 
-    }
+		}
 		return $render;
 	}
 </script>

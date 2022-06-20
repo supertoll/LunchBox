@@ -27,7 +27,7 @@
         </div>
         <div class="item-header" innerHTML=${global.ratingToStars(mealObject.averageRating)}></div>
       </div>
-      <div class="block-title">Comments</div>
+      <div class="block-title">Kommentare</div>
       <div class="block block-strong">
         <a href="#" class="col button button-raised button-fill popup-open" data-popup="#commentPopup"  >
           Bewertung hinzufügen

@@ -190,8 +190,8 @@ const global = {
         */
         offers = temp;
         return temp;
-        
-  },getOfferById:(id)=>{
+  },
+  getOfferById:(id)=>{
     var temp = API.getOfferById(id).offer;
     if(temp == "_"){
       return getMeal(id);
@@ -246,6 +246,9 @@ const global = {
     }
   },
   organizeOffers: (offers,providers) =>{
+    if (offers == "_"){
+      return "_";
+    }
     let temp = [];
     providers.forEach(provider => {
       let part = [];
@@ -319,7 +322,8 @@ const global = {
 			htmlString += '<i class="f7-icons" style="font-size: 18px; color: #007755;">star</i>'.repeat(5 - filledStars - halfStar);
     }
 		return htmlString;
-  },createTag:(tag)=>{
+  },
+  createTag:(tag)=>{
     const tagToColor = (tag) =>{
       let color = {"Tagessuppe":"#ff3814","vegetarisch":"#167716","vegan":"#19e519"};
       if (Object.keys(color).includes(tag)){
@@ -337,9 +341,11 @@ const global = {
   getFancyDate: () => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return date.toLocaleDateString('de-DE', options).replace(', ', '</br>');
-  },getProviderCustomOrder: ()=>{
+  },
+  getProviderCustomOrder: ()=>{
     return providerCustomOrder;
-  },setProviderCustomOrder:(order)=>{
+  },
+  setProviderCustomOrder:(order)=>{
     providerCustomOrder = order;
   },
   changeCustomOrder:(idFrom,idTo)=>{
@@ -366,10 +372,12 @@ const global = {
     providerCustomOrder = order;
     //console.log(providerCustomOrder);
     localStorage.setItem("customOrder", JSON.stringify(order));
-  },importCustomOrderS:()=>{
+  },
+  importCustomOrderS:()=>{
     providerCustomOrder = JSON.parse(localStorage.getItem("customOrder"));
     console.log(providerCustomOrder);
-  },getCustomOrder:()=>{
+  },
+  getCustomOrder:()=>{
     return providerCustomOrder;
   }
 }

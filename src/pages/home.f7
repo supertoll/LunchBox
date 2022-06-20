@@ -30,12 +30,21 @@
       <div class="block block-strong"> 
         <p>${global.getLocation()}</p> 
 
+        ${
+          (noApiData) && ($h`
+          <div class="display-flex flex-direction-column align-items-center">
+            <i class="f7-icons" style="font-size: 10em;">cart_badge_minus</i>
+            <p class="large">Für heute wurde wohl noch kein Essen gefunden</p>
+
+          </div>
+          `)
+        }
+        ${
+          !(noApiData) && ($h`
+        
         <div class="list accordion">
           <div class="list sortable sortable-tap-hold" style="-moz-user-select: none; -webkit-user-select: none; user-select: none;">
             <ul>
-            ${providers.length === 0 && $h`
-              <p style="font-size: 18;">Sorry, für diesen Tag liegen uns <b>keine Essensdaten</b> vor 😥</p>
-              `}
             ${providers.map((provider) => $h`
               <li id="providerElement" providerId="${provider.pp.id}" class="accordion-item">
                 <a href="" class="item-link item-content">
@@ -56,7 +65,6 @@
                                   ${meal.tags.map((tag)=> $h`
                                     <div style="display: inline;" innerHTML=${global.createTag(tag)}></div>
                                     `)}
-
                                 </div>
                                 ${meal.name + " " + meal.description }
                                 <!-- for dev only 
@@ -84,6 +92,8 @@
           </ul>
           </div>
         </div>
+        `)
+        }
 
       </div>
 
@@ -106,9 +116,8 @@ export default async (props, { $, $update, $on, $app }) => {
   let meals = global.getOffers([global.getLocation()]);
   let providers = global.organizeOffers(meals, global.getProviders());
 
-
-  
-  
+  let noApiData = meals == "_";
+    
   async function collaps(){
     await $update();
 

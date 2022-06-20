@@ -29,21 +29,56 @@ var userId = -1; //not initialized
 
 var offers;
 var providers;
+var providerCustomOrder = [];
+var providerCollapsed = [];
 var settingsStorage = localStorage;
-var webserver = 'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
+var webserver = "http://lunchboxdev.ddns.net/"; //'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
 
 var API = new _API["default"](webserver);
 var date = new Date(); //all 3 initFunctions should be able to be deleted
 
 var global = {
+  addProviderCollapsed: function addProviderCollapsed(id) {
+    if (providerCollapsed.indexOf(id) == -1) {
+      providerCollapsed.push(id);
+    }
+
+    global.saveSettings();
+    console.log(global.getProviderCollapsed());
+  },
+  removeProviderCollapsed: function removeProviderCollapsed(id) {
+    var a = providerCollapsed.splice(0, providerCollapsed.indexOf(id) + 1);
+    a.pop();
+    providerCollapsed = a.concat(providerCollapsed);
+    global.saveSettings();
+    console.log(global.getProviderCollapsed());
+  },
+  getProviderCollapsed: function getProviderCollapsed() {
+    return providerCollapsed;
+  },
+  setProviderCollapsed: function setProviderCollapsed(p) {
+    providerCollapsed = p;
+  },
   getDate: function getDate() {
     return date.getDate().toString() + "." + (date.getMonth() + 1).toString() + "." + date.getFullYear().toString();
   },
   increaseDate: function increaseDate() {
-    date.setDate(date.getDate() + 1);
+    var freitag = 5;
+
+    if (date.getDay() == freitag) {
+      date.setDate(date.getDate() + 3);
+    } else {
+      date.setDate(date.getDate() + 1);
+    }
   },
   decreaseDate: function decreaseDate() {
-    date.setDate(date.getDate() - 1);
+    var montag = 1;
+
+    if (date.getDay() == montag) {
+      date.setDate(date.getDate() - 3);
+    } else {
+      date.setDate(date.getDate() - 1);
+    }
   },
   getApiDate: function getApiDate() {
     return date.getFullYear().toString() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + date.getDate().toString().padStart(2, "0");
@@ -80,74 +115,95 @@ var global = {
   getOffers: function getOffers() {
     var location = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var provider = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    var temp = API.getOffer(global.getApiDate(), [global.getLocation()], provider); //nur debug
-
-    if (temp == "_" || temp == "[]" || temp.length == 0) {
-      temp = [{
-        "id": -171,
-        "providerId": 10,
-        "name": "Senfei",
-        "description": "2 Bio-Eier in Senfsoße, dazu Kartoffeln",
-        "price": 600,
-        "averageRating": 3.0,
-        "tags": [],
-        "comments": [{
-          "comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit",
-          "rating": 3
-        }, {
-          "comment": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident",
-          "rating": 3
-        }]
-      }, {
-        "id": -697,
-        "providerId": 3,
-        "name": "Hähnchenschnitzel",
-        "description": "mit Mischgemüse und Kartoffeln",
-        "price": 300,
-        "averageRating": null,
-        "tags": [],
-        "comments": []
-      }, {
-        "id": -698,
-        "providerId": 3,
-        "name": "gebratenes Zanderfilet",
-        "description": "mit Kaisergemüse und Püree",
-        "price": 200,
-        "averageRating": 4,
-        "tags": ["vegan", "vegetarisch"],
-        "comments": [{
-          "comment": "toll",
-          "rating": 4
-        }]
-      }, {
-        "id": -724,
-        "providerId": 10,
-        "name": "mit Backpflaumen gefüllter Schweinebraten,",
-        "description": "dazu Rotkohl und Knödelscheiben",
-        "price": 650,
-        "averageRating": 2.5,
-        "tags": [],
-        "comments": []
-      }, {
-        "id": -728,
-        "providerId": 4,
-        "name": "Pasta „Pomodori“",
-        "description": "frische Tomaten, Parmesan, Olivenöl, Basilikum, Hühnchenbrust, dazu Nudeln",
-        "price": 520,
-        "averageRating": 4,
-        "tags": ["Tagessuppe"],
-        "comments": []
-      }, {
-        "id": -733,
-        "providerId": 4,
-        "name": "Präsidentensuppe",
-        "description": "Rinderhack, Tomaten, Sauerkraut, saure Gurken, Tomatenmark, wahlweise + Schmand",
-        "price": 520,
-        "averageRating": null,
-        "tags": ["Testtag"],
-        "comments": []
-      }];
-    }
+    var temp = API.getOffer(global.getApiDate(), [global.getLocation()], provider);
+    /*
+        //nur debug
+        if(temp == "_" || temp == "[]" || temp.length == 0){
+            temp = [
+    			{
+    				"id": -171,
+    				"providerId": 10,
+    				"name": "Senfei",
+    				"description": "2 Bio-Eier in Senfsoße, dazu Kartoffeln",
+    				"price": 600,
+    				"averageRating": 3.0,
+    				"tags": [],
+    				"comments": [
+    					{
+    						"comment": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit",
+    						"rating": 3
+    					},
+    					{
+    						"comment": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident",
+    						"rating": 3
+    					}
+    				]
+    			},
+    			{
+    				"id": -697,
+    				"providerId": 3,
+    				"name": "Hähnchenschnitzel",
+    				"description": "mit Mischgemüse und Kartoffeln",
+    				"price": 300,
+    				"averageRating": null,
+    				"tags": [],
+    				"comments": []
+    			},
+    			{
+    				"id": -698,
+    				"providerId": 3,
+    				"name": "gebratenes Zanderfilet",
+    				"description": "mit Kaisergemüse und Püree",
+    				"price": 200,
+    				"averageRating": 4,
+    				"tags": [
+                  "vegan",
+                  "vegetarisch"
+                ],
+    				"comments": [
+                  {
+                    "comment":"toll",
+                    "rating":4
+                  }
+                ]
+    			},
+    			{
+    					"id": -724,
+    					"providerId": 10,
+    					"name": "mit Backpflaumen gefüllter Schweinebraten,",
+    					"description": "dazu Rotkohl und Knödelscheiben",
+    					"price": 650,
+    					"averageRating": 2.5,
+    					"tags": [],
+    					"comments": []
+    			},
+    			{
+    					"id": -728,
+    					"providerId": 4,
+    					"name": "Pasta „Pomodori“",
+    					"description": "frische Tomaten, Parmesan, Olivenöl, Basilikum, Hühnchenbrust, dazu Nudeln",
+    					"price": 520,
+    					"averageRating": 4,
+    					"tags": [
+    							"Tagessuppe"
+    					],
+    					"comments": []
+    			},
+    			{
+    				"id": -733,
+    				"providerId": 4,
+    				"name": "Präsidentensuppe",
+    				"description": "Rinderhack, Tomaten, Sauerkraut, saure Gurken, Tomatenmark, wahlweise + Schmand",
+    				"price": 520,
+    				"averageRating": null,
+    				"tags": [
+                  "Testtag"
+                ],
+    				"comments": []
+    			}
+    	];
+        }
+        */
 
     offers = temp;
     return temp;
@@ -162,7 +218,8 @@ var global = {
     }
   },
   getProviders: function getProviders() {
-    var temp = API.getProvider([global.getLocation()]);
+    var loc = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [global.getLocation()];
+    var temp = API.getProvider(loc);
 
     if (temp == "_") {
       return [{
@@ -200,21 +257,38 @@ var global = {
       return temp;
     }
   },
-  organizeOffers: function organizeOffers(o, p) {
-    var result = [];
-    p.forEach(function (prov) {
+  organizeOffers: function organizeOffers(offers, providers) {
+    if (offers == "_") {
+      return "_";
+    }
+
+    var temp = [];
+    providers.forEach(function (provider) {
       var part = [];
-      o.forEach(function (off) {
-        if (off.providerId == prov.id) {
-          part.push(off);
+      offers.forEach(function (offer) {
+        if (offer.providerId == provider.id) {
+          part.push(offer);
         }
       });
 
       if (part.length > 0) {
-        result.push({
-          pp: prov,
+        //temp[providerCustomOrder.indexOf(provider.id)] = {pp: provider, oo : part}
+        temp.push({
+          pp: provider,
           oo: part
         });
+      }
+    }); //console.log(temp);
+    //sorting
+
+    var result = [];
+    providerCustomOrder.forEach(function (id) {
+      var r = temp.filter(function (o) {
+        return o.pp.id == id;
+      })[0];
+
+      if (!(typeof r === 'undefined')) {
+        result.push(r);
       }
     }); //console.log(result);
 
@@ -224,10 +298,12 @@ var global = {
     console.log("saveing");
     localStorage.setItem("darkTheme", darkTheme);
     localStorage.setItem("location", location);
+    localStorage.setItem("providerCollapsed", JSON.stringify(providerCollapsed));
   },
   importSettings: function importSettings() {
     darkTheme = localStorage.getItem("darkTheme") == "true";
     location = localStorage.getItem("location");
+    providerCollapsed = JSON.parse(localStorage.getItem("providerCollapsed"));
   },
   getUserId: function getUserId() {
     if (userId == -1) {
@@ -279,7 +355,7 @@ var global = {
     }; //console.log('<span style=\"--f7-badge-bg-color: '+tagToColor(tag)+';\" class=\"badge\">'+tag+'</span>');
 
 
-    return '<span ' + 'style=\"--f7-badge-bg-color: ' + tagToColor(tag) + '; margin-right: 4px;\" class=\"badge\">' + tag + '</span>';
+    return '<span style=\"--f7-badge-bg-color: ' + tagToColor(tag) + '; margin-right: 4px;\" class=\"badge\">' + tag + '</span>';
   },
   getMeal: function getMeal(i) {
     return offers.filter(function (m) {
@@ -294,6 +370,41 @@ var global = {
       day: 'numeric'
     };
     return date.toLocaleDateString('de-DE', options).replace(', ', '</br>');
+  },
+  getProviderCustomOrder: function getProviderCustomOrder() {
+    return providerCustomOrder;
+  },
+  setProviderCustomOrder: function setProviderCustomOrder(order) {
+    providerCustomOrder = order;
+  },
+  changeCustomOrder: function changeCustomOrder(idFrom, idTo) {
+    var from = providerCustomOrder.indexOf(idFrom);
+    var to = providerCustomOrder.indexOf(idTo); //console.log(from,to);
+    //'REMOVE'
+
+    var a = providerCustomOrder.splice(0, from + 1);
+    a.pop();
+    providerCustomOrder = a.concat(providerCustomOrder); //console.log("removed",providerCustomOrder);
+    //place id
+
+    a = providerCustomOrder.splice(0, to);
+    a.push(idFrom);
+    var b = providerCustomOrder; //onsole.log("added",providerCustomOrder);
+
+    providerCustomOrder = a.concat(b);
+    global.setCustomOrderS(providerCustomOrder);
+  },
+  setCustomOrderS: function setCustomOrderS(order) {
+    providerCustomOrder = order; //console.log(providerCustomOrder);
+
+    localStorage.setItem("customOrder", JSON.stringify(order));
+  },
+  importCustomOrderS: function importCustomOrderS() {
+    providerCustomOrder = JSON.parse(localStorage.getItem("customOrder"));
+    console.log(providerCustomOrder);
+  },
+  getCustomOrder: function getCustomOrder() {
+    return providerCustomOrder;
   }
 };
 /*

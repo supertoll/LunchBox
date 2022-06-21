@@ -15,7 +15,7 @@ var providers;
 var providerCustomOrder = [];
 var providerCollapsed = [];
 var settingsStorage = localStorage;
-const webserver = "http://lunchboxdev.ddns.net/";//'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
+const webserver = "http://llunchboxdev.ddns.net/";//'http://lunchboxdev.ddns.net/'; // '/' am Ende ist wichtig!
 const API  = new FoodApi(webserver);
 var date = new Date();
 
@@ -74,17 +74,7 @@ const global = {
   },
   getLocations: () =>{
     let temp = API.getLocations();
-    if(temp == "_"){
-      return {
-        "locations":[
-          "Berlin Springpfuhl",
-          "Neubrandenburg"
-        ]
-      };
-    }
-    else{
-      return temp
-    }
+    return temp;
   },
   getDarkTheme: () => {
     return darkTheme;

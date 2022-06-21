@@ -41,13 +41,19 @@ class FoodApi{
         try{
             let xmlHttp = new XMLHttpRequest();
             xmlHttp.open( method, url, false ); // false for synchronous request
+            //xmlHttp.timeout = 1000;
+            /*xmlHttp.ontimeout = function (e) {
+                console.log("API not reachable");
+                //console.log(e);
+                return [];
+            };*/
             xmlHttp.send(  );
             return JSON.parse(xmlHttp.responseText); 
         }
         catch{
             console.log("API not reachable");
             //console.log(e);
-            return "_";
+            return [];
         }  
     }
     
@@ -62,7 +68,13 @@ class FoodApi{
      * returns a list of available locations
      */
     getLocations(){
-        return this.#callAPI("getLocations");
+        let locations = this.#callAPI("getLocations");
+
+        if(locations.length == 0){
+            return []
+        }else{
+            return locations["locations"];
+        }
     }
 
     /**

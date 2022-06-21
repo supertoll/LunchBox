@@ -18,36 +18,49 @@
     
     
     <div class="page-content">
-      <div class="block-title">Standortwahl</div>
+      
+      ${
+        !(locs.length == 0) && ($h`
+        <div class="block-title">Standortwahl</div>
+        <div class="list">
+          <ul>
+            ${locs.map((location) => $h`
+              <li>
+                <label class="item-radio item-content">
+                  <input type="radio" name="loc" value=${location} @click=${changeLoc} id=${location + suffix}/>
+                  <i class="icon icon-radio"></i>
+                  <div class="item-inner">
+                    <div class="item-title">${location}</div>
+                  </div>
+                </label>
+              </li>
+            `)}
+                      
+          </ul>
+        </div>
+        `)}
+      
       <div class="list">
         <ul>
-          ${locs["locations"].map((ll) => $h`
-            <li>
-              <label class="item-radio item-content">
-                <input type="radio" name="loc" value=${ll} @click=${changeLoc} id=${ll + suffix}/>
-                <i class="icon icon-radio"></i>
-                <div class="item-inner">
-                  <div class="item-title">${ll}</div>
-                </div>
-              </label>
-            </li>
-          `)}
           <li>
             <div class="item-content">
-              <div class="item-inner">
-                <div class="item-title">Dark Mode</div>
-                <div class="item-after">
+                <div class="item-inner">
+                  <div class="item-title">
+                    Dark Mode
+                  </div>
+                </div>
+                <div class="item-media">
                   <label class="toggle toggle-init themeToggle">
                     <input type="checkbox" @click=${changeColorTheme} name="toggleTheme" />
                     <span class="toggle-icon"></span>
                   </label>
+                  
                 </div>
-              </div>
             </div>
           </li>
-          
         </ul>
       </div>
+
       <div class="toggle">
   
       </div>

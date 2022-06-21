@@ -31,7 +31,7 @@
         <p>${global.getLocation()}</p> 
 
         ${
-          (noApiData) && ($h`
+          (meals.length == 0) && ($h`
           <div class="display-flex flex-direction-column align-items-center">
             <i class="f7-icons" style="font-size: 10em;">cart_badge_minus</i>
             <p class="large">Für heute wurde wohl noch kein Essen gefunden</p>
@@ -40,7 +40,7 @@
           `)
         }
         ${
-          !(noApiData) && ($h`
+          !(meals.length == 0) && ($h`
         
         <div class="list accordion">
           <div class="list sortable sortable-tap-hold" style="-moz-user-select: none; -webkit-user-select: none; user-select: none;">
@@ -109,14 +109,13 @@ export default async (props, { $, $update, $on, $app }) => {
   //will be replaced by a databaseconnection
   const detail = "/detail/";
   
+  global.getLocations();
   global.importCustomOrderS();
   global.importSettings();
 
 
   let meals = global.getOffers([global.getLocation()]);
   let providers = global.organizeOffers(meals, global.getProviders());
-
-  let noApiData = meals == "_";
     
   async function collaps(){
     await $update();
@@ -144,7 +143,6 @@ export default async (props, { $, $update, $on, $app }) => {
     global.increaseDate();
     meals = global.getOffers([global.getLocation()]);
     providers = global.organizeOffers(meals, global.getProviders());
-    
     collaps();
   }
 
